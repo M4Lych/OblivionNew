@@ -33,3 +33,11 @@ This project is an independent derivative work. Renaming the application does no
 - Upstream project: https://github.com/LiteLDev/LeviLamina
 - Used as a third-party native-mod/package compatibility ecosystem through OblivionMod.
 - Product/loader names and upstream identifiers are retained only where required for compatibility, attribution, package IDs, or external service URLs. They do not identify this application.
+
+
+## Discord Partner SDK runtime dependency
+
+- The prebuilt `app/src/main/jniLibs/arm64-v8a/libgxcore.so` has a direct ELF dependency on `libdiscord_partner_sdk.so` (`DT_NEEDED`).
+- The Discord native Partner SDK is a separately licensed component; it is not covered by the Apache-2.0 license of LeviLauncher-Android. The project source archive does not redistribute this SDK binary.
+- Before building, the developer must supply an authorized ARM64 copy either as the upstream-style `app/libs/discord_partner_sdk.aar` (containing `jni/arm64-v8a/libdiscord_partner_sdk.so`) or as `app/src/main/jniLibs/arm64-v8a/libdiscord_partner_sdk.so`. Gradle verifies the ELF64/AArch64 header and fails early if the file is missing, duplicated, or has the wrong ABI.
+- The upstream LeviLauncher Android end-to-end setup documents the SDK as a separate AAR dependency and notes its CI/token-based acquisition path: https://github.com/LiteLDev/LeviLauncher-Android/blob/main/e2e/README.md

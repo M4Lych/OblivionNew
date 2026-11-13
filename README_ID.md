@@ -27,6 +27,21 @@ Oblivion menolak berjalan apabila package Minecraft bukan `com.mojang.minecraftp
 
 Performa runtime native tetap perlu diuji langsung pada perangkat dan versi Minecraft yang digunakan.
 
+## Dependensi native tambahan (wajib untuk Launch)
+
+`libgxcore.so` memiliki dependensi native langsung bernama `libdiscord_partner_sdk.so`. File ini merupakan komponen Discord Partner SDK dengan ketentuan lisensi terpisah; lisensi Apache-2.0 milik basis LeviLauncher tidak otomatis mencakupnya. Karena itu, file SDK tidak disertakan di ZIP source ini.
+
+Sebelum membangun APK, sediakan salinan ARM64 yang memang boleh digunakan melalui salah satu format berikut (jangan gunakan keduanya sekaligus):
+
+- `app/libs/discord_partner_sdk.aar`, dengan isi `jni/arm64-v8a/libdiscord_partner_sdk.so` (format AAR yang digunakan upstream).
+- `app/src/main/jniLibs/arm64-v8a/libdiscord_partner_sdk.so` (file native langsung).
+
+Gunakan hanya salinan yang diperoleh dan digunakan sesuai ketentuan lisensinya. Untuk file `.so` yang tersedia di root ZIP lokal, helper berikut dapat memasangnya ke lokasi yang benar (contoh Termux):
+
+`python3 scripts/install_discord_partner_sdk.py ~/storage/downloads/LeviLib.zip`
+
+Helper hanya mengekstrak file yang diminta, memeriksa ELF64/AArch64, lalu menulisnya ke folder `jniLibs`. Untuk format AAR, letakkan AAR yang sah di `app/libs/discord_partner_sdk.aar`. Jangan unggah atau distribusikan SDK ke repository publik kecuali ketentuan lisensinya memang mengizinkan. Gradle akan memeriksa format ELF64 dan arsitektur AArch64 serta menghentikan build dengan pesan yang jelas apabila file belum tersedia, terduplikasi, atau ABI-nya salah. Tanpa dependensi ini, pemuatan `libgxcore.so` akan gagal dan Minecraft tidak dapat diluncurkan. Detail atribusi terdapat di `UPSTREAM_NOTICES.md`.
+
 ## Build APK melalui GitHub Actions
 
 Workflow `.github/workflows/android.yml` menyiapkan Java 21, Android SDK, Android NDK r28c, dan CMake, mengambil dependensi native pada commit yang dipatok, menjalankan unit test Gradle, lalu membuat APK ARM64 debug dan release ter-minify. CI juga memeriksa package ID, ABI ARM64 saja, alignment segmen native ELF 16 KB beserta kesesuaian offset/alamat, dan checksum SHA-256. APK release yang dihasilkan masih unsigned.
@@ -51,6 +66,8 @@ Ekstrak ZIP dan buka folder proyek melalui Acode. Gunakan GitHub web atau Git da
 - Beberapa ekstensi file internal turunan upstream mungkin tetap dipertahankan sebagai format data lama agar kompatibilitas format tidak rusak. Itu bukan identitas aplikasi atau package Android.
 
 ## Status pengujian
+
+Investigasi Phase 4 menemukan bahwa `libgxcore.so` membutuhkan `libdiscord_partner_sdk.so`, yang sebelumnya tidak ikut dikemas dalam APK. Source kini memvalidasi dependensi tersebut saat build dan menampilkan error linker asli melalui logcat. APK baru belum dibuat: SDK tersebut harus disediakan secara lokal melalui salah satu format yang dijelaskan di atas dan sesuai lisensinya. Lihat `PHASE_4_NATIVE_FIX.md` untuk bukti pemeriksaan dan batas validasi.
 
 Phase 3 menambahkan pengecualian backup untuk data akun, pembatasan Activity utama agar tidak dapat dibuka aplikasi eksternal, batas streaming dan arsip bertingkat saat impor, unit test untuk pembatasan byte, serta verifikasi APK di CI untuk package ID, ABI ARM64, alignment segmen native ELF 16 KB, serta kesesuaian offset/alamat. Pemeriksaan source offline dan self-test APK verifier berhasil.
 
