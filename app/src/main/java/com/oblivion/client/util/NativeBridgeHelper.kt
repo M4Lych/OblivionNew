@@ -11,6 +11,7 @@ import android.widget.Toast
 import android.view.Gravity
 import com.oblivion.client.R
 import androidx.annotation.Keep
+import android.util.Log
 
 @Keep
 object NativeBridgeHelper {
@@ -35,9 +36,14 @@ object NativeBridgeHelper {
                     System.loadLibrary("gxcore")
                     gxcoreLoaded = true
                     true
-                } catch (_: Throwable) {
-                    false
-                }
+                } catch (error: Throwable) {
+    Log.e(
+        "NativeBridgeHelper",
+        "Failed to load libgxcore.so",
+        error
+    )
+    false
+}
             }
         }
     }
