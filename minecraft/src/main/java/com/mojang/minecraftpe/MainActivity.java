@@ -53,7 +53,6 @@ import com.mojang.android.StringValue;
 import com.mojang.minecraftpe.platforms.Platform;
 import com.microsoft.xbox.idp.interop.Interop;
 
-import org.conscrypt.BuildConfig;
 import org.fmod.FMOD;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -1344,12 +1343,12 @@ public class MainActivity extends GameActivity implements View.OnKeyListener, Fi
     }
 
     public String getAccessToken() {
-        return PreferenceManager.getDefaultSharedPreferences(this).getString("accessToken", BuildConfig.FLAVOR);
+        return PreferenceManager.getDefaultSharedPreferences(this).getString("accessToken", "");
     }
 
 
     public String getClientId() {
-        return PreferenceManager.getDefaultSharedPreferences(this).getString("clientId", BuildConfig.FLAVOR);
+        return PreferenceManager.getDefaultSharedPreferences(this).getString("clientId", "");
     }
 
 
@@ -1762,7 +1761,7 @@ public class MainActivity extends GameActivity implements View.OnKeyListener, Fi
     }
 
     public String createUUID() {
-        return UUID.randomUUID().toString().replaceAll("-", BuildConfig.FLAVOR);
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
 
