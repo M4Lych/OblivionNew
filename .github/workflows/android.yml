@@ -1,0 +1,105 @@
+name: Oblivion Android CI
+
+on:
+  push:
+    branches: ["main", "master", "develop"]
+  pull_request:
+    branches: ["main", "master", "develop"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: oblivion-android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Test and build ARM64 Android packages
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout Oblivion source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run offline source preflight
+        run: python3 scripts/verify_oblivion_source.py
+
+      - name: Test APK verification utility
+        run: python3 scripts/test_verify_apk.py
+
+      - name: Prepare pinned native dependencies
+        run: bash scripts/prepare_oblivion_android_dependencies.sh
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android build tools
+        run: |
+          yes | sdkmanager --licenses >/dev/null
+          sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools" "cmake;3.22.1"
+
+      - name: Set up Android NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r28c
+          link-to-sdk: true
+
+      - name: Run unit tests and build debug/release APKs
+        run: |
+          chmod +x ./gradlew
+          ./gradlew --no-daemon --stacktrace \
+            :app:testDebugUnitTest \
+            :app:assembleDebug \
+            :app:assembleRelease
+
+      - name: Verify generated APKs
+        run: |
+          AAPT="$ANDROID_HOME/build-tools/36.0.0/aapt"
+          python3 scripts/verify_apk.py app/build/outputs/apk/debug/app-debug.apk --aapt "$AAPT"
+          python3 scripts/verify_apk.py app/build/outputs/apk/release/app-release-unsigned.apk --aapt "$AAPT"
+          sha256sum \
+            app/build/outputs/apk/debug/app-debug.apk \
+            app/build/outputs/apk/release/app-release-unsigned.apk \
+            > app/build/outputs/apk/SHA256SUMS.txt
+
+      - name: Upload Oblivion ARM64 Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Oblivion-Android-ARM64-Debug
+          path: |
+            app/build/outputs/apk/debug/app-debug.apk
+            app/build/outputs/apk/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload Oblivion ARM64 Release APK (unsigned)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Oblivion-Android-ARM64-Release-Unsigned
+          path: |
+            app/build/outputs/apk/release/app-release-unsigned.apk
+            app/build/outputs/apk/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload test and lint reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Oblivion-Android-CI-Reports
+          path: |
+            app/build/reports/
+            app/build/test-results/
+          if-no-files-found: warn
+          retention-days: 14

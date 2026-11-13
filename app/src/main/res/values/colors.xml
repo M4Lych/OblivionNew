@@ -1,0 +1,60 @@
+<resources>
+    <!-- Palette aligned with Oblivion for Windows (violet and cyan brand, cool neutrals).
+         values-night/colors.xml holds the dark values. -->
+    <color name="primary">#765BFF</color>
+    <color name="on_primary">#FFFFFF</color>
+
+    <color name="secondary">#6243EE</color>
+    <color name="on_secondary">#FFFFFF</color>
+
+    <color name="primary_container">#EEE9FF</color>
+    <color name="on_primary_container">#5235D4</color>
+
+    <color name="tertiary">#16A6C1</color>
+    <color name="on_tertiary">#FFFFFF</color>
+    <color name="external_mod_ad">#E67E45</color>
+
+    <color name="error">#EF4444</color>
+    <color name="on_error">#FFFFFF</color>
+
+    <color name="background">#F7F5FF</color>
+    <color name="surface">#F0EDFA</color>
+    <color name="surface_variant">#EEE9FF</color>
+    <color name="on_background">#211D32</color>
+    <color name="on_surface">#211D32</color>
+    <color name="on_surface_variant">#5235D4</color>
+
+    <color name="outline">#CCC5DE</color>
+    <color name="white">#FFFFFF</color>
+    <color name="divider">#E5E0F0</color>
+
+    <color name="scrim">#66000000</color>
+
+    <color name="glow_green">#7A64FF</color>
+    <color name="glow_cyan">#27C9CB</color>
+
+    <color name="abi_label_text">#000000</color>
+    <color name="accent_text">#6243EE</color>
+
+    <color name="text_primary">#211D32</color>
+    <color name="text_secondary">#625D72</color>
+    <color name="qa_icon_color">#211D32</color>
+    <color name="ic_launcher_adaptive_back">#17142A</color>
+
+    <!-- Launcher UI tokens (Windows: surface / default / segment / border / input). -->
+    <color name="ui_chrome">@color/background</color>
+    <color name="ui_default">@color/surface_variant</color>
+    <color name="ui_segment">@color/primary</color>
+    <color name="ui_border">@color/outline</color>
+    <color name="ui_input">@color/surface_variant</color>
+    <color name="ui_strip">@color/surface</color>
+    <color name="ui_muted">#777188</color>
+    <color name="ui_heading">#6243EE</color>
+    <color name="ui_card_surface">@color/surface</color>
+    <color name="ui_card_stroke">@android:color/transparent</color>
+    <color name="ui_inner_card_stroke">@android:color/transparent</color>
+    <color name="ui_danger">#C52F3B</color>
+    <color name="ui_danger_soft">#FDE8E8</color>
+    <color name="ui_warning_soft">#FFF8E6</color>
+    <color name="ui_warning">#B45309</color>
+</resources>

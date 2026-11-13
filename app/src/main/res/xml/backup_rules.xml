@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Microsoft/Xbox refresh tokens and XAL account state must never leave app-private storage. -->
+    <exclude domain="file" path="xal/" />
+    <exclude domain="sharedpref" path="com.oblivion.client.xal.crypto.xml" />
+</full-backup-content>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shell_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:tag="oblivion_keep_background">
+
+    <com.oblivion.client.ui.widget.CenteredNavbarLayout
+        android:id="@+id/nav_bar_root"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/ui_chrome"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:tag="oblivion_keep_background">
+
+        <ImageView
+            android:id="@+id/nav_back_button"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/nav_back"
+            android:padding="4dp"
+            android:src="@drawable/ic_ui_arrow_back"
+            android:tooltipText="@string/nav_back"
+            app:tint="@color/ui_muted" />
+
+        <ImageView
+            android:id="@+id/nav_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_oblivion_logo" />
+
+        <TextView
+            android:id="@+id/nav_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/misans"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:text="@string/app_name"
+            android:textColor="@color/accent_text"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <include layout="@layout/shell_account_cluster" />
+    </com.oblivion.client.ui.widget.CenteredNavbarLayout>
+
+    <View
+        android:id="@+id/nav_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <FrameLayout
+        android:id="@+id/shell_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+</LinearLayout>
