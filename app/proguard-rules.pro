@@ -7,6 +7,8 @@
 
 -keep,includedescriptorclasses class com.oblivion.client.core.minecraft.MinecraftActivity { *; }
 -keep,includedescriptorclasses class com.oblivion.client.util.NativeBridgeHelper { *; }
+# libgxcore.so is a prebuilt LeviLauncher binary; preserve its original JNI owner name.
+-keep,includedescriptorclasses class org.levimc.launcher.util.NativeBridgeHelper { *; }
 -keep,includedescriptorclasses class com.oblivion.client.preloader.** { *; }
 -keep,includedescriptorclasses class com.oblivion.client.core.mods.Mod { *; }
 -keep,includedescriptorclasses class com.oblivion.client.core.mods.ModManager { *; }

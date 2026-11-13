@@ -4,14 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Handler
 import android.os.Looper
-import org.json.JSONObject
-import com.oblivion.client.core.minecraft.OblivionApplication
-import androidx.core.content.edit
-import android.widget.Toast
-import android.view.Gravity
-import com.oblivion.client.R
-import androidx.annotation.Keep
 import android.util.Log
+import android.view.Gravity
+import android.widget.Toast
+import androidx.annotation.Keep
+import androidx.core.content.edit
+import com.oblivion.client.R
+import com.oblivion.client.core.minecraft.OblivionApplication
 
 @Keep
 object NativeBridgeHelper {
@@ -25,9 +24,7 @@ object NativeBridgeHelper {
 
     @JvmStatic
     fun ensureGxCoreLoaded(): Boolean {
-        if (gxcoreLoaded) {
-            return true
-        }
+        if (gxcoreLoaded) return true
         return synchronized(this) {
             if (gxcoreLoaded) {
                 true
@@ -37,44 +34,29 @@ object NativeBridgeHelper {
                     gxcoreLoaded = true
                     true
                 } catch (error: Throwable) {
-    Log.e(
-        "NativeBridgeHelper",
-        "Failed to load libgxcore.so",
-        error
-    )
-    false
-}
+                    Log.e("NativeBridgeHelper", "Failed to load libgxcore.so", error)
+                    false
+                }
             }
         }
     }
 
     @JvmStatic
     fun scanImage(inputPath: String): Boolean {
-        if (!ensureGxCoreLoaded()) {
-            return false
-        }
-        return nativeScanImage(inputPath)
+        if (!ensureGxCoreLoaded()) return false
+        return org.levimc.launcher.util.NativeBridgeHelper.scanImage(inputPath)
     }
 
     @JvmStatic
     fun rewriteImage(inputPath: String, outputPath: String): Boolean {
-        if (!ensureGxCoreLoaded()) {
-            return false
-        }
-        return nativeRewriteImage(inputPath, outputPath)
+        if (!ensureGxCoreLoaded()) return false
+        return org.levimc.launcher.util.NativeBridgeHelper.rewriteImage(inputPath, outputPath)
     }
 
     @JvmStatic
     fun bootstrapGxCore(): Boolean {
-        if (!ensureGxCoreLoaded()) {
-            return false
-        }
-        return try {
-            nativeBootstrapGxCore()
-            true
-        } catch (_: Throwable) {
-            false
-        }
+        if (!ensureGxCoreLoaded()) return false
+        return org.levimc.launcher.util.NativeBridgeHelper.bootstrapGxCore()
     }
 
     @JvmStatic
@@ -82,7 +64,7 @@ object NativeBridgeHelper {
         if (!ensureGxCoreLoaded()) {
             throw UnsatisfiedLinkError("Failed to load gxcore for the Minecraft runtime")
         }
-        nativeLoadMinecraftRuntime(libraryPath)?.let { error ->
+        org.levimc.launcher.util.NativeBridgeHelper.loadMinecraftRuntime(libraryPath)?.let { error ->
             throw UnsatisfiedLinkError(error)
         }
     }
@@ -148,16 +130,4 @@ object NativeBridgeHelper {
             t.printStackTrace()
         }
     }
-
-    @JvmStatic
-    private external fun nativeScanImage(inputPath: String): Boolean
-
-    @JvmStatic
-    private external fun nativeRewriteImage(inputPath: String, outputPath: String): Boolean
-
-    @JvmStatic
-    private external fun nativeBootstrapGxCore()
-
-    @JvmStatic
-    private external fun nativeLoadMinecraftRuntime(libraryPath: String): String?
 }
