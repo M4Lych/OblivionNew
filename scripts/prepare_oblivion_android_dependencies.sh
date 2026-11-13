@@ -26,6 +26,36 @@ fetch_pinned_repo "https://github.com/microsoft/libHttpClient.git" "$CPP/libHttp
 git -C "$CPP/libHttpClient" submodule sync --recursive
 git -C "$CPP/libHttpClient" submodule update --init --recursive
 
+# Restore missing upstream Zstd CMake build configuration.
+ZSTD_VENDOR="$CPP/worldtools/vendor/zstd"
+
+if [[ ! -f "$ZSTD_VENDOR/build/cmake/CMakeLists.txt" ]]; then
+  echo "Restoring Zstd 1.5.7 CMake configuration..."
+
+  ZSTD_TMP="$(mktemp -d)"
+  trap 'rm -rf "$ZSTD_TMP"' EXIT
+
+  git clone --depth=1 --branch v1.5.7 \
+    https://github.com/facebook/zstd.git "$ZSTD_TMP"
+
+  mkdir -p "$ZSTD_VENDOR/build"
+
+  rm -rf "$ZSTD_VENDOR/build/cmake"
+
+  cp -a "$ZSTD_TMP/build/cmake" \
+    "$ZSTD_VENDOR/build/cmake"
+
+  rm -rf "$ZSTD_TMP"
+  trap - EXIT
+fi
+
+if [[ ! -f "$ZSTD_VENDOR/build/cmake/CMakeLists.txt" ]]; then
+  echo "::error::Zstd CMake configuration is missing."
+  exit 1
+fi
+
+echo "Zstd CMake configuration is ready."
+
 # LeviLamina's Android preloader exports JNI symbols using its upstream application package.
 # Oblivion changed the Java namespace, so adapt only this pinned bridge source at build time.
 INPUT_JNI="$CPP/preloader/src/pl/runtime/InputJni.cpp"
