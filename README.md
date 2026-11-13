@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Oblivion for Android
 
 **An ARM64 Minecraft Bedrock client shell that runs the official Minecraft Android runtime inside Oblivion.**
@@ -65,3 +66,7 @@ See `PHASE_3_REPORT.md` for the exact validation status and `RELEASE_CHECKLIST.m
 The Android application source is derived from [LiteLDev/LeviLauncher-Android](https://github.com/LiteLDev/LeviLauncher-Android), distributed under Apache License 2.0. The upstream license and applicable notices are retained in this repository. The Android controls compatibility module contains adapted PojavLauncher controls code under LGPL-3.0-or-later; its license and notice are retained under `oblivion_controls/`. `UPSTREAM_NOTICES.md` records the principal third-party components used by this fork.
 
 Oblivion's use of the LeviLamina package ecosystem is a third-party integration for OblivionMod; LeviLamina is not the name or identity of this client.
+=======
+# OblivionNew
+OblivienNew
+>>>>>>> fe4e057d555b7df9eac19fc94615f908f835556e
