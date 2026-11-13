@@ -155,7 +155,6 @@ dependencies {
     implementation libs.material
     implementation libs.gson
     implementation libs.androidx.preference.ktx
-    implementation libs.conscrypt.android
     implementation libs.androidx.games.activity
     implementation libs.okhttp
     implementation libs.androidx.dynamicanimation
