@@ -14,13 +14,16 @@ import com.oblivion.client.core.minecraft.OblivionApplication
 
 @Keep
 object NativeBridgeHelper {
+    private const val TAG = "NativeBridgeHelper"
+
     @Volatile
     private var gxcoreLoaded = false
 
+    @Volatile
+    private var gxcoreLoadError: String? = null
+
     @JvmStatic
-    fun getAppContext(): Context {
-        return OblivionApplication.context
-    }
+    fun getAppContext(): Context = OblivionApplication.context
 
     @JvmStatic
     fun ensureGxCoreLoaded(): Boolean {
@@ -31,15 +34,20 @@ object NativeBridgeHelper {
             } else {
                 try {
                     System.loadLibrary("gxcore")
+                    gxcoreLoadError = null
                     gxcoreLoaded = true
                     true
                 } catch (error: Throwable) {
-                    Log.e("NativeBridgeHelper", "Failed to load libgxcore.so", error)
+                    gxcoreLoadError = "${error.javaClass.simpleName}: ${error.message ?: error.toString()}"
+                    Log.e(TAG, "Unable to load libgxcore.so. Check its native DT_NEEDED dependencies and packaged ABI.", error)
                     false
                 }
             }
         }
     }
+
+    @JvmStatic
+    fun getGxCoreLoadError(): String = gxcoreLoadError ?: "No native linker error was recorded."
 
     @JvmStatic
     fun scanImage(inputPath: String): Boolean {
@@ -62,7 +70,7 @@ object NativeBridgeHelper {
     @JvmStatic
     fun loadMinecraftRuntime(libraryPath: String) {
         if (!ensureGxCoreLoaded()) {
-            throw UnsatisfiedLinkError("Failed to load gxcore for the Minecraft runtime")
+            throw UnsatisfiedLinkError("Failed to load gxcore for the Minecraft runtime: ${getGxCoreLoadError()}")
         }
         org.levimc.launcher.util.NativeBridgeHelper.loadMinecraftRuntime(libraryPath)?.let { error ->
             throw UnsatisfiedLinkError(error)
@@ -70,42 +78,31 @@ object NativeBridgeHelper {
     }
 
     @JvmStatic
-    fun getPrefs(name: String): SharedPreferences {
-        return getAppContext().getSharedPreferences(name, Context.MODE_PRIVATE)
-    }
+    fun getPrefs(name: String): SharedPreferences =
+        getAppContext().getSharedPreferences(name, Context.MODE_PRIVATE)
 
     @JvmStatic
-    fun getBoolean(prefsName: String, key: String, defaultValue: Boolean = false): Boolean {
-        return try {
-            getPrefs(prefsName).getBoolean(key, defaultValue)
-        } catch (t: Throwable) {
-            defaultValue
-        }
+    fun getBoolean(prefsName: String, key: String, defaultValue: Boolean = false): Boolean = try {
+        getPrefs(prefsName).getBoolean(key, defaultValue)
+    } catch (_: Throwable) {
+        defaultValue
     }
 
     @JvmStatic
     fun putBoolean(prefsName: String, key: String, value: Boolean) {
-        try {
-            getPrefs(prefsName).edit { putBoolean(key, value) }
-        } catch (_: Throwable) {
-        }
+        try { getPrefs(prefsName).edit { putBoolean(key, value) } } catch (_: Throwable) { }
     }
 
     @JvmStatic
-    fun getString(prefsName: String, key: String, defaultValue: String? = null): String? {
-        return try {
-            getPrefs(prefsName).getString(key, defaultValue)
-        } catch (t: Throwable) {
-            defaultValue
-        }
+    fun getString(prefsName: String, key: String, defaultValue: String? = null): String? = try {
+        getPrefs(prefsName).getString(key, defaultValue)
+    } catch (_: Throwable) {
+        defaultValue
     }
 
     @JvmStatic
     fun putString(prefsName: String, key: String, value: String) {
-        try {
-            getPrefs(prefsName).edit { putString(key, value) }
-        } catch (_: Throwable) {
-        }
+        try { getPrefs(prefsName).edit { putString(key, value) } } catch (_: Throwable) { }
     }
 
     @JvmStatic
@@ -115,19 +112,15 @@ object NativeBridgeHelper {
     fun showInvalidLicenseOverlay() {
         val ctx = getAppContext()
         try {
-            val handler = Handler(Looper.getMainLooper())
-            handler.post {
-                Toast.makeText(
-                    ctx,
-                    ctx.getString(R.string.invalid_license_detected_toast),
-                    Toast.LENGTH_LONG
-                ).apply {
-                    setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 100)
-                    show()
-                }
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(ctx, ctx.getString(R.string.invalid_license_detected_toast), Toast.LENGTH_LONG)
+                    .apply {
+                        setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 100)
+                        show()
+                    }
             }
-        } catch (t: Throwable) {
-            t.printStackTrace()
+        } catch (error: Throwable) {
+            Log.e(TAG, "Unable to show invalid-license overlay", error)
         }
     }
 }

@@ -78,3 +78,6 @@ Lihat `PHASE_3_REPORT.md` untuk status pemeriksaan lengkap dan `RELEASE_CHECKLIS
 ## Source dan lisensi upstream
 
 Source aplikasi Android diturunkan dari [LiteLDev/LeviLauncher-Android](https://github.com/LiteLDev/LeviLauncher-Android) yang menggunakan Apache License 2.0. Lisensi dan notice upstream dipertahankan. Modul kontrol Android berisi adaptasi source PojavLauncher dengan lisensi LGPL-3.0-or-later; lisensi dan noticenya ada di folder `oblivion_controls/`. Komponen pihak ketiga utama dicatat dalam `UPSTREAM_NOTICES.md`.
+## Jalur hosted-runtime eksperimental
+
+Proof-of-concept terpisah tersedia di folder `hosted-runtime/`. Kode ini mengeksplorasi arsitektur hosted-process dan belum dihubungkan ke module aplikasi utama. Implementasinya masih eksperimental, belum terbukti menjalankan Minecraft pada perangkat, dan belum menggantikan jalur launch utama.

@@ -2,9 +2,9 @@ name: Oblivion Android CI
 
 on:
   push:
-    branches: ["main", "master", "develop"]
+    branches: ["main", "master", "develop", "Patch", "Patch-Rebuild"]
   pull_request:
-    branches: ["main", "master", "develop"]
+    branches: ["main", "master", "develop", "Patch", "Patch-Rebuild"]
   workflow_dispatch:
 
 permissions:
@@ -42,7 +42,7 @@ jobs:
           cache: gradle
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v3
 
       - name: Install Android build tools
         run: |

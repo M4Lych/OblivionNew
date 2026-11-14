@@ -102,3 +102,6 @@ commit_msg.txt
 # Python preflight scripts
 __pycache__/
 *.py[cod]
+
+# Locally supplied third-party native SDK archives (not source-controlled)
+/local-libs/

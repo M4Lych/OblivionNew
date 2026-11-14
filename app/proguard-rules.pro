@@ -61,6 +61,3 @@
     !static !transient <fields>;
     <init>();
 }
-
-# Lombok-generated marker annotation used by Lenni0451 Commons.
--dontwarn lombok.Generated

@@ -204,6 +204,25 @@ require("EXPECTED_PACKAGE = \"com.oblivion.client\"" in apk_verifier and
 require("debuggable true" in app_gradle and "minifyEnabled false" in app_gradle and
         "release {" in app_gradle and "minifyEnabled true" in app_gradle,
         "Debug build must be inspectable while release build remains minified")
+require("verifyDiscordPartnerSdk" in app_gradle and
+        "libdiscord_partner_sdk.so" in app_gradle and
+        "machine != 183" in app_gradle,
+        "Native build must validate the required Discord Partner SDK ARM64 library")
+native_bridge = read("app/src/main/java/com/oblivion/client/util/NativeBridgeHelper.kt")
+require("Log.e(TAG" in native_bridge and "getGxCoreLoadError" in native_bridge and
+        "System.loadLibrary(\"gxcore\")" in native_bridge,
+        "Native gxcore load failures must preserve and log the underlying linker error")
+image_guard = read("app/src/main/java/com/oblivion/client/util/NativeImageGuard.java")
+require("NativeBridgeHelper.getGxCoreLoadError()" in image_guard,
+        "Native image preparation errors must include the original gxcore linker detail")
+sdk_installer = read("scripts/install_discord_partner_sdk.py")
+require("libdiscord_partner_sdk.so" in sdk_installer and "machine != 183" in sdk_installer and
+        "os.replace(temp_name, output)" in sdk_installer,
+        "Local SDK installer must validate AArch64 and atomically install the native library")
+upstream_notices = read("UPSTREAM_NOTICES.md")
+require("separately licensed component" in upstream_notices and
+        "does not redistribute this SDK binary" in upstream_notices,
+        "Discord Partner SDK must be documented as a separate non-bundled licensed dependency")
 
 # Parse all XML/JSON resources and the version catalog.
 xml_count = 0

@@ -33,6 +33,60 @@ static def getVersionCodeByTimestamp() {
     return diff.toInteger()
 }
 
+// libgxcore.so has a direct ELF DT_NEEDED dependency on Discord's native
+// Partner SDK. Accept the upstream AAR layout or a locally supplied ARM64 .so.
+// Do not let Gradle produce an APK that will fail at runtime when it is absent.
+def discordPartnerSdkAar = file('libs/discord_partner_sdk.aar')
+def discordPartnerSdkFile = file('src/main/jniLibs/arm64-v8a/libdiscord_partner_sdk.so')
+def verifyDiscordPartnerSdk = tasks.register('verifyDiscordPartnerSdk') {
+    inputs.file(discordPartnerSdkAar).optional()
+    inputs.file(discordPartnerSdkFile).optional()
+    doLast {
+        boolean hasAar = discordPartnerSdkAar.isFile()
+        boolean hasStandaloneSo = discordPartnerSdkFile.isFile()
+        if (hasAar == hasStandaloneSo) {
+            if (hasAar) {
+                throw new GradleException('Provide the Discord Partner SDK in only one form: app/libs/discord_partner_sdk.aar OR app/src/main/jniLibs/arm64-v8a/libdiscord_partner_sdk.so, not both.')
+            }
+            throw new GradleException(
+                    "Missing Discord Partner SDK.\n" +
+                    "libgxcore.so requires libdiscord_partner_sdk.so at runtime.\n" +
+                    "Add an authorized AAR at app/libs/discord_partner_sdk.aar or an authorized ARM64 .so at app/src/main/jniLibs/arm64-v8a/libdiscord_partner_sdk.so.")
+        }
+
+        byte[] header
+        if (hasAar) {
+            java.util.zip.ZipFile aar = new java.util.zip.ZipFile(discordPartnerSdkAar)
+            try {
+                def entry = aar.getEntry('jni/arm64-v8a/libdiscord_partner_sdk.so')
+                if (entry == null || entry.directory) {
+                    throw new GradleException('app/libs/discord_partner_sdk.aar does not contain jni/arm64-v8a/libdiscord_partner_sdk.so.')
+                }
+                header = aar.getInputStream(entry).withCloseable { stream -> stream.readNBytes(20) }
+            } finally {
+                aar.close()
+            }
+        } else {
+            header = discordPartnerSdkFile.bytes
+        }
+
+        if (header.length < 20 ||
+                (header[0] & 0xff) != 0x7f || (header[1] & 0xff) != 69 ||
+                (header[2] & 0xff) != 76 || (header[3] & 0xff) != 70 ||
+                (header[4] & 0xff) != 2 || (header[5] & 0xff) != 1) {
+            throw new GradleException('libdiscord_partner_sdk.so is not a valid little-endian ELF64 library.')
+        }
+        int machine = (header[18] & 0xff) | ((header[19] & 0xff) << 8)
+        if (machine != 183) {
+            throw new GradleException("libdiscord_partner_sdk.so must target ARM64/AArch64 (ELF machine 183); found ${machine}.")
+        }
+    }
+}
+
+tasks.matching { it.name.startsWith('merge') && it.name.endsWith('NativeLibs') }.configureEach {
+    dependsOn(verifyDiscordPartnerSdk)
+}
+
 android {
     namespace 'com.oblivion.client'
     compileSdkVersion 36
@@ -139,6 +193,9 @@ android {
 }
 
 dependencies {
+    if (discordPartnerSdkAar.isFile()) {
+        implementation files(discordPartnerSdkAar)
+    }
     implementation project(':minecraft')
     implementation project(':oblivion_controls')
     implementation libs.commonmark
