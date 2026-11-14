@@ -51,7 +51,7 @@ public final class OblivionHostedProcess {
         nativeLibraryPath = realLibrary.getAbsolutePath();
         Thread.currentThread().setContextClassLoader(gameLoader);
 
-        Log.i(TAG, "Game package context ready: " + gameInfo.versionName);
+        Log.i(TAG, "Game package context ready: " + gameInfo.packageName);
         Log.i(TAG, "Minecraft class loader: " + gameLoader.getClass().getName());
         Log.i(TAG, "Minecraft native library path resolved");
     }
