@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/about_scroll" android:layout_width="match_parent" android:layout_height="match_parent" android:scrollbars="none" android:overScrollMode="ifContentScrolls" android:clipToPadding="false">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/about_root" android:paddingStart="16dp" android:paddingEnd="16dp" android:paddingTop="6dp" android:paddingBottom="20dp" android:focusable="true" android:focusableInTouchMode="true" android:accessibilityPaneTitle="@string/about_page_title">
+        <com.google.android.material.card.MaterialCardView android:id="@+id/about_header" style="@style/Widget.Levi.Card" android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="12dp" app:strokeColor="@color/divider">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="10dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/about_page_title" android:textAppearance="@style/TextAppearance.Levi.PageTitle" android:textSize="18sp" android:accessibilityHeading="true" android:layout_weight="1" />
+                </LinearLayout>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/misc_about_subtitle" android:textAppearance="@style/TextAppearance.Levi.AboutCaption" android:textSize="11sp" android:layout_marginTop="3dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/about_overview_panel" android:layout_marginTop="8dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/about_people_column" style="@style/Widget.Levi.Card" android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="12dp" app:strokeColor="@color/divider">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="10dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:minHeight="22dp">
+                        <FrameLayout android:id="@+id/about_authors_chip" android:layout_width="22dp" android:layout_height="22dp" android:background="@drawable/bg_ui_icon_chip" android:importantForAccessibility="no">
+                            <ImageView android:id="@+id/about_authors_icon" android:layout_width="16dp" android:layout_height="16dp" android:layout_gravity="center" android:src="@drawable/ic_ui_group" android:importantForAccessibility="no" />
+                        </FrameLayout>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/misc_about_authors" android:textAppearance="@style/TextAppearance.Levi.AboutTitle" android:layout_marginStart="8dp" android:accessibilityHeading="true" />
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:minHeight="44dp" android:layout_marginTop="6dp">
+                        <ImageView android:id="@+id/author_avatar" android:layout_width="36dp" android:layout_height="36dp" android:scaleType="centerCrop" android:src="@drawable/ic_qa_account" android:contentDescription="@string/about_author_name" />
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="12dp">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/about_author_name" android:textAppearance="@style/TextAppearance.Levi.AboutTitle" android:textSize="14sp" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/about_author_role" android:textAppearance="@style/TextAppearance.Levi.AboutCaption" android:layout_marginTop="3dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="2dp">
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btn_afdian" style="@style/Widget.Levi.AboutLink" android:text="@string/about_afdian" android:layout_marginStart="0dp" app:icon="@drawable/ic_afdian" />
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btn_patreon" style="@style/Widget.Levi.AboutLink" android:text="@string/about_patreon" android:layout_marginStart="6dp" app:icon="@drawable/ic_patreon" />
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="6dp" android:layout_marginBottom="6dp" android:background="@color/divider" android:importantForAccessibility="no" />
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:minHeight="44dp">
+                        <ImageView android:id="@+id/maintainer_avatar" android:layout_width="36dp" android:layout_height="36dp" android:scaleType="centerCrop" android:src="@drawable/ic_qa_account" android:contentDescription="@string/about_maintainer_name" />
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="12dp">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/about_maintainer_name" android:textAppearance="@style/TextAppearance.Levi.AboutTitle" android:textSize="14sp" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/misc_about_maintainer_role" android:textAppearance="@style/TextAppearance.Levi.AboutCaption" android:layout_marginTop="3dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="2dp">
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btn_youtube_maintainer" style="@style/Widget.Levi.AboutLink" android:text="@string/youtube" android:layout_marginStart="0dp" app:icon="@drawable/ic_youtube" app:iconSize="20dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/about_secondary_columns" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="10dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/about_credits_panel" style="@style/Widget.Levi.Card" android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="12dp" app:strokeColor="@color/divider" android:layout_marginTop="0dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="14dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:minHeight="24dp">
+                        <FrameLayout android:id="@+id/about_thanks_chip" android:layout_width="22dp" android:layout_height="22dp" android:background="@drawable/bg_ui_icon_chip" android:importantForAccessibility="no">
+                            <ImageView android:id="@+id/about_thanks_icon" android:layout_width="16dp" android:layout_height="16dp" android:layout_gravity="center" android:src="@drawable/ic_ui_star" android:importantForAccessibility="no" />
+                        </FrameLayout>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/misc_about_thanks" android:textAppearance="@style/TextAppearance.Levi.AboutTitle" android:layout_marginStart="8dp" android:accessibilityHeading="true" />
+                    </LinearLayout>
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/misc_about_thanks_desc" android:textAppearance="@style/TextAppearance.Levi.AboutCaption" android:layout_marginTop="10dp" />
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:id="@+id/btn_rhymc_website" android:minHeight="52dp" android:paddingStart="4dp" android:paddingEnd="4dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:screenReaderFocusable="true">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_ui_server" android:importantForAccessibility="no" app:tint="@color/text_secondary" />
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="12dp" android:layout_marginEnd="12dp">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/misc_about_rhymc" android:textAppearance="@style/TextAppearance.Levi.AboutTitle" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/misc_about_website" android:textAppearance="@style/TextAppearance.Levi.AboutCaption" android:layout_marginTop="4dp" />
+                        </LinearLayout>
+                        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_ui_open_in_new" android:importantForAccessibility="no" app:tint="@color/text_secondary" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView android:id="@+id/about_project_panel" style="@style/Widget.Levi.Card" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" app:cardCornerRadius="12dp" app:strokeColor="@color/divider">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="14dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:minHeight="24dp">
+                        <FrameLayout android:id="@+id/about_source_chip" android:layout_width="22dp" android:layout_height="22dp" android:background="@drawable/bg_ui_icon_chip" android:importantForAccessibility="no">
+                            <ImageView android:id="@+id/about_source_icon" android:layout_width="16dp" android:layout_height="16dp" android:layout_gravity="center" android:src="@drawable/ic_ui_code" android:importantForAccessibility="no" />
+                        </FrameLayout>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/about_source_title" android:textAppearance="@style/TextAppearance.Levi.AboutTitle" android:layout_marginStart="8dp" android:accessibilityHeading="true" />
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="10dp">
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btn_github_repo" style="@style/Widget.Levi.AboutLink" android:text="@string/about_github_repo" app:icon="@drawable/ic_github" />
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="2dp">
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btn_github_org" style="@style/Widget.Levi.AboutLink" android:text="@string/about_github_org" app:icon="@drawable/ic_ui_group" />
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btn_license" style="@style/Widget.Levi.AboutLink" android:text="@string/misc_about_license_name" android:layout_marginStart="4dp" app:icon="@drawable/ic_about_license" />
+                    </LinearLayout>
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/misc_about_license_tip" android:textAppearance="@style/TextAppearance.Levi.AboutCaption" android:layout_marginTop="6dp" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:background="@color/divider" android:importantForAccessibility="no" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/about_contribute_title" android:textAppearance="@style/TextAppearance.Levi.AboutTitle" android:accessibilityHeading="true" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/misc_about_contribute_desc" android:textAppearance="@style/TextAppearance.Levi.AboutCaption" android:layout_marginTop="6dp" />
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="10dp">
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btn_issues" style="@style/Widget.Levi.AboutAction" android:text="@string/about_issues" android:layout_width="0dp" android:layout_weight="1" android:layout_marginStart="0dp" app:icon="@drawable/ic_about_issue" />
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btn_star_fork" style="@style/Widget.Levi.AboutAction" android:text="@string/about_star_fork" android:layout_width="0dp" android:layout_weight="1" android:layout_marginStart="6dp" app:icon="@drawable/ic_ui_star" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

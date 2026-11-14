@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- About -->
+    <string name="misc_about_subtitle">Oblivion — an independent Minecraft Bedrock launcher fork</string>
+    <string name="misc_about_authors">Authors &amp; Maintainers</string>
+    <string name="misc_about_maintainer_role">Oblivion downstream fork</string>
+    <string name="misc_about_thanks">Special Thanks</string>
+    <string name="misc_about_thanks_desc">Special thanks to LiteLDev, DreamGuXiang, the LeviLauncher contributors, and upstream dependencies.</string>
+    <string name="misc_about_rhymc">RhyMC</string>
+    <string name="misc_about_website">Website</string>
+    <string name="misc_about_sponsors">Supporters (Sponsors)</string>
+    <string name="misc_about_sponsors_desc">Thanks to all sponsors and supporters for the project\'s development!</string>
+    <string name="misc_about_github_org">LiteLDev Organization</string>
+    <string name="misc_about_license_name" translatable="false">Apache-2.0</string>
+    <string name="misc_about_license_tip">Oblivion is a downstream fork of LeviLauncher Android and is distributed under Apache-2.0. See LICENSE and UPSTREAM_CREDITS.md for attribution.</string>
+    <string name="misc_about_contribute_desc">Oblivion is maintained independently. Original LeviLauncher credits and notices remain with the upstream project.</string>
+
+    <!-- Accounts -->
+    <string name="misc_accounts_title">Microsoft Account</string>
+    <string name="misc_accounts_subtitle">Manage the accounts used to sign in to Minecraft</string>
+    <string name="misc_accounts_list">Accounts</string>
+    <string name="misc_accounts_current">Current account</string>
+    <string name="misc_accounts_disabled_title">Account management is off</string>
+    <string name="misc_accounts_disabled_desc">Turn on \"Sign in to Minecraft with Oblivion\" in Settings to manage Microsoft accounts.</string>
+    <string name="misc_accounts_go_settings">Go to Settings</string>
+</resources>

@@ -1,0 +1,47 @@
+<resources>
+    <!-- Oblivion void palette: violet primary, cyan portal accents, neutral surfaces. -->
+    <color name="primary">#7657F5</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="secondary">#0EA5C6</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="primary_container">#EDEBFF</color>
+    <color name="on_primary_container">#5036B8</color>
+    <color name="tertiary">#0891B2</color>
+    <color name="on_tertiary">#FFFFFF</color>
+    <color name="external_mod_ad">#E65100</color>
+    <color name="error">#DC4545</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="background">#F6F7FC</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#EEF0F8</color>
+    <color name="on_background">#17182B</color>
+    <color name="on_surface">#17182B</color>
+    <color name="on_surface_variant">#514E70</color>
+    <color name="outline">#C9CBE0</color>
+    <color name="white">#FFFFFF</color>
+    <color name="divider">#E0E2EF</color>
+    <color name="scrim">#66000000</color>
+    <color name="glow_green">#8B78FF</color>
+    <color name="glow_cyan">#22D3EE</color>
+    <color name="abi_label_text">#000000</color>
+    <color name="accent_text">#6650D8</color>
+    <color name="text_primary">#17182B</color>
+    <color name="text_secondary">#62657C</color>
+    <color name="qa_icon_color">#17182B</color>
+    <color name="ic_launcher_adaptive_back">#101426</color>
+    <color name="ui_chrome">@color/background</color>
+    <color name="ui_default">@color/surface_variant</color>
+    <color name="ui_segment">@color/primary</color>
+    <color name="ui_border">@color/outline</color>
+    <color name="ui_input">@color/surface_variant</color>
+    <color name="ui_strip">@color/surface</color>
+    <color name="ui_muted">#73758B</color>
+    <color name="ui_heading">#5F49D0</color>
+    <color name="ui_card_surface">@color/surface</color>
+    <color name="ui_card_stroke">@android:color/transparent</color>
+    <color name="ui_inner_card_stroke">@android:color/transparent</color>
+    <color name="ui_danger">#C52F3B</color>
+    <color name="ui_danger_soft">#FDE8E8</color>
+    <color name="ui_warning_soft">#FFF8E6</color>
+    <color name="ui_warning">#B45309</color>
+</resources>

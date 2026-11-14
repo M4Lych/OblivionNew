@@ -1,0 +1,122 @@
+name: Oblivion Android CI
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and test Android variants
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Oblivion
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+
+      # The supplied source archive does not contain Git submodule objects.
+      # Fetch the native runtime dependencies explicitly so ZIP-based forks build too.
+      - name: Checkout Android preloader
+        uses: actions/checkout@v4
+        with:
+          repository: LiteLDev/preloader-android
+          ref: 0.2.3
+          path: app/src/main/cpp/preloader
+
+      - name: Checkout Microsoft libHttpClient
+        uses: actions/checkout@v4
+        with:
+          repository: microsoft/libHttpClient
+          ref: main
+          path: app/src/main/cpp/libHttpClient
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: |
+            platform-tools
+            platforms;android-36
+            build-tools;35.0.0
+            cmake;3.22.1
+
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
+
+      - name: Set up Android NDK r28c
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r28c
+          link-to-sdk: true
+
+      - name: Set up Xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: "2.9.9"
+          actions-cache-folder: ".xmake-cache"
+          actions-cache-key: "oblivion-android"
+
+      - name: Prepare build environment
+        run: |
+          chmod +x ./gradlew
+          test -f app/src/main/cpp/preloader/CMakeLists.txt
+          test -f app/src/main/cpp/libHttpClient/Build/libHttpClient.Android/CMakeLists.txt
+
+      - name: Run unit tests and assemble Debug, Beta, Release
+        run: |
+          ./gradlew --no-daemon --stacktrace \
+            :app:testDebugUnitTest \
+            :app:assembleDebug \
+            :app:assembleBeta \
+            :app:assembleRelease
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Oblivion-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+      - name: Upload Beta APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Oblivion-beta-apk
+          path: app/build/outputs/apk/beta/*.apk
+          if-no-files-found: error
+
+      - name: Upload unsigned Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Oblivion-release-unsigned-apk
+          path: app/build/outputs/apk/release/*-unsigned.apk
+          if-no-files-found: error
+
+      - name: Upload R8 mappings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Oblivion-r8-mappings-${{ github.sha }}
+          path: app/build/outputs/mapping/release/
+          if-no-files-found: ignore
+
+      - name: Publish GitHub Release (unsigned APK)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: app/build/outputs/apk/release/*-unsigned.apk
+          generate_release_notes: true
