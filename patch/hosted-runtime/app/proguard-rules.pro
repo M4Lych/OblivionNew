@@ -1,0 +1,3 @@
+-keep class com.oblivion.client.hosted.OblivionHostedAppComponentFactory { *; }
+-keep class com.oblivion.client.hosted.OblivionNativeBridge { *; }
+-keep class com.mojang.minecraftpe.MainActivity { *; }

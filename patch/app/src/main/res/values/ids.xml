@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="nav_tab_launch" type="id" />
+    <item name="nav_tab_download" type="id" />
+    <item name="nav_tab_instances" type="id" />
+    <item name="nav_tab_about" type="id" />
+    <item name="nav_tab_settings" type="id" />
+    <item name="nav_theme_toggle" type="id" />
+</resources>

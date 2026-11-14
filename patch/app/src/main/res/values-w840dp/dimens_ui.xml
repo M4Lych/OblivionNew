@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="oblivion_navbar_item_padding">8dp</dimen>
+    <dimen name="oblivion_navbar_text_size">13.5sp</dimen>
+    <dimen name="oblivion_navbar_icon_size">25dp</dimen>
+</resources>

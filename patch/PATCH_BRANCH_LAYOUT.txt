@@ -1,0 +1,14 @@
+OblivionNew Patch-Rebuild layout
+
+This archive contains the complete Oblivion Android project source at its root.
+- app/, minecraft/, oblivion_controls/, resources/, scripts/: existing main client source.
+- hosted-runtime/: separate experimental hosted-process proof-of-concept; not integrated into the production app launch path.
+- .github/workflows/oblivion-hosted-runtime.yml: runs static preflight and builds the experimental module on Patch/Patch-Rebuild pushes.
+
+Recommended branch workflow:
+1. Clone M4Lych/OblivionNew main into a fresh working directory.
+2. Create branch Patch-Rebuild from main.
+3. Extract this archive into the repository root, merging/overwriting the included project files.
+4. Run both source preflight scripts before committing.
+
+The archive does not contain .git metadata, private signing keys, local.properties, Google Services secrets, a Minecraft APK, or game assets.

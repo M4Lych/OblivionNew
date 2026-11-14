@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#8B75FF</color>
+    <color name="on_primary">#FFFFFF</color>
+
+    <color name="secondary">#A99BFF</color>
+    <color name="on_secondary">#100E1B</color>
+
+    <color name="primary_container">#30264F</color>
+    <color name="on_primary_container">#A99BFF</color>
+
+    <color name="tertiary">#7DD3FC</color>
+    <color name="on_tertiary">#100E1B</color>
+    <color name="external_mod_ad">#FFB74D</color>
+
+    <color name="error">#F87171</color>
+    <color name="on_error">#100E1B</color>
+
+    <color name="background">#100E1B</color>
+    <color name="surface">#171525</color>
+    <color name="surface_variant">#211E34</color>
+    <color name="on_background">#F7F4FF</color>
+    <color name="on_surface">#F7F4FF</color>
+    <color name="on_surface_variant">#A99BFF</color>
+
+    <color name="outline">#38334D</color>
+    <color name="divider">#38334D</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="scrim">#99000000</color>
+
+    <color name="glow_green">#A99BFF</color>
+    <color name="glow_cyan">#38D9DA</color>
+
+    <color name="abi_label_text">#FFFFFF</color>
+    <color name="accent_text">#A99BFF</color>
+
+    <color name="text_primary">#F7F4FF</color>
+    <color name="text_secondary">#B8B1CC</color>
+    <color name="qa_icon_color">#F7F4FF</color>
+
+    <color name="ui_chrome">@color/surface</color>
+    <color name="ui_default">#27272A</color>
+    <color name="ui_segment">@color/primary</color>
+    <color name="ui_border">@color/outline</color>
+    <color name="ui_input">@color/surface_variant</color>
+    <color name="ui_strip">@color/surface</color>
+    <color name="ui_muted">#B8B1CC</color>
+    <color name="ui_heading">#8B75FF</color>
+    <color name="ui_card_surface">@color/surface</color>
+    <color name="ui_card_stroke">#26FFFFFF</color>
+    <color name="ui_inner_card_stroke">@color/surface_variant</color>
+    <color name="ui_danger">#F87171</color>
+    <color name="ui_danger_soft">#3A202D</color>
+    <color name="ui_warning_soft">#3A304B</color>
+    <color name="ui_warning">#FBBF24</color>
+</resources>

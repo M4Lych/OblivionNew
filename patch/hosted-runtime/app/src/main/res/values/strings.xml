@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Oblivion Hosted Runtime</string>
+    <string name="launch_minecraft">Launch installed Minecraft</string>
+</resources>
