@@ -233,17 +233,47 @@ try:
 except (tomllib.TOMLDecodeError, OSError) as exc:
     errors.append(f"Invalid Gradle version catalog: {exc}")
 
-# Ensure no source still declares the old first-party Java package.
+# The closed, prebuilt libgxcore.so is linked to LeviLauncher's original JNI
+# owner class. Permit that compatibility bridge and its Oblivion delegate only;
+# every other legacy first-party package reference remains prohibited.
+bridge_rel = "app/src/main/java/org/levimc/launcher/util/NativeBridgeHelper.java"
+delegate_rel = "app/src/main/java/com/oblivion/client/util/NativeBridgeHelper.kt"
+bridge_source = read(bridge_rel)
+delegate_source = read(delegate_rel)
+require("package org.levimc.launcher.util;" in bridge_source and
+        "public final class NativeBridgeHelper" in bridge_source,
+        "GXCore JNI compatibility class is missing or has the wrong package")
+for signature in (
+    "private static native boolean nativeScanImage(String inputPath);",
+    "private static native boolean nativeRewriteImage(String inputPath, String outputPath);",
+    "private static native void nativeBootstrapGxCore();",
+    "private static native String nativeLoadMinecraftRuntime(String libraryPath);",
+):
+    require(signature in bridge_source,
+            "GXCore JNI compatibility method signature is missing: " + signature)
+for delegation in (
+    "org.levimc.launcher.util.NativeBridgeHelper.scanImage(inputPath)",
+    "org.levimc.launcher.util.NativeBridgeHelper.rewriteImage(inputPath, outputPath)",
+    "org.levimc.launcher.util.NativeBridgeHelper.bootstrapGxCore()",
+    "org.levimc.launcher.util.NativeBridgeHelper.loadMinecraftRuntime(libraryPath)",
+):
+    require(delegation in delegate_source,
+            "Oblivion helper is not delegating through the GXCore compatibility bridge: " + delegation)
+
+allowed_legacy_sources = {bridge_rel, delegate_rel}
 legacy_hits: list[str] = []
 for base in (APP / "src/main/java", APP / "src/test/java", APP / "src/androidTest/java"):
     if not base.exists():
         continue
-    for source in list(base.rglob("*.java")) + list(base.rglob("*.kt")):
-        text = source.read_text(encoding="utf-8", errors="replace")
-        if "org.levimc.launcher" in text or "org/levimc/launcher" in text:
-            legacy_hits.append(str(source.relative_to(ROOT)))
+    for source_path in list(base.rglob("*.java")) + list(base.rglob("*.kt")):
+        relative_path = str(source_path.relative_to(ROOT))
+        source_text = source_path.read_text(encoding="utf-8", errors="replace")
+        if ("org.levimc.launcher" in source_text or "org/levimc/launcher" in source_text) and \
+                relative_path not in allowed_legacy_sources:
+            legacy_hits.append(relative_path)
 require(not legacy_hits,
-        "Legacy first-party package references remain in source: " + ", ".join(legacy_hits[:8]))
+        "Legacy first-party package references remain outside the approved GXCore JNI bridge: " +
+        ", ".join(legacy_hits[:8]))
 
 # No app signing keys, personal local.properties, or Google Services config in this source archive.
 for forbidden in ("local.properties", "app/google-services.json", "app/google-services.xml"):
