@@ -49,11 +49,7 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
         with:
-          packages: |
-            platform-tools
-            platforms;android-36
-            build-tools;35.0.0
-            cmake;3.22.1
+          packages: "platform-tools platforms;android-36 build-tools;35.0.0 cmake;3.22.1"
 
       - name: Accept Android SDK licenses
         run: yes | sdkmanager --licenses
