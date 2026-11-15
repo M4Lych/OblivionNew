@@ -15,8 +15,8 @@ include(FetchContent)
 
 FetchContent_Declare(
     zstd
-    GIT_REPOSITORY https://github.com/facebook/zstd.git
-    GIT_TAG c8dec2e8da52d483f6dd7c6cd2ad694e8e6fed2b
+    URL https://github.com/facebook/zstd/releases/download/v1.5.7/zstd-1.5.7.tar.gz
+    URL_HASH SHA256=eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3
     SOURCE_SUBDIR build/cmake
 )
 
