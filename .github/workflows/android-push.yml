@@ -3,7 +3,7 @@ name: Android Push Build
 on:
   push:
     branches:
-      - dev
+      - Modder
     paths-ignore:
       - "*.md"
       - "**/*.md"
