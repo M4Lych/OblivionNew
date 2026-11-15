@@ -31,9 +31,9 @@
 
     <!-- About -->
     <string name="about_title">☕ About</string>
-    <string name="copyright">©2024–2026 LeviMC. All rights reserved.</string>
+    <string name="copyright">©2024–2026 LeviMC · Oblivion Team. All rights reserved.</string>
     <string name="font_license">This app uses the Misans font.</string>
-    <string name="about_footer_github" translatable="false">GitHub: https://github.com/sang765/LeviDroid-Modder</string>
+    <string name="about_footer_github" translatable="false">GitHub: https://github.com/M4Lych/OblivionNew</string>
     <string name="quick_actions_title">Quick Actions</string>
     <string name="content_mgmt_section_title">Content Management</string>
     <string name="misc_section_title">Miscellaneous</string>
@@ -1132,10 +1132,10 @@
     <string name="about_author_name">DreamGuXiang</string>
     <string name="about_author_badge">Author</string>
     <string name="about_author_role">LeviLauncher Modder Authors</string>
-    <string name="about_modder_name">sang765</string>
+    <string name="about_modder_name">M4Lych</string>
     <string name="about_modder_badge">Modder</string>
-    <string name="about_modder_role">Modder Version by sang765</string>
-    <string name="about_modder_github">GitHub · sang765</string>
+    <string name="about_modder_role">Oblivion Team · Modder</string>
+    <string name="about_modder_github">GitHub · M4Lych</string>
     <string name="about_contributors_title">👥 Contributors</string>
     <string name="about_contributor_commits">%d commits</string>
     <string name="about_afdian">Afdian</string>
@@ -1159,7 +1159,7 @@
         <item>Use Quick Launch to connect directly to a server without opening the game first.</item>
         <item>You can import .mcworld, .mcpack, and .mcaddon files from the Content Management page.</item>
         <item>Manage multiple Xbox accounts inside the launcher and switch between them seamlessly.</item>
-        <item>CurseForge lets you browse and download community content directly.</item>
+        <item>Keep your worlds and resource packs backed up before major updates.</item>
         <item>Import mods to extend or enhance Minecraft features and performance.</item>
         <item>Animated GIFs work as launcher wallpapers too.</item>
         <item>Change an instance’s icon from its settings.</item>

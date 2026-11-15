@@ -993,10 +993,10 @@
     <string name="about_author_name">DreamGuXiang</string>
     <string name="about_author_badge">Tác giả</string>
     <string name="about_author_role">Tác giả LeviLauncher Modder</string>
-    <string name="about_modder_name">sang765</string>
+    <string name="about_modder_name">M4Lych</string>
     <string name="about_modder_badge">Modder</string>
-    <string name="about_modder_role">Modder Version bởi sang765</string>
-    <string name="about_modder_github">sang765 Github</string>
+    <string name="about_modder_role">Oblivion Team · Modder</string>
+    <string name="about_modder_github">GitHub · M4Lych</string>
     <string name="about_contributors_title">👥 Cộng tác viên</string>
     <string name="about_contributor_commits">%d commit</string>
     <string name="about_afdian">Afdian</string>

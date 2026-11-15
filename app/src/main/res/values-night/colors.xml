@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#10B981</color>
+    <color name="primary">#8D6BE0</color>
     <color name="on_primary">#FFFFFF</color>
 
-    <color name="secondary">#34D399</color>
-    <color name="on_secondary">#000000</color>
+    <color name="secondary">#C6A56A</color>
+    <color name="on_secondary">#17121D</color>
 
-    <color name="primary_container">#1A3A2A</color>
-    <color name="on_primary_container">#34D399</color>
+    <color name="primary_container">#342747</color>
+    <color name="on_primary_container">#E9DDFB</color>
 
-    <color name="tertiary">#7DD3FC</color>
-    <color name="on_tertiary">#000000</color>
+    <color name="tertiary">#B28BCB</color>
+    <color name="on_tertiary">#17121D</color>
     <color name="external_mod_ad">#FFB74D</color>
 
     <color name="error">#F87171</color>
     <color name="on_error">#000000</color>
 
     <!-- Material 3 default dark neutral scheme -->
-    <color name="background">#1C1B1F</color>
-    <color name="surface">#211F26</color>
-    <color name="surface_variant">#2B2930</color>
-    <color name="on_background">#E6E0E9</color>
-    <color name="on_surface">#E6E0E9</color>
+    <color name="background">#100E16</color>
+    <color name="surface">#1A1721</color>
+    <color name="surface_variant">#282330</color>
+    <color name="on_background">#F1ECF5</color>
+    <color name="on_surface">#F1ECF5</color>
 
-    <color name="outline">#49454F</color>
-    <color name="divider">#36343B</color>
+    <color name="outline">#655A70</color>
+    <color name="divider">#393240</color>
 
     <color name="white">#FFFFFF</color>
     <color name="scrim">#99000000</color>
 
-    <color name="glow_green">#34D399</color>
-    <color name="glow_cyan">#22D3EE</color>
+    <color name="glow_green">#C6A56A</color>
+    <color name="glow_cyan">#9B7BC6</color>
 
     <color name="abi_label_text">#E6E0E9</color>
-    <color name="accent_text">#4AE0A0</color>
+    <color name="accent_text">#D5B9F4</color>
 
-    <color name="text_primary">#E6E0E9</color>
-    <color name="text_secondary">#CAC4D0</color>
-    <color name="qa_icon_color">#E6E0E9</color>
+    <color name="text_primary">#F1ECF5</color>
+    <color name="text_secondary">#B7ACBE</color>
+    <color name="qa_icon_color">#F1ECF5</color>
 
-    <color name="ui_chrome">@color/surface</color>
-    <color name="ui_default">#27272A</color>
-    <color name="ui_segment">@color/primary</color>
-    <color name="ui_border">@color/outline</color>
-    <color name="ui_input">@color/surface_variant</color>
-    <color name="ui_strip">@color/surface</color>
-    <color name="ui_muted">#A1A1AA</color>
-    <color name="ui_heading">#10B981</color>
-    <color name="ui_card_surface">@color/surface</color>
-    <color name="ui_card_stroke">#1AFFFFFF</color>
-    <color name="ui_inner_card_stroke">@color/surface_variant</color>
+    <color name="ui_chrome">#17131D</color>
+    <color name="ui_default">#292330</color>
+    <color name="ui_segment">#30283A</color>
+    <color name="ui_border">#4A4052</color>
+    <color name="ui_input">#211C28</color>
+    <color name="ui_strip">#211C28</color>
+    <color name="ui_muted">#AFA3B8</color>
+    <color name="ui_heading">#D2B5EF</color>
+    <color name="ui_card_surface">#1D1825</color>
+    <color name="ui_card_stroke">#3D3348</color>
+    <color name="ui_inner_card_stroke">#342B3D</color>
     <color name="ui_danger">#F87171</color>
-    <color name="ui_danger_soft">#3A1D1F</color>
-    <color name="ui_warning_soft">#33270F</color>
-    <color name="ui_warning">#FBBF24</color>
+    <color name="ui_danger_soft">#3A1D2A</color>
+    <color name="ui_warning_soft">#382B18</color>
+    <color name="ui_warning">#D4AD68</color>
 </resources>

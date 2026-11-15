@@ -30,7 +30,6 @@ import androidx.lifecycle.ViewModelProvider;
 import org.levimc.launcher.R;
 import com.bumptech.glide.Glide;
 import org.levimc.launcher.core.auth.MsftAccountStore;
-import org.levimc.launcher.core.curseforge.CurseForgeClient;
 import org.levimc.launcher.core.discord.DiscordRpcManager;
 import org.levimc.launcher.core.minecraft.MinecraftImportIntents;
 import org.levimc.launcher.core.minecraft.LaunchTrace;
@@ -556,11 +555,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initMiscellaneousSection() {
-        if (CurseForgeClient.isConfigured()) {
-            binding.miscCurseforgeRow.setOnClickListener(v -> startActivity(new Intent(this, CurseForgeActivity.class)));
-        } else {
-            binding.miscCurseforgeRow.setVisibility(View.GONE);
-        }
         binding.miscPkgRow.setOnClickListener(v -> startActivity(org.levimc.launcher.ui.packages.PackagesActivity.intent(
                 this, versionManager != null ? versionManager.getSelectedVersion() : null, null)));
         binding.miscExternalModsRow.setOnClickListener(v -> startActivity(new Intent(this, ExternalModsActivity.class)));
@@ -590,8 +584,6 @@ public class MainActivity extends BaseActivity {
         UiKit.tintIconChip(binding.homeWorldsChip, binding.homeWorldsIcon, UiKit.BLUE);
         UiKit.tintIconChip(binding.homeResourcePacksChip, binding.homeResourcePacksIcon, UiKit.PURPLE);
         UiKit.tintIconChip(binding.homeSkinPacksChip, binding.homeSkinPacksIcon, UiKit.ORANGE);
-        // The CurseForge logo keeps its own colors; only its chip is tinted.
-        UiKit.tintIconChip(binding.homeCurseforgeChip, null, UiKit.ORANGE);
         UiKit.tintIconChip(binding.homePkgChip, binding.homePkgIcon, UiKit.GREEN);
         UiKit.tintIconChip(binding.homeExternalModsChip, binding.homeExternalModsIcon, UiKit.INDIGO);
         UiKit.tintIconChip(binding.xboxFriendsChip, binding.xboxFriendsIcon, UiKit.GREEN);
