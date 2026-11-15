@@ -222,7 +222,7 @@ jobs:
           distribution: temurin
           java-version: "21"
           cache: gradle
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
       - name: Unit tests (non-blocking)
         run: |
           mkdir -p app && echo '{"project_info":{"project_number":"0","project_id":"p","storage_bucket":"p.appspot.com"},"client":[{"client_info":{"mobilesdk_app_id":"1:0:android:0","android_client_info":{"package_name":"com.oblivion.launcher"}},"oauth_client":[],"api_key":[{"current_key":"AIzaSyOblivionPlaceholderKey000000000000"}],"services":{"appinvite_service":{"other_platform_oauth_client":[]}}}],"configuration_version":"1"}' > app/google-services.json
