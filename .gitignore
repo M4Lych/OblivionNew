@@ -101,3 +101,6 @@ commit_msg.txt
 RELEASE_NOTES.md
 __pycache__/
 /.vs
+
+!/app/src/main/cpp/worldtools/vendor/zstd/build/
+!/app/src/main/cpp/worldtools/vendor/zstd/build/**
