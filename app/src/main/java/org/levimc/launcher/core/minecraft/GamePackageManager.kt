@@ -1,0 +1,991 @@
+package org.levimc.launcher.core.minecraft
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
+import android.content.res.AssetManager
+import android.os.SystemClock
+import android.util.Log
+import org.levimc.launcher.core.versions.GameVersion
+import org.levimc.launcher.util.LauncherStorage
+import org.levimc.launcher.util.NativeBridgeHelper
+import org.levimc.launcher.util.NativeImageGuard
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.util.zip.ZipFile
+
+class GamePackageManager private constructor(
+    private val context: Context,
+    private val version: GameVersion?,
+    private val launchTrace: LaunchTrace?,
+    private val progressListener: MinecraftRuntimePreparer.ProgressListener?
+) {
+
+    private val packageContext: Context?
+    private val assetManager: AssetManager
+    private val nativeLibDir: String
+    private val applicationInfo: ApplicationInfo
+
+    private val knownPackages = arrayOf(MinecraftLauncher.MC_PACKAGE_NAME)
+
+    private val gameVersionName = version?.versionCode?.takeIf { it.isNotBlank() } ?: try {
+        context.packageManager.getPackageInfo(MinecraftLauncher.MC_PACKAGE_NAME, 0).versionName
+    } catch (_: PackageManager.NameNotFoundException) {
+        null
+    }
+
+    private val gameResources by lazy {
+        android.content.res.Resources(assetManager, context.resources.displayMetrics, context.resources.configuration)
+    }
+
+    // Lazy: nativeLibDir is only assigned in the init block below.
+    private val requiredLibs by lazy {
+        buildList {
+            add("libc++_shared.so")
+            add("libfmod.so")
+            add("libMediaDecoders_Android.so")
+            if (shouldLoadMallocRedirect()) {
+                add("libMallocRedirect.so")
+            }
+            add("libminecraftpe.so")
+            addAll(patchInjectedLibs)
+        }.toTypedArray()
+    }
+
+    // shortcut: patch builds on the pre-1.21.110 legacy load path in
+    // MinecraftRuntimePreparer are not covered by this.
+    private val patchInjectedLibs: List<String> by lazy {
+        val known = setOf(
+            "libc++_shared.so",
+            "libfmod.so",
+            "libMediaDecoders_Android.so",
+            "libMallocRedirect.so",
+            "libHttpClient.Android.so",
+            "libPlayFabMultiplayer.so",
+            "libmaesdk.so",
+            "libgxcore.so",
+            "libbgxcore.so",
+        )
+        val ordered = mutableListOf<String>()
+        val visited = mutableSetOf<String>()
+        fun visit(name: String) {
+            if (!visited.add(name)) return
+            for (dep in ElfNeededReader.readNeeded(File(nativeLibDir, name))) {
+                if (!known.contains(dep) && File(nativeLibDir, dep).exists()) {
+                    visit(dep)
+                }
+            }
+            if (name != "libminecraftpe.so" && !known.contains(name)) {
+                ordered.add(name)
+            }
+        }
+        visit("libminecraftpe.so")
+        ordered
+    }
+
+    private val optionalLibs = arrayOf(
+        "libHttpClient.Android.so",
+    )
+
+    private val extractableLibs by lazy { requiredLibs + optionalLibs }
+
+    private val systemLoadedLibs = arrayOf(
+        "libPlayFabMultiplayer.so",
+        "libmaesdk.so",
+        "libgxcore.so",
+    )
+
+    private val supportCacheLibs = arrayOf(
+        "libpairipcore.so",
+        "libPlayFabMultiplayer.so",
+        "libmaesdk.so",
+    )
+
+    private val selfConsistentSdkRenames = mapOf(
+        "libc++_shared.so" to "lcpp_g.so",
+        "libmaesdk.so" to "maesdk_g.so",
+        "libPlayFabMultiplayer.so" to "pfab_g.so"
+    )
+
+    private val byPathLibraryOverrides = mutableMapOf<String, String>()
+
+    data class LibraryLoadResult(
+        val name: String,
+        val fileName: String,
+        val source: String,
+        val loaded: Boolean,
+        val durationMs: Long,
+        val detail: String? = null
+    )
+
+    init {
+        report("GamePackageManager init started")
+        if (version != null && !version.isInstalled) {
+            // Isolated instances run from their own APK copy, no installed package needed.
+            packageContext = null
+            applicationInfo = MinecraftLauncher(context).createFakeApplicationInfo(version, MinecraftLauncher.MC_PACKAGE_NAME)
+            nativeLibDir = applicationInfo.nativeLibraryDir
+        } else {
+            val packageName = detectGamePackage() ?: throw IllegalStateException("Minecraft not found")
+            report("Detected Minecraft package: $packageName")
+            val pkgContext = context.createPackageContext(
+                packageName,
+                Context.CONTEXT_IGNORE_SECURITY or Context.CONTEXT_INCLUDE_CODE
+            )
+            packageContext = pkgContext
+            applicationInfo = pkgContext.applicationInfo
+            nativeLibDir = resolveNativeLibDir()
+        }
+        
+        extractLibraries()
+        if (patchInjectedLibs.isNotEmpty()) {
+            ClientModBridge.ensurePatchClassesVisible(
+                context,
+                collectApkFiles(),
+                version?.directoryName ?: LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID
+            )
+        }
+        report("Creating AssetManager")
+        assetManager = createAssetManager()
+        report("AssetManager ready")
+        setupSecurityProvider()
+        report("GamePackageManager init finished")
+    }
+
+    private fun detectGamePackage(): String? {
+        return knownPackages.firstOrNull { isPackageInstalled(it) }
+    }
+
+    private fun isPackageInstalled(packageName: String): Boolean {
+        return try {
+            context.packageManager.getPackageInfo(packageName, 0)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
+    }
+
+    private fun resolveNativeLibDir(): String {
+        val profileId = if (version != null) {
+            MinecraftLauncher.getStorageProfileId(version)
+        } else {
+            LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID
+        }
+        val cacheLibDir = MinecraftLauncher.getRuntimeLibAbiDir(context, profileId, getDeviceAbi())
+        cacheLibDir.mkdirs()
+        return cacheLibDir.absolutePath
+    }
+
+    private fun getDeviceAbi(): String {
+        return MinecraftLauncher.getRuntimeAbi()
+    }
+
+    private fun extractLibraries() {
+        report("Preparing Minecraft library cache")
+        val outputDir = File(nativeLibDir)
+        if (!outputDir.exists()) {
+            outputDir.mkdirs()
+        }
+
+        val apkFiles = collectApkFiles()
+        val manifestString = buildExtractionManifest(apkFiles)
+        val manifestFile = File(outputDir, ".extraction_manifest")
+        val cachedManifest = try {
+            if (manifestFile.isFile) manifestFile.readText() else null
+        } catch (_: Exception) {
+            null
+        }
+        val markerMatches = cachedManifest == manifestString + buildCacheState(outputDir)
+        val cacheRequiredLibs = getCacheRequiredLibs()
+        val legacyMatches = cachedManifest == manifestString.replaceFirst("extractor=$EXTRACTOR_VERSION\n", "extractor=2\n") &&
+            cacheRequiredLibs.all { NativeImageGuard.isPrepared(File(outputDir, it)) }
+        var allPresent = markerMatches || legacyMatches
+        if (allPresent) {
+            for (lib in cacheRequiredLibs) {
+                val file = File(outputDir, lib)
+                if (!file.exists() || file.length() == 0L) {
+                    allPresent = false
+                    break
+                }
+            }
+        }
+        
+        if (allPresent) {
+            report("Minecraft library cache hit: ${outputDir.absolutePath}")
+            if (!markerMatches) {
+                try {
+                    val staged = File(outputDir, ".extraction_manifest.tmp")
+                    staged.writeText(manifestString + buildCacheState(outputDir))
+                    Files.move(staged.toPath(), manifestFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                } catch (error: IOException) {
+                    Log.w(TAG, "Failed to update library cache metadata: ${error.message}")
+                }
+            }
+            for (lib in extractableLibs) {
+                try {
+                    val file = File(outputDir, lib)
+                    if (file.exists()) {
+                        ensureReadOnly(file)
+                    }
+                } catch (e: Exception) {
+                    Log.w(TAG, "Failed ensureReadOnly: ${e.message}")
+                }
+            }
+            // Client APKs ship extra libs (mod menus) outside the manifest; keep
+            // sweeping on cache hits so a fresh install isn't needed.
+            if (version != null && !version.isInstalled) {
+                apkFiles.forEach { extractExtraLibs(it.absolutePath, outputDir, getDeviceAbi()) }
+            }
+            copySupportLibsFromNativeDir(outputDir)
+            return
+        }
+        report("Minecraft library cache miss: extracting libraries")
+
+        val remaining = extractableLibs.toMutableSet()
+        if (version == null || version.isInstalled) {
+            val appInfo = requireNotNull(packageContext).applicationInfo
+            if (File(appInfo.nativeLibraryDir).isDirectory) {
+                copyFromNativeDir(appInfo.nativeLibraryDir, outputDir, remaining)
+
+            }
+            copySupportLibsFromNativeDir(outputDir)
+        }
+        for (apk in apkFiles) {
+            if (remaining.isEmpty()) break
+            extractFromApk(apk.absolutePath, outputDir, getDeviceAbi(), remaining)
+        }
+        if (version != null && !version.isInstalled) {
+            val missingPrimary = cacheRequiredLibs.filter { it in remaining || File(outputDir, it).length() == 0L }
+            if (missingPrimary.isNotEmpty()) {
+                Log.w(TAG, "Primary ABI ${getDeviceAbi()} libraries missing, trying fallback ABIs")
+                report("Primary ABI ${getDeviceAbi()} libraries missing, trying fallback ABIs")
+                val fallbackAbis = listOf("arm64-v8a", "armeabi-v7a", "x86_64", "x86")
+                fallbackAbis.filter { it != getDeviceAbi() }.forEach { abi ->
+                    for (apk in apkFiles) {
+                        if (remaining.isEmpty()) break
+                        extractFromApk(apk.absolutePath, outputDir, abi, remaining)
+                    }
+                }
+            }
+        }
+        val missing = cacheRequiredLibs.filter { it in remaining || File(outputDir, it).length() == 0L }
+        if (missing.isNotEmpty()) {
+            throw IOException("Minecraft ${gameVersionName.orEmpty()} is missing ${getDeviceAbi()} libraries: ${missing.joinToString()}")
+        }
+        for (lib in remaining) {
+            File(outputDir, lib).delete()
+        }
+
+        if (cacheRequiredLibs.all { File(outputDir, it).let { f -> f.exists() && f.length() > 0 } }) {
+            try {
+                val temporaryManifest = File(outputDir, ".extraction_manifest.tmp")
+                temporaryManifest.writeText(manifestString + buildCacheState(outputDir))
+                Files.move(temporaryManifest.toPath(), manifestFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                File(outputDir, ".extraction_marker").delete()
+                report("Minecraft library cache manifest written")
+            } catch (e: Exception) {
+                Log.w(TAG, "Failed to write extraction manifest: ${e.message}")
+                report("Failed to write extraction manifest: ${e.message}")
+            }
+        }
+    }
+
+    private fun collectApkFiles(): List<File> {
+        val paths = mutableListOf<String>()
+        if (version != null && !version.isInstalled) {
+            applicationInfo.sourceDir?.let { paths.add(it) }
+            applicationInfo.splitSourceDirs?.let { paths.addAll(it) }
+        } else {
+            val appInfo = requireNotNull(packageContext).applicationInfo
+            appInfo.sourceDir?.let { paths.add(it) }
+            appInfo.splitPublicSourceDirs?.let { paths.addAll(it) }
+        }
+
+        return paths
+            .map { File(it) }
+            .filter {
+                if (it.exists()) {
+                    true
+                } else {
+                    Log.w(TAG, "APK file not found: ${it.absolutePath}")
+                    report("APK file not found: ${it.absolutePath}")
+                    false
+                }
+            }
+            .sortedBy { it.absolutePath }
+    }
+
+    private fun buildCacheState(directory: File): String = cacheState(directory, extractableLibs)
+
+    private fun buildExtractionManifest(apkFiles: List<File>): String {
+        return extractionManifest(apkFiles, getDeviceAbi(), gameVersionName, version != null && !version.isInstalled)
+    }
+
+    private fun copyFromNativeDir(sourceDir: String, destDir: File, remaining: MutableSet<String>) {
+        val source = File(sourceDir)
+        if (!source.exists()) {
+            Log.w(TAG, "Source native library directory does not exist: $sourceDir")
+            return
+        }
+
+        remaining.toList().forEach { lib ->
+            val srcFile = File(source, lib)
+            val dstFile = File(destDir, lib)
+            if (srcFile.exists() && srcFile.length() > 0) {
+                srcFile.inputStream().use { input ->
+                    copyStreamToReadOnlyFile(input, dstFile, srcFile.length())
+                }
+                remaining.remove(lib)
+                report("Copied $lib from native lib directory")
+            }
+        }
+    }
+
+    private fun copySupportLibsFromNativeDir(outputDir: File) {
+        val appInfo = packageContext?.applicationInfo ?: return
+        val source = File(appInfo.nativeLibraryDir)
+        if (!source.isDirectory) {
+            return
+        }
+        val shadows = if (version?.isInstalled == false) emptySet() else bundledSdkShadowSet()
+        val bypassed = if (android.os.Process.is64Bit() || version?.isInstalled == false) {
+            emptySet()
+        } else {
+            setOf("libPlayFabMultiplayer.so", "libmaesdk.so")
+        }
+        for (lib in supportCacheLibs) {
+            if (lib in shadows || lib in bypassed) {
+                val stale = File(outputDir, lib)
+                if (stale.exists() && stale.delete()) {
+                    report("Removed cached $lib from the 32-bit launch set")
+                }
+                continue
+            }
+            val dstFile = File(outputDir, lib)
+            if (dstFile.exists() && dstFile.length() > 0) {
+                continue
+            }
+            val srcFile = File(source, lib)
+            if (srcFile.exists() && srcFile.length() > 0) {
+                srcFile.inputStream().use { input ->
+                    copyStreamToReadOnlyFile(input, dstFile, srcFile.length())
+                }
+                report("Copied support lib $lib from native lib directory")
+            }
+        }
+    }
+
+    private fun bundledSdkShadowSet(): Set<String> {
+        if (android.os.Process.is64Bit()) {
+            return emptySet()
+        }
+        val launcherLibDir = File(context.applicationInfo.nativeLibraryDir)
+        return supportCacheLibs.filterTo(mutableSetOf()) { File(launcherLibDir, it).exists() }
+    }
+
+    private fun extractFromApk(apkPath: String, outputDir: File, abi: String, remaining: MutableSet<String>) {
+        val apkFile = File(apkPath)
+        if (!apkFile.exists()) {
+            Log.w(TAG, "APK file does not exist: $apkPath")
+            return
+        }
+        try {
+            ZipFile(apkPath).use { zip ->
+                val abiPath = "lib/$abi"
+                remaining.toList().forEach { lib ->
+                    val entry = zip.getEntry("$abiPath/$lib")
+                    if (entry == null) {
+                        return@forEach
+                    }
+                    val output = File(outputDir, lib)
+                    zip.getInputStream(entry).use { input ->
+                        copyStreamToReadOnlyFile(input, output, entry.size)
+                    }
+                    remaining.remove(lib)
+                    report("Extracted $lib from ${apkFile.name} for $abi")
+                }
+                extractExtraLibs(apkPath, outputDir, abi)
+            }
+        } catch (e: Exception) {
+            throw IOException("Failed to prepare libraries from ${apkFile.name} for $abi: ${e.message}", e)
+        }
+    }
+
+    /** Client/patch APKs ship extra libs (mod menus etc.) outside the known set
+     * and often strip DT_NEEDED, so sweep every entry. Cheap on cache hits. */
+    private fun extractExtraLibs(apkPath: String, outputDir: File, abi: String) {
+        val shadows = if (version?.isInstalled == false) emptySet() else bundledSdkShadowSet()
+        try {
+            ZipFile(apkPath).use { zip ->
+                val abiPath = "lib/$abi"
+                for (entry in zip.entries()) {
+                    val name = entry.name
+                    if (!name.startsWith("$abiPath/") || !name.endsWith(".so")) continue
+                    val lib = name.substringAfterLast('/')
+                    if (lib in extractableLibs) continue
+                    if (lib in shadows) {
+                        val stale = File(outputDir, lib)
+                        if (stale.exists()) stale.delete()
+                        continue
+                    }
+                    val output = File(outputDir, lib)
+                    if (output.exists() && output.length() == entry.size) continue
+                    zip.getInputStream(entry).use { input ->
+                        copyStreamToReadOnlyFile(input, output, entry.size)
+                    }
+                    report("Extracted extra lib $lib from ${File(apkPath).name} for $abi")
+                }
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "Failed to sweep extra libs from $apkPath: ${e.message}")
+        }
+    }
+
+    private fun copyStreamToReadOnlyFile(input: InputStream, output: File, expectedSize: Long) {
+        ensureParentDirectory(output)
+        val tempFile = File(output.absolutePath + ".tmp")
+        if (tempFile.exists()) tempFile.delete()
+        try {
+            val copied = FileOutputStream(tempFile).use { out -> input.copyTo(out, 256 * 1024) }
+            if (expectedSize >= 0 && copied != expectedSize) {
+                throw IOException("Incomplete native library: ${output.name} ($copied/$expectedSize bytes)")
+            }
+            NativeImageGuard.publishStagedImage(tempFile, output)
+        } catch (error: Exception) {
+            throw IOException("Failed to prepare ${output.name}: ${error.message}", error)
+        } finally {
+            tempFile.delete()
+        }
+    }
+
+    private fun ensureParentDirectory(file: File) {
+        val parent = file.parentFile ?: return
+        if (!parent.exists() && !parent.mkdirs()) {
+            throw IOException("Failed to create parent directory: ${parent.absolutePath}")
+        }
+    }
+
+    private fun ensureReadOnly(file: File) {
+        if (!file.isFile) {
+            throw IOException("Expected regular file: ${file.absolutePath}")
+        }
+        if (!file.canRead() && !file.setReadable(true, true)) {
+            throw IOException("Failed to mark file readable: ${file.absolutePath}")
+        }
+        if (file.canWrite() && !file.setReadOnly()) {
+            throw IOException("Failed to keep file read-only: ${file.absolutePath}")
+        }
+    }
+
+    private fun getCacheRequiredLibs(): Array<String> {
+        return if (shouldLoadHttpClient()) {
+            requiredLibs + optionalLibs
+        } else {
+            requiredLibs
+        }
+    }
+
+    fun shouldLoadMallocRedirect(): Boolean {
+        // libgxcore.so ships for arm64 only; a 32-bit process (v7a APK on any
+        // device) cannot load it, so keep those devices on the legacy path.
+        if (!android.os.Process.is64Bit()) return false
+        val versionCode = version?.versionCode ?: try {
+            context.packageManager.getPackageInfo(MinecraftLauncher.MC_PACKAGE_NAME, 0).versionName
+        } catch (_: Exception) {
+            null
+        }
+        return versionCode != null && isVersionAtLeast(versionCode, "1.26.70.20")
+    }
+
+    private fun shouldLoadHttpClient(): Boolean {
+        return requiresHttpClient(gameVersionName)
+    }
+
+    fun isVersionAtLeast(currentVersion: String, targetVersion: String): Boolean {
+        return try {
+            val current = currentVersion.replace(Regex("[^0-9.]"), "").split(".")
+            val target = targetVersion.split(".")
+            val maxLength = maxOf(current.size, target.size)
+
+            for (i in 0 until maxLength) {
+                val currentPart = current.getOrNull(i)?.toIntOrNull() ?: 0
+                val targetPart = target.getOrNull(i)?.toIntOrNull() ?: 0
+
+                if (currentPart > targetPart) return true
+                if (currentPart < targetPart) return false
+            }
+            true
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    private fun report(message: String) {
+        if (progressListener != null) {
+            progressListener.onLog(message)
+        } else {
+            launchTrace?.mark(message)
+        }
+    }
+
+    private fun createAssetManager(): AssetManager {
+        val assets = AssetManager::class.java.newInstance()
+        val addAssetPathMethod = AssetManager::class.java.getMethod("addAssetPath", String::class.java)
+
+        val paths = mutableListOf<String>()
+        
+        if (version != null && !version.isInstalled) {
+            val baseApk = File(applicationInfo.sourceDir)
+            if (baseApk.exists()) {
+                paths.add(applicationInfo.sourceDir)
+            } else {
+                Log.w(TAG, "Base APK for assets not found: ${applicationInfo.sourceDir}")
+            }
+            applicationInfo.splitSourceDirs?.forEach {
+                if (File(it).exists()) {
+                    paths.add(it)
+                } else {
+                    Log.w(TAG, "Split APK for assets not found: $it")
+                }
+            }
+        } else {
+            val resourcePath = requireNotNull(packageContext).packageResourcePath
+            paths.add(resourcePath)
+            val splitPath = resourcePath.replace("base.apk", "split_install_pack.apk")
+            if (File(splitPath).exists()) paths.add(splitPath)
+            applicationInfo.splitPublicSourceDirs?.forEach { path ->
+                if (File(path).isFile) paths.add(path)
+            }
+        }
+        
+        paths.add(context.packageResourcePath)
+
+        paths.distinct().forEach { path ->
+            try {
+                addAssetPathMethod.invoke(assets, path)
+            } catch (e: Exception) {
+                Log.w(TAG, "Failed to add asset path $path: ${e.message}")
+            }
+        }
+        return assets
+    }
+
+    private fun setupSecurityProvider() {
+        try {
+            java.security.Security.insertProviderAt(org.conscrypt.Conscrypt.newProvider(), 1)
+        } catch (e: Exception) {
+            Log.w(TAG, "Conscrypt init failed: ${e.message}")
+        }
+    }
+
+    fun resolveLibraryPath(name: String): String? {
+        val libFile = File(nativeLibDir, toLibraryFileName(name))
+        return if (libFile.exists() && libFile.length() > 0) {
+            libFile.absolutePath
+        } else {
+            null
+        }
+    }
+
+    @SuppressLint("UnsafeDynamicallyLoadedCode")
+    fun loadLibrary(name: String): Boolean {
+        return loadLibraryDetailed(name).loaded
+    }
+
+    @SuppressLint("UnsafeDynamicallyLoadedCode")
+    fun loadLibraryDetailed(name: String): LibraryLoadResult {
+        val fileName = toLibraryFileName(name)
+        val normalizedName = normalizeLibraryName(name)
+        val startedAt = SystemClock.elapsedRealtime()
+
+        byPathLibraryOverrides[normalizedName]?.let { path ->
+            return loadExtractedLibrary(File(path), name, normalizedName, startedAt)
+        }
+
+        if (systemLoadedLibs.contains(fileName)) {
+            val source = if (normalizedName == "gxcore") {
+                "launcher bundled bootstrap"
+            } else {
+                "launcher bundled library"
+            }
+            var bundledFailure: String? = null
+            try {
+                if (normalizedName == "gxcore") {
+                    if (!NativeBridgeHelper.bootstrapGxCore()) {
+                        bundledFailure = "gxcore bootstrap failed"
+                    }
+                } else {
+                    System.loadLibrary(normalizedName)
+                }
+            } catch (e: UnsatisfiedLinkError) {
+                bundledFailure = e.message ?: e.javaClass.simpleName
+            } catch (e: Exception) {
+                bundledFailure = e.message ?: e.javaClass.simpleName
+            }
+            if (bundledFailure == null) {
+                return LibraryLoadResult(
+                    normalizedName,
+                    fileName,
+                    source,
+                    true,
+                    elapsedSince(startedAt)
+                )
+            }
+            Log.e(TAG, "Failed to load $fileName from $source: $bundledFailure")
+            if (normalizedName == "gxcore") {
+                return LibraryLoadResult(normalizedName, fileName, source, false, elapsedSince(startedAt), bundledFailure)
+            }
+        }
+
+        val resolvedPath = resolveLibraryPath(name)
+        val libFile = resolvedPath?.let(::File) ?: File(nativeLibDir, fileName)
+        return loadExtractedLibrary(libFile, name, normalizedName, startedAt)
+    }
+
+    @SuppressLint("UnsafeDynamicallyLoadedCode")
+    private fun loadExtractedLibrary(
+        libFile: File?,
+        name: String,
+        normalizedName: String,
+        startedAt: Long
+    ): LibraryLoadResult {
+        val fileName = toLibraryFileName(name)
+        val source = "Minecraft extracted library cache"
+        return if (libFile != null && libFile.exists() && libFile.length() > 0) {
+            try {
+                ensureReadOnly(libFile)
+                System.load(libFile.absolutePath)
+                LibraryLoadResult(normalizedName, fileName, source, true, elapsedSince(startedAt), libFile.absolutePath)
+            } catch (e: UnsatisfiedLinkError) {
+                val detail = e.message ?: e.javaClass.simpleName
+                Log.e(TAG, "Failed to load $fileName from ${libFile.absolutePath}: $detail")
+                LibraryLoadResult(normalizedName, fileName, source, false, elapsedSince(startedAt), detail)
+            } catch (e: Exception) {
+                val detail = e.message ?: e.javaClass.simpleName
+                Log.e(TAG, "Failed to load $fileName from ${libFile.absolutePath}: $detail")
+                LibraryLoadResult(normalizedName, fileName, source, false, elapsedSince(startedAt), detail)
+            }
+        } else {
+            val detail = "$fileName not found in $nativeLibDir"
+            Log.w(TAG, detail)
+            LibraryLoadResult(normalizedName, fileName, source, false, elapsedSince(startedAt), detail)
+        }
+    }
+
+    private fun enableSelfConsistentSdkStack(): Boolean {
+        if (android.os.Process.is64Bit() || version?.isInstalled != false) return false
+        if (!File(nativeLibDir, "libc++_shared.so").isFile) return false
+        val renames = selfConsistentSdkRenames.filterKeys { File(nativeLibDir, it).isFile }
+        if (!renames.containsKey("libc++_shared.so")) return false
+        val libs = File(nativeLibDir).listFiles { file -> file.isFile && file.name.endsWith(".so") }?.toList() ?: return false
+        val failure = PatchDependencyPatcher.relinkSonames(libs, renames)
+        if (failure != null) {
+            report("Self-consistent SDK relink skipped: $failure")
+            return false
+        }
+        for (name in listOf("libmaesdk.so", "libPlayFabMultiplayer.so")) {
+            if (!File(nativeLibDir, name).isFile) {
+                bypassUnrunnableSdkDependency(launchTrace, progressListener, name)
+            }
+        }
+        byPathLibraryOverrides.clear()
+        for (name in renames.keys) {
+            byPathLibraryOverrides[normalizeLibraryName(name)] = File(nativeLibDir, name).absolutePath
+        }
+        report("Using the APK's own 32-bit SDK libraries with relinked sonames")
+        return true
+    }
+
+    fun loadAllLibraries(
+        excludeLibs: Set<String> = emptySet(),
+        trace: LaunchTrace? = null,
+        listener: MinecraftRuntimePreparer.ProgressListener? = null,
+        progressStart: Int = 46,
+        progressEnd: Int = 74,
+        excludeReasons: Map<String, String> = emptyMap()
+    ): List<LibraryLoadResult> {
+        if (patchInjectedLibs.isNotEmpty()) {
+            dropUnusedPatchDeps(listener)
+        }
+        val allLibs = if (android.os.Process.is64Bit()) {
+            requiredLibs + systemLoadedLibs
+        } else if (enableSelfConsistentSdkStack()) {
+            buildList {
+                addAll(requiredLibs.filterNot { it == "libminecraftpe.so" })
+                if (File(nativeLibDir, "libmaesdk.so").isFile) add("libmaesdk.so")
+                if (File(nativeLibDir, "libPlayFabMultiplayer.so").isFile) add("libPlayFabMultiplayer.so")
+                add("libminecraftpe.so")
+            }.toTypedArray()
+        } else {
+            val bundledPlayFab = "libPlayFabMultiplayer.so" in bundledSdkShadowSet()
+            if (!bundledPlayFab) {
+                bypassUnrunnableSdkDependency(trace, listener, "libPlayFabMultiplayer.so")
+            }
+            val libs = mutableListOf<String>()
+            libs.addAll(requiredLibs.filterNot { it == "libminecraftpe.so" })
+            if (File(context.applicationInfo.nativeLibraryDir, "libmaesdk.so").exists()) {
+                libs.add("libmaesdk.so")
+            }
+            libs.add("libminecraftpe.so")
+            libs.addAll(
+                systemLoadedLibs.filterNot {
+                    it == "libgxcore.so" || it == "libmaesdk.so" ||
+                        (!bundledPlayFab && it == "libPlayFabMultiplayer.so")
+                }
+            )
+            libs.toTypedArray()
+        }
+        val loadableLibs = allLibs.filterNot { lib ->
+            val libName = normalizeLibraryName(lib)
+            excludeLibs.contains(libName) || excludeLibs.contains(lib)
+        }
+        val total = loadableLibs.size.coerceAtLeast(1)
+        var loadIndex = 0
+        val results = mutableListOf<LibraryLoadResult>()
+
+        allLibs.forEach { lib ->
+            val libName = normalizeLibraryName(lib)
+            if (excludeLibs.contains(libName) || excludeLibs.contains(lib)) {
+                val reason = excludeReasons[libName]
+                    ?: excludeReasons[lib]
+                    ?: "not required in this launch path"
+                listener?.onLog("Skipped native library: $lib")
+                trace?.mark("System.load skipped", "$lib - $reason")
+                return@forEach
+            }
+
+            loadIndex += 1
+            val progress = progressStart + ((progressEnd - progressStart) * (loadIndex - 1) / total)
+            listener?.onProgress(progress, "Loading Minecraft", "$loadIndex/$total")
+            listener?.onLog("Loading native library: $lib")
+            trace?.mark("System.load started", lib)
+
+            val result = loadLibraryDetailed(libName)
+            results.add(result)
+            val detail = formatLoadResult(result)
+            trace?.mark(
+                if (result.loaded) "System.load finished" else "System.load failed",
+                detail
+            )
+            if (!result.loaded) {
+                Log.e(TAG, "Failed to load bundle library $libName: ${result.detail ?: "unknown error"}")
+                listener?.onLog("Failed to load native library: ${result.fileName}")
+            } else {
+                listener?.onLog("Loaded native library: ${result.fileName}")
+            }
+        }
+
+        if (patchInjectedLibs.isNotEmpty() && results.isNotEmpty() && results.all { it.loaded }) {
+            listener?.onLog("Initializing patch loader")
+            trace?.mark("Patch loader init started")
+            if (ClientModBridge.initializePatchLoader()) {
+                listener?.onLog("Patch loader initialized")
+                trace?.mark("Patch loader initialized")
+            } else {
+                listener?.onLog("Patch loader init failed")
+                trace?.mark("Patch loader init failed")
+            }
+        }
+
+        return results
+    }
+
+    private fun bypassUnrunnableSdkDependency(
+        trace: LaunchTrace?,
+        listener: MinecraftRuntimePreparer.ProgressListener?,
+        neededName: String
+    ): Boolean {
+        val reason = try {
+            PatchDependencyPatcher.forceDropNeeded(
+                File(nativeLibDir, "libminecraftpe.so"),
+                neededName
+            )
+        } catch (error: Throwable) {
+            error.message ?: error.javaClass.simpleName
+        }
+        return if (reason == null) {
+            Log.w(TAG, "Bypassed DT_NEEDED edge: $neededName")
+            listener?.onLog("Bypassed DT_NEEDED edge: $neededName")
+            trace?.mark("DT_NEEDED edge bypassed", "$neededName (32-bit)")
+            true
+        } else {
+            Log.w(TAG, "DT_NEEDED edge kept for $neededName: $reason")
+            listener?.onLog("DT_NEEDED edge kept: $neededName ($reason)")
+            trace?.mark("DT_NEEDED edge kept", "$neededName ($reason)")
+            false
+        }
+    }
+
+    private fun dropUnusedPatchDeps(listener: MinecraftRuntimePreparer.ProgressListener?) {
+        val gameLib = File(nativeLibDir, "libminecraftpe.so")
+        for (lib in patchInjectedLibs) {
+            try {
+                if (PatchDependencyPatcher.repairInjectedSoname(File(nativeLibDir, lib), lib)) {
+                    listener?.onLog("Repaired injected DT_SONAME: $lib")
+                }
+                val skipReason = PatchDependencyPatcher.dropUnusedNeeded(gameLib, File(nativeLibDir, lib), lib)
+                if (skipReason == null) {
+                    listener?.onLog("Bypassed unresolvable DT_NEEDED edge: $lib")
+                } else {
+                    Log.w(TAG, "DT_NEEDED edge kept for $lib: $skipReason")
+                    listener?.onLog("DT_NEEDED edge kept: $lib ($skipReason)")
+                }
+            } catch (error: Throwable) {
+                val detail = error.message ?: error.javaClass.simpleName
+                Log.w(TAG, "Patch dep handling failed for $lib: $detail")
+                listener?.onLog("DT_NEEDED edge kept: $lib ($detail)")
+            }
+        }
+    }
+
+    private fun toLibraryFileName(name: String): String {
+        return if (name.startsWith("lib") && name.endsWith(".so")) name else "lib${normalizeLibraryName(name)}.so"
+    }
+
+    private fun normalizeLibraryName(name: String): String {
+        return name.removePrefix("lib").removeSuffix(".so")
+    }
+
+    private fun elapsedSince(startedAt: Long): Long {
+        return SystemClock.elapsedRealtime() - startedAt
+    }
+
+    private fun formatLoadResult(result: LibraryLoadResult): String {
+        val status = if (result.loaded) "Loaded" else "Failed to load"
+        return buildString {
+            append(status)
+            append(' ')
+            append(result.fileName)
+            append(" in ")
+            append(result.durationMs)
+            append("ms from ")
+            append(result.source)
+            result.detail?.let {
+                append(" - ")
+                append(it)
+            }
+        }
+    }
+
+    fun getAssets(): AssetManager = assetManager
+
+    fun getGameStringResource(name: String): String? {
+        return try {
+            val packageName = applicationInfo.packageName ?: MinecraftLauncher.MC_PACKAGE_NAME
+            val identifier = gameResources.getIdentifier(name, "string", packageName)
+            if (identifier == 0) null else gameResources.getString(identifier).takeIf { it.isNotBlank() }
+        } catch (error: Exception) {
+            null
+        }
+    }
+
+    fun getPackageContext(): Context? = packageContext
+
+    fun getApplicationInfo(): ApplicationInfo = applicationInfo
+
+    fun getVersionName(): String? {
+        return gameVersionName
+    }
+
+    companion object {
+        private const val TAG = "GamePackageManager"
+        private const val EXTRACTOR_VERSION = 3
+
+        private fun requiredLibraries(versionName: String?): Array<String> = buildList {
+            add("libc++_shared.so")
+            add("libfmod.so")
+            add("libMediaDecoders_Android.so")
+            if (MinecraftVersion.isAtLeast(versionName, "1.26.70.00")) add("libMallocRedirect.so")
+            add("libminecraftpe.so")
+        }.toTypedArray()
+
+        private fun requiresHttpClient(versionName: String?): Boolean {
+            val minimum = if (versionName?.contains("beta") == true) "1.21.130.20" else "1.21.130"
+            return MinecraftVersion.isAtLeast(versionName, minimum)
+        }
+
+        private fun extractionManifest(apks: List<File>, abi: String, versionName: String?, isolated: Boolean): String = buildString {
+            append("extractor=").append(EXTRACTOR_VERSION).append('\n')
+            append("abi=").append(abi).append('\n')
+            append("token=").append(NativeImageGuard.TOKEN).append('\n')
+            append("mode=").append(if (isolated) "isolated" else "installed").append('\n')
+            append("http=").append(requiresHttpClient(versionName)).append('\n')
+            append("malloc=").append(MinecraftVersion.isAtLeast(versionName, "1.26.70.00")).append('\n')
+            for (file in apks.sortedBy { it.absolutePath }) {
+                append("apk=").append(file.absolutePath).append('|').append(file.length())
+                    .append('|').append(file.lastModified()).append('\n')
+            }
+        }
+
+        private fun cacheState(directory: File, names: Array<String>): String = buildString {
+            for (name in names) {
+                val file = File(directory, name)
+                append("file=").append(name).append('|').append(file.length())
+                    .append('|').append(file.lastModified()).append('\n')
+            }
+        }
+
+        @JvmStatic
+        fun recordImportedLibraries(context: Context, profileId: String, versionName: String, apks: List<File>) {
+            val abi = MinecraftLauncher.getRuntimeAbi()
+            val directory = MinecraftLauncher.getRuntimeLibAbiDir(context, profileId, abi)
+            val names = requiredLibraries(versionName) + arrayOf("libHttpClient.Android.so")
+            val required = if (requiresHttpClient(versionName)) names else requiredLibraries(versionName)
+            if (required.any { !NativeImageGuard.isPrepared(File(directory, it)) }) return
+            val marker = File(directory, ".extraction_manifest")
+            val staged = File(directory, ".extraction_manifest.tmp")
+            try {
+                staged.writeText(extractionManifest(apks, abi, versionName, true) + cacheState(directory, names))
+                Files.move(staged.toPath(), marker.toPath(), StandardCopyOption.REPLACE_EXISTING)
+            } catch (error: IOException) {
+                Log.w(TAG, "Failed to record imported library cache: ${error.message}")
+            } finally {
+                staged.delete()
+            }
+        }
+
+        @Volatile
+        private var instance: GamePackageManager? = null
+        private var lastVersionKey: String? = null
+
+        @JvmStatic
+        fun getInstance(context: Context, version: GameVersion? = null): GamePackageManager {
+            return getInstance(context, version, null, null)
+        }
+
+        @JvmStatic
+        fun getInstance(
+            context: Context,
+            version: GameVersion? = null,
+            launchTrace: LaunchTrace? = null,
+            progressListener: MinecraftRuntimePreparer.ProgressListener? = null
+        ): GamePackageManager {
+            return synchronized(this) {
+                val newVersionKey = buildVersionKey(version)
+                if (instance == null || newVersionKey != lastVersionKey) {
+                    instance = GamePackageManager(context.applicationContext, version, launchTrace, progressListener)
+                    lastVersionKey = newVersionKey
+                }
+                instance!!
+            }
+        }
+
+        private fun buildVersionKey(version: GameVersion?): String {
+            if (version == null) return "installed-default"
+            return listOf(
+                version.isInstalled.toString(),
+                version.packageName.orEmpty(),
+                version.versionCode.orEmpty(),
+                version.directoryName.orEmpty(),
+                version.versionDir?.absolutePath.orEmpty()
+            ).joinToString("|")
+        }
+
+        fun isInitialized() = instance != null
+    }
+}

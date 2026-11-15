@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center_vertical">
+    <TextView android:id="@+id/pkg_header_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/pkg_title_mods" android:textAppearance="@style/TextAppearance.Levi.Body" android:textSize="18sp" android:textStyle="bold" android:includeFontPadding="false" android:singleLine="true" android:ellipsize="end" android:accessibilityHeading="true" />
+    <TextView android:id="@+id/pkg_header_target" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:textAppearance="@style/TextAppearance.Levi.Caption" android:textSize="11sp" android:includeFontPadding="false" android:singleLine="true" android:ellipsize="end" />
+</LinearLayout>
