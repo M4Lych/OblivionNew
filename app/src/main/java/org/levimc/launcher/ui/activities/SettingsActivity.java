@@ -47,6 +47,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import org.levimc.launcher.R;
+import org.levimc.launcher.BuildConfig;
 import org.levimc.launcher.core.ai.AiCrashAnalyzer;
 import org.levimc.launcher.core.crash.CrashReporter;
 import org.levimc.launcher.core.discord.DiscordRpcManager;
@@ -1622,10 +1623,16 @@ public class SettingsActivity extends BaseActivity {
 
     private void setupAboutSection() {
         findViewById(R.id.settings_btn_github).setOnClickListener(v ->
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/LiteLDev/LeviLauncher-Android"))));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/M4Lych/Oblivion"))));
 
-        findViewById(R.id.settings_btn_discord).setOnClickListener(v ->
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/jsnzw4ueAt"))));
+        View discordButton = findViewById(R.id.settings_btn_discord);
+        if (BuildConfig.DISCORD_SERVER_INVITE.isEmpty()) {
+            discordButton.setEnabled(false);
+            discordButton.setAlpha(0.55f);
+        } else {
+            discordButton.setOnClickListener(v ->
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.DISCORD_SERVER_INVITE))));
+        }
     }
 
     private void handleUpdateButtonClick() {
@@ -1642,7 +1649,7 @@ public class SettingsActivity extends BaseActivity {
             updateButtonTapCount = 0;
             triggerEasterEgg();
         } else {
-            new GithubReleaseUpdater(this, "sang765", "LeviDroid-Modder", permissionResultLauncher).checkUpdate();
+            new GithubReleaseUpdater(this, "M4Lych", "Oblivion", permissionResultLauncher).checkUpdate();
         }
     }
 

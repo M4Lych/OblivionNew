@@ -31,14 +31,14 @@ public class AboutActivity extends BaseActivity {
     private static final String AVATAR_URL = "https://avatars.githubusercontent.com/u/62042544?v=4";
     private static final String URL_AFDIAN = "https://afdian.com/a/DreamGuXiang";
     private static final String URL_PATREON = "https://www.patreon.com/c/DreamGuXiang";
-    private static final String URL_REPO = "https://github.com/M4Lych/OblivionNew";
+    private static final String URL_REPO = "https://github.com/M4Lych/Oblivion";
     private static final String URL_ORG = "https://github.com/sang765";
-    private static final String URL_M4LYCH = "https://github.com/M4Lych";
-    private static final String URL_ISSUES = "https://github.com/M4Lych/OblivionNew/issues";
+    private static final String URL_ISSUES = "https://github.com/M4Lych/Oblivion/issues";
     private static final String MAINTAINER_AVATAR_URL = "https://yt3.googleusercontent.com/ft4khqXZ_fQn-DbSLg91kQy3_JUQ_73rbg18nOcmMtunX5bq25jzrThWQAk9YsFkTKFesUL7sg8=s160-c-k-c0x00ffffff-no-rj";
-    private static final String MODDER_AVATAR_URL = "https://avatars.githubusercontent.com/M4Lych";
+    private static final String MODDER_AVATAR_URL = "https://avatars.githubusercontent.com/sang765";
+    private static final String OBLIVION_MODDER_AVATAR_URL = "https://github.com/M4Lych.png";
     private static final String URL_YOUTUBE = "https://www.youtube.com/c/mrpokeg";
-    private static final String URL_CONTRIBUTORS = "https://api.github.com/repos/M4Lych/OblivionNew/contributors";
+    private static final String URL_CONTRIBUTORS = "https://api.github.com/repos/sang765/LeviDroid-Modder/contributors";
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final OkHttpClient client = new OkHttpClient();
@@ -61,6 +61,7 @@ public class AboutActivity extends BaseActivity {
         TextView authorBadge = findViewById(R.id.author_badge);
         TextView maintainerBadge = findViewById(R.id.maintainer_badge);
         TextView modderBadge = findViewById(R.id.modder_badge);
+        TextView oblivionModderBadge = findViewById(R.id.oblivion_modder_badge);
 
         org.levimc.launcher.util.PersonalizationManager pm = new org.levimc.launcher.util.PersonalizationManager(this);
         int accent = pm.getAccentColor();
@@ -81,6 +82,14 @@ public class AboutActivity extends BaseActivity {
                 modderBadge.setBackground(gd);
                 modderBadge.setTextColor(android.graphics.Color.WHITE);
             }
+            if (oblivionModderBadge != null) {
+                android.graphics.drawable.GradientDrawable ownerBadge = new android.graphics.drawable.GradientDrawable();
+                ownerBadge.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
+                ownerBadge.setColor(accent);
+                ownerBadge.setCornerRadius(4 * getResources().getDisplayMetrics().density);
+                oblivionModderBadge.setBackground(ownerBadge);
+                oblivionModderBadge.setTextColor(android.graphics.Color.WHITE);
+            }
         }
     }
 
@@ -92,6 +101,7 @@ public class AboutActivity extends BaseActivity {
         com.microsoft.xbox.idp.toolkit.CircleImageView avatar = findViewById(R.id.author_avatar);
         com.microsoft.xbox.idp.toolkit.CircleImageView maintainerAvatar = findViewById(R.id.maintainer_avatar);
         com.microsoft.xbox.idp.toolkit.CircleImageView modderAvatar = findViewById(R.id.modder_avatar);
+        com.microsoft.xbox.idp.toolkit.CircleImageView oblivionModderAvatar = findViewById(R.id.oblivion_modder_avatar);
 
         executor.execute(() -> {
             try {
@@ -125,6 +135,18 @@ public class AboutActivity extends BaseActivity {
                         Bitmap bmp = BitmapFactory.decodeStream(resp.body().byteStream());
                         runOnUiThread(() -> {
                             if (bmp != null) modderAvatar.setImageBitmap(bmp);
+                        });
+                    }
+                }
+            } catch (Exception ignored) {}
+
+            try {
+                if (oblivionModderAvatar != null) {
+                    Response resp = client.newCall(new Request.Builder().url(OBLIVION_MODDER_AVATAR_URL).build()).execute();
+                    if (resp.isSuccessful() && resp.body() != null) {
+                        Bitmap bmp = BitmapFactory.decodeStream(resp.body().byteStream());
+                        runOnUiThread(() -> {
+                            if (bmp != null) oblivionModderAvatar.setImageBitmap(bmp);
                         });
                     }
                 }
@@ -206,7 +228,8 @@ public class AboutActivity extends BaseActivity {
         setupLinkButton(R.id.btn_issues, URL_ISSUES);
         setupLinkButton(R.id.btn_star_fork, URL_REPO);
         setupLinkButton(R.id.btn_youtube_maintainer, URL_YOUTUBE);
-        setupLinkButton(R.id.btn_github_modder, URL_M4LYCH);
+        setupLinkButton(R.id.btn_github_modder, URL_ORG);
+        setupLinkButton(R.id.btn_github_oblivion_modder, "https://github.com/M4Lych");
     }
 
     private void setupLinkButton(int viewId, String url) {

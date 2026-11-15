@@ -19,8 +19,8 @@ import org.levimc.launcher.R;
 import org.levimc.launcher.ui.activities.NewsActivity;
 
 public final class NewsNotificationHelper {
-    public static final String TOPIC = "levilauncher-news";
-    public static final String CHANNEL_ID = "launcher_news";
+    public static final String TOPIC = "oblivion-news";
+    public static final String CHANNEL_ID = "oblivion_news";
 
     private NewsNotificationHelper() {
     }

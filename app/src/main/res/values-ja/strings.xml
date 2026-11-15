@@ -15,8 +15,8 @@
     <string name="current_instance">現在のインスタンス</string>
     <!-- Mods -->
     <string name="mods_title">モッド (%d)</string>
-    <string name="mods_section_title">モッド</string>
-    <string name="external_mods_label">外部モッド</string>
+    <string name="mods_section_title">OblivionMod</string>
+    <string name="external_mods_label">OblivionMod Catalog</string>
     <string name="inbuilt_mods_label">内蔵モッド</string>
     <string name="manage_mods">モッドの管理</string>
     <string name="no_mods_found">モッドが見つかりません</string>
@@ -379,7 +379,7 @@
     <string name="external_mods_load_failed">カタログを更新できませんでした。保存済みのコピーを表示します。</string>
     <string name="external_mods_refresh">カタログを更新</string>
     <string name="external_mods_refreshed">カタログを更新しました</string>
-    <string name="external_mods_join_discord">コミュニティ Discord に参加</string>
+    <string name="external_mods_join_discord">Join Oblivion Discord</string>
     <string name="external_mods_discord_open_failed">Discord の招待を開けるアプリがありません</string>
     <string name="external_mods_download">%1$s をダウンロード中</string>
     <string name="external_mods_choose_download">ダウンロードを選択</string>
@@ -816,7 +816,7 @@
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">ソースコード &amp; オープンソース</string>
-    <string name="about_github_repo">GitHub · LeviDroid-Modder</string>
+    <string name="about_github_repo">GitHub · Oblivion</string>
     <string name="about_github_org">sang765</string>
     <string name="about_license_note">ライセンスの詳細はリポジトリの LICENSE をご覧ください。</string>
     <string name="about_contribute_title">貢献</string>
@@ -973,7 +973,7 @@
     <string name="changelog_title">新機能</string>
     <string name="changelog_version">Oblivion %1$s</string>
     <string name="changelog_continue">続行</string>
-    <string name="news_title">ランチャーニュース</string>
+    <string name="news_title">Oblivion News</string>
     <string name="news_subtitle">Oblivion チームからの更新、告知、重要なお知らせです。</string>
     <string name="news_enable_notifications">通知を有効にする</string>
     <string name="news_refresh">ニュースを更新</string>

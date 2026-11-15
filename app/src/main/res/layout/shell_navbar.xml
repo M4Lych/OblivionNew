@@ -44,7 +44,7 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_oblivion_mark"
+                android:src="@drawable/ic_leaf_logo"
                 android:translationY="-0.5dp" />
 
             <TextView

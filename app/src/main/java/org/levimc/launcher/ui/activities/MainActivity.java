@@ -30,6 +30,7 @@ import androidx.lifecycle.ViewModelProvider;
 import org.levimc.launcher.R;
 import com.bumptech.glide.Glide;
 import org.levimc.launcher.core.auth.MsftAccountStore;
+import org.levimc.launcher.core.curseforge.CurseForgeClient;
 import org.levimc.launcher.core.discord.DiscordRpcManager;
 import org.levimc.launcher.core.minecraft.MinecraftImportIntents;
 import org.levimc.launcher.core.minecraft.LaunchTrace;
@@ -127,7 +128,7 @@ public class MainActivity extends BaseActivity {
         setupNavBar();
         setupManagersAndHandlers();
         if (!isInstanceShortcutIntent()) {
-            new GithubReleaseUpdater(this, "sang765", "LeviDroid-Modder", permissionResultLauncher).checkUpdateOnLaunch();
+            new GithubReleaseUpdater(this, "M4Lych", "Oblivion", permissionResultLauncher).checkUpdateOnLaunch();
         }
         showEulaIfNeeded();
         setupOnBackPressedCallback();
@@ -415,6 +416,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        bindOblivionPlayerCard();
         tipsVisible = true;
         if (tipRotator != null) {
             tipHandler.removeCallbacks(tipRotator);
@@ -462,9 +464,46 @@ public class MainActivity extends BaseActivity {
         binding.homeInstanceSettingsButton.setOnClickListener(v -> openInstanceSettings());
         DynamicAnim.applyPressScale(binding.homeInstanceSettingsButton);
         styleHomeAccents();
+        bindOblivionPlayerCard();
 
         FeatureSettings.init(getApplicationContext());
         showRandomTip();
+    }
+
+    /** Updates the compact Oblivion profile panel from the active Microsoft account. */
+    private void bindOblivionPlayerCard() {
+        if (binding == null) return;
+        View card = binding.getRoot().findViewById(R.id.oblivion_player_card);
+        ImageView avatar = binding.getRoot().findViewById(R.id.oblivion_player_avatar);
+        TextView gamertag = binding.getRoot().findViewById(R.id.oblivion_player_gamertag);
+        TextView status = binding.getRoot().findViewById(R.id.oblivion_player_status);
+        View skins = binding.getRoot().findViewById(R.id.oblivion_player_skins);
+        if (card == null || avatar == null || gamertag == null || status == null || skins == null) return;
+
+        MsftAccountStore.MsftAccount account = getActiveAccount();
+        if (account == null) {
+            gamertag.setText(R.string.oblivion_player_not_connected);
+            status.setText(R.string.oblivion_player_connect_microsoft);
+            avatar.setImageResource(R.drawable.ic_qa_account);
+        } else {
+            String displayName = !TextUtils.isEmpty(account.xboxGamertag)
+                    ? account.xboxGamertag : account.minecraftUsername;
+            gamertag.setText(TextUtils.isEmpty(displayName)
+                    ? getString(R.string.oblivion_player_unknown) : displayName);
+            status.setText(R.string.oblivion_player_microsoft_connected);
+            if (!TextUtils.isEmpty(account.xboxAvatarUrl)) {
+                Glide.with(this).load(account.xboxAvatarUrl)
+                        .placeholder(R.drawable.ic_qa_account)
+                        .error(R.drawable.ic_qa_account)
+                        .circleCrop().into(avatar);
+            } else {
+                avatar.setImageResource(R.drawable.ic_qa_account);
+            }
+        }
+        card.setOnClickListener(v -> startActivity(new Intent(this, AccountsActivity.class)));
+        skins.setOnClickListener(v -> openContentList(ContentListActivity.TYPE_SKIN_PACKS));
+        DynamicAnim.applyPressScale(card);
+        DynamicAnim.applyPressScale(skins);
     }
 
     private void showRandomTip() {
@@ -555,6 +594,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initMiscellaneousSection() {
+        if (CurseForgeClient.isConfigured()) {
+            binding.miscCurseforgeRow.setOnClickListener(v -> startActivity(new Intent(this, CurseForgeActivity.class)));
+        } else {
+            binding.miscCurseforgeRow.setVisibility(View.GONE);
+        }
         binding.miscPkgRow.setOnClickListener(v -> startActivity(org.levimc.launcher.ui.packages.PackagesActivity.intent(
                 this, versionManager != null ? versionManager.getSelectedVersion() : null, null)));
         binding.miscExternalModsRow.setOnClickListener(v -> startActivity(new Intent(this, ExternalModsActivity.class)));
@@ -584,6 +628,8 @@ public class MainActivity extends BaseActivity {
         UiKit.tintIconChip(binding.homeWorldsChip, binding.homeWorldsIcon, UiKit.BLUE);
         UiKit.tintIconChip(binding.homeResourcePacksChip, binding.homeResourcePacksIcon, UiKit.PURPLE);
         UiKit.tintIconChip(binding.homeSkinPacksChip, binding.homeSkinPacksIcon, UiKit.ORANGE);
+        // The CurseForge logo keeps its own colors; only its chip is tinted.
+        UiKit.tintIconChip(binding.homeCurseforgeChip, null, UiKit.ORANGE);
         UiKit.tintIconChip(binding.homePkgChip, binding.homePkgIcon, UiKit.GREEN);
         UiKit.tintIconChip(binding.homeExternalModsChip, binding.homeExternalModsIcon, UiKit.INDIGO);
         UiKit.tintIconChip(binding.xboxFriendsChip, binding.xboxFriendsIcon, UiKit.GREEN);

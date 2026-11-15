@@ -5,23 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/oblivionLoadingRoot"
-    android:background="@drawable/bg_oblivion_loading_base"
+    android:background="@color/background"
     android:paddingHorizontal="32dp"
     android:paddingVertical="24dp"
     tools:context=".core.minecraft.MinecraftLoadingActivity">
-
-    <View
-        android:id="@+id/oblivionLoadingGlow"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:alpha="0.22"
-        android:importantForAccessibility="no"
-        android:background="@drawable/bg_oblivion_loading_glow"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/minecraftLaunchLogo"

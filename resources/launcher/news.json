@@ -1,15 +1,4 @@
 {
   "schemaVersion": 1,
-  "items": [
-    {
-      "id": "oblivion-project-welcome-2026",
-      "title": "Welcome to Oblivion",
-      "summary": "Oblivion is an independent continuation of the LeviLauncher Modder codebase. Follow this feed for project updates, compatibility notices, and release information.",
-      "publishedAt": "2026-11-15T00:00:00Z",
-      "category": "Announcement",
-      "url": "https://github.com/M4Lych/OblivionNew",
-      "important": true,
-      "notify": false
-    }
-  ]
+  "items": []
 }

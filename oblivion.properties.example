@@ -1,0 +1,4 @@
+# Optional Oblivion service endpoints. Leave blank until your HTTPS feeds are hosted.
+news_url=
+mod_catalog_url=
+discord.server_invite=

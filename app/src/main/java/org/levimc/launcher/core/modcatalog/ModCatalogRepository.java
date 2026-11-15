@@ -6,6 +6,8 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
+import org.levimc.launcher.BuildConfig;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,7 +32,7 @@ public final class ModCatalogRepository {
         void onResult(ModCatalog catalog, Throwable error);
     }
 
-    public static final String REMOTE_URL = "https://qycottage.github.io/LeviModHub/catalog.json";
+    public static final String REMOTE_URL = BuildConfig.OBLIVION_MOD_CATALOG_URL;
     private static final String ASSET_PATH = "launcher/mod_catalog.json";
     private static final String CACHE_FILE = "launcher_mod_catalog.json";
     private static final Pattern ID_PATTERN = Pattern.compile("[a-z0-9][a-z0-9._-]{0,63}");
@@ -49,6 +51,10 @@ public final class ModCatalogRepository {
 
     public static void refresh(Context context, Callback callback) {
         Context appContext = context.getApplicationContext();
+        if (TextUtils.isEmpty(REMOTE_URL)) {
+            loadCached(appContext, callback);
+            return;
+        }
         EXECUTOR.execute(() -> {
             try {
                 Request request = new Request.Builder()

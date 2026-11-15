@@ -1,27 +1,26 @@
 {
   "schemaVersion": 1,
-  "headline": "LeviLauncher Modder v1.6.1-modder.41",
-  "summary": "Exiting the launcher now says goodbye properly: confirming Exit shows a one-second farewell note before the app closes for real.",
+  "headline": "Oblivion Milestone 1",
+  "summary": "The first Oblivion-focused update adds the OblivionMod and Oblivion News feed configuration, an updated Ave Mujica-inspired palette, and an Xbox profile panel on the home screen.",
   "sections": [
     {
       "title": "Changes",
       "items": [
         {
-          "text": "Pressing Exit in the quit dialog now opens a fullscreen farewell note for one second, and the app then closes completely instead of lingering in the background.",
-          "url": "https://github.com/sang765/LeviDroid-Modder/commit/f6aa76b4"
+          "text": "Added the Oblivion Modder credit and updated the project repository links.",
+          "url": "https://github.com/M4Lych/Oblivion"
         },
         {
-          "text": "The farewell note draws edge-to-edge under the display cutout, so the notch never pushes or clips it.",
-          "url": "https://github.com/sang765/LeviDroid-Modder/commit/f6aa76b4"
-        }
-      ]
-    },
-    {
-      "title": "Fixes",
-      "items": [
+          "text": "Added the active Microsoft gamertag and Xbox profile avatar to the launcher home screen, with a shortcut to the existing skin-pack manager.",
+          "url": ""
+        },
         {
-          "text": "English locale shows the translated note \"Thanks for coming\", while Vietnamese keeps the deliberately accent-free \"Cam on vi da den\".",
-          "url": "https://github.com/sang765/LeviDroid-Modder/commit/f6aa76b4"
+          "text": "Moved the news and mod catalog endpoints to optional Oblivion-owned configuration. Empty endpoints use the bundled data.",
+          "url": ""
+        },
+        {
+          "text": "Applied a charcoal, muted lavender, and plum visual palette inspired by Ave Mujica.",
+          "url": ""
         }
       ]
     }

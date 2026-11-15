@@ -42,8 +42,8 @@ public final class DiscordRpcManager {
     private static final String TAG = "DiscordRpc";
     private static final String STATUS = "online";
     private static final String LAUNCHER_NAME = "Oblivion";
-    private static final String LAUNCHER_URL = "https://github.com/sang765/LeviDroid-Modder";
-    private static final String LAUNCHER_LOGO_URL = "https://avatars.githubusercontent.com/u/78095377?s=200&v=4";
+    private static final String LAUNCHER_URL = "https://github.com/M4Lych/Oblivion";
+    private static final String LAUNCHER_LOGO_URL = "https://github.com/M4Lych.png";
     private static final String GAME_NAME = "Minecraft: Bedrock Edition";
     private static final String GAME_ASSET_KEY = "logo";
     private static final String MINECRAFT_LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Minecraft_Logo-en.svg/960px-Minecraft_Logo-en.svg.png";

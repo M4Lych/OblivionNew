@@ -15,8 +15,8 @@
     <string name="current_instance">Mevcut Örnek</string>
     <!-- Mods -->
     <string name="mods_title">Modlar (%d)</string>
-    <string name="mods_section_title">Modlar</string>
-    <string name="external_mods_label">Harici Modlar</string>
+    <string name="mods_section_title">OblivionMod</string>
+    <string name="external_mods_label">OblivionMod Catalog</string>
     <string name="inbuilt_mods_label">Yerleşik Modlar</string>
     <string name="manage_mods">Modları Yönet</string>
     <string name="no_mods_found">Mod Bulunamadı</string>
@@ -379,7 +379,7 @@
     <string name="external_mods_load_failed">Katalog yenilenemedi. Kaydedilmiş kopya gösteriliyor.</string>
     <string name="external_mods_refresh">Kataloğu yenile</string>
     <string name="external_mods_refreshed">Katalog yenilendi</string>
-    <string name="external_mods_join_discord">Topluluk Discord’una Katıl</string>
+    <string name="external_mods_join_discord">Join Oblivion Discord</string>
     <string name="external_mods_discord_open_failed">Discord davetini açabilecek bir uygulama yok</string>
     <string name="external_mods_download">%1$s indiriliyor</string>
     <string name="external_mods_choose_download">İndirme seç</string>
@@ -816,7 +816,7 @@
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Kaynak Kodu ve Açık Kaynak</string>
-    <string name="about_github_repo">GitHub · LeviDroid-Modder</string>
+    <string name="about_github_repo">GitHub · Oblivion</string>
     <string name="about_github_org">sang765</string>
     <string name="about_license_note">Lisans ayrıntıları için depo içindeki LICENSE dosyasına bakın.</string>
     <string name="about_contribute_title">Katkıda Bulun</string>
@@ -973,7 +973,7 @@
     <string name="changelog_title">Yenilikler</string>
     <string name="changelog_version">Oblivion %1$s</string>
     <string name="changelog_continue">Devam Et</string>
-    <string name="news_title">Başlatıcı haberleri</string>
+    <string name="news_title">Oblivion News</string>
     <string name="news_subtitle">Oblivion ekibinden güncellemeler, duyurular ve önemli bildirimler.</string>
     <string name="news_enable_notifications">Bildirimleri etkinleştir</string>
     <string name="news_refresh">Haberleri yenile</string>

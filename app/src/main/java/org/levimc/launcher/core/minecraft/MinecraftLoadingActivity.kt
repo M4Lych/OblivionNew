@@ -57,7 +57,6 @@ class MinecraftLoadingActivity : BaseActivity(), MinecraftRuntimePreparer.Progre
     private var preparingStarted = false
     private var enteringGame = false
     private var progressAnimator: ValueAnimator? = null
-    private var oblivionAmbientAnimator: ValueAnimator? = null
     private var currentProgress = 0
     private var lastLogMessage: String? = null
     private val visibleLogMessages = ArrayDeque<String>()
@@ -73,7 +72,6 @@ class MinecraftLoadingActivity : BaseActivity(), MinecraftRuntimePreparer.Progre
             window.decorView.post { hideSystemUi() }
         }
         setContentView(R.layout.activity_minecraft_loading)
-        startOblivionAmbientAnimation()
         InstanceIcons.bind(
             findViewById<ImageView>(R.id.minecraftLaunchLogo),
             MinecraftRuntimePreparer.resolveGameVersion(intent)
@@ -248,18 +246,6 @@ class MinecraftLoadingActivity : BaseActivity(), MinecraftRuntimePreparer.Progre
                 currentProgress = animator.animatedValue as Int
                 progressBar.progress = currentProgress
             }
-            start()
-        }
-    }
-
-    private fun startOblivionAmbientAnimation() {
-        val glow = findViewById<View>(R.id.oblivionLoadingGlow) ?: return
-        oblivionAmbientAnimator?.cancel()
-        oblivionAmbientAnimator = ValueAnimator.ofFloat(0.16f, 0.38f).apply {
-            duration = 6400L
-            repeatMode = ValueAnimator.REVERSE
-            repeatCount = ValueAnimator.INFINITE
-            addUpdateListener { animator -> glow.alpha = animator.animatedValue as Float }
             start()
         }
     }

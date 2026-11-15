@@ -16,8 +16,8 @@
     <string name="current_instance">Phiên bản hiện tại</string>
     <!-- Mods -->
     <string name="mods_title">(%d) Mod</string>
-    <string name="mods_section_title">Các Bản Mod</string>
-    <string name="external_mods_label">Mods bên ngoài</string>
+    <string name="mods_section_title">OblivionMod</string>
+    <string name="external_mods_label">OblivionMod Catalog</string>
     <string name="inbuilt_mods_label">Mods có sẵn</string>
     <string name="manage_mods">Quản lý Mods</string>
     <string name="no_mods_found">Không tìm thấy Mods</string>
@@ -436,7 +436,7 @@
     <string name="external_mods_load_failed">Không thể làm mới danh mục. Đang hiển thị bản đã lưu.</string>
     <string name="external_mods_refresh">Làm mới danh mục</string>
     <string name="external_mods_refreshed">Đã làm mới danh mục</string>
-    <string name="external_mods_join_discord">Tham gia Discord cộng đồng</string>
+    <string name="external_mods_join_discord">Join Oblivion Discord</string>
     <string name="external_mods_discord_open_failed">Không có ứng dụng nào có thể mở lời mời Discord</string>
     <string name="external_mods_download">Đang tải %1$s</string>
     <string name="external_mods_choose_download">Chọn bản tải xuống</string>
@@ -993,16 +993,16 @@
     <string name="about_author_name">DreamGuXiang</string>
     <string name="about_author_badge">Tác giả</string>
     <string name="about_author_role">Tác giả LeviLauncher Modder</string>
-    <string name="about_modder_name">M4Lych</string>
+    <string name="about_modder_name">sang765</string>
     <string name="about_modder_badge">Modder</string>
-    <string name="about_modder_role">Oblivion Team · Modder</string>
-    <string name="about_modder_github">GitHub · M4Lych</string>
+    <string name="about_modder_role">Modder Version bởi sang765</string>
+    <string name="about_modder_github">sang765 Github</string>
     <string name="about_contributors_title">👥 Cộng tác viên</string>
     <string name="about_contributor_commits">%d commit</string>
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Mã nguồn &amp; Mã nguồn mở</string>
-    <string name="about_github_repo">GitHub · LeviDroid-Modder</string>
+    <string name="about_github_repo">GitHub · Oblivion</string>
     <string name="about_github_org">sang765</string>
     <string name="about_license_note">Xem file LICENSE trong kho lưu trữ để biết chi tiết về giấy phép.</string>
     <string name="about_contribute_title">Đóng góp</string>
@@ -1196,7 +1196,7 @@
     <string name="abi_warning_message">Bạn đang sử dụng thiết bị arm64-v8a. Việc chạy bản armeabi-v7a của %1$s có thể mang đến trải nghiệm không ổn định. Bạn có muốn sử dụng phiên bản arm64-v8a của %1$s chứ?</string>
     <string name="abi_warning_download">Tải bản arm64-v8a</string>
     <string name="abi_warning_stay">Không sợ</string>
-    <string name="news_title">Tin tức launcher</string>
+    <string name="news_title">Oblivion News</string>
     <string name="news_subtitle">Cập nhật, thông báo và các lưu ý quan trọng từ đội ngũ Oblivion.</string>
     <string name="news_enable_notifications">Bật thông báo</string>
     <string name="news_refresh">Làm mới tin tức</string>

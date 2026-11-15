@@ -8,6 +8,8 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
+import org.levimc.launcher.BuildConfig;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,7 +32,7 @@ public final class NewsRepository {
         void onResult(NewsFeed feed, Throwable error);
     }
 
-    public static final String REMOTE_URL = "https://raw.githubusercontent.com/M4Lych/OblivionNew/Modder/resources/launcher/news.json";
+    public static final String REMOTE_URL = BuildConfig.OBLIVION_NEWS_URL;
     private static final String ASSET_PATH = "launcher/news.json";
     private static final String CACHE_FILE = "launcher_news.json";
     private static final String PREFS = "launcher_news_repository";
@@ -65,6 +67,10 @@ public final class NewsRepository {
 
     public static void refresh(Context context, Callback callback) {
         Context appContext = context.getApplicationContext();
+        if (TextUtils.isEmpty(REMOTE_URL)) {
+            loadCached(appContext, callback);
+            return;
+        }
         synchronized (REFRESH_LOCK) {
             if (callback != null) REFRESH_CALLBACKS.add(callback);
             if (refreshing) return;

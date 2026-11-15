@@ -15,8 +15,8 @@
     <string name="current_instance">Instans Saat Ini</string>
     <!-- Mods -->
     <string name="mods_title">Mods (%d)</string>
-    <string name="mods_section_title">Mods</string>
-    <string name="external_mods_label">Mods Eksternal</string>
+    <string name="mods_section_title">OblivionMod</string>
+    <string name="external_mods_label">OblivionMod Catalog</string>
     <string name="inbuilt_mods_label">Mods Bawaan</string>
     <string name="manage_mods">Kelola Mods</string>
     <string name="no_mods_found">Tidak Ada Mods Yang ditemukan</string>
@@ -379,7 +379,7 @@
     <string name="external_mods_load_failed">Tidak dapat menyegarkan katalog. Menampilkan salinan yang tersimpan.</string>
     <string name="external_mods_refresh">Segarkan katalog</string>
     <string name="external_mods_refreshed">Katalog disegarkan</string>
-    <string name="external_mods_join_discord">Gabung Discord Komunitas</string>
+    <string name="external_mods_join_discord">Join Oblivion Discord</string>
     <string name="external_mods_discord_open_failed">Tidak ada aplikasi yang dapat membuka undangan Discord</string>
     <string name="external_mods_download">Mengunduh %1$s</string>
     <string name="external_mods_choose_download">Pilih unduhan</string>
@@ -816,7 +816,7 @@
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Kode Sumber &amp; Open Source</string>
-    <string name="about_github_repo">GitHub · LeviDroid-Modder</string>
+    <string name="about_github_repo">GitHub · Oblivion</string>
     <string name="about_github_org">sang765</string>
     <string name="about_license_note">Lihat LICENSE di repositori untuk detail lisensi.</string>
     <string name="about_contribute_title">Berkontribusi</string>
@@ -973,7 +973,7 @@
     <string name="changelog_title">Yang baru</string>
     <string name="changelog_version">Oblivion %1$s</string>
     <string name="changelog_continue">Lanjutkan</string>
-    <string name="news_title">Berita launcher</string>
+    <string name="news_title">Oblivion News</string>
     <string name="news_subtitle">Pembaruan, pengumuman, dan pemberitahuan penting dari tim Oblivion.</string>
     <string name="news_enable_notifications">Aktifkan notifikasi</string>
     <string name="news_refresh">Segarkan berita</string>

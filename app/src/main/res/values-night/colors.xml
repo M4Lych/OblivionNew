@@ -1,57 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#8D6BE0</color>
-    <color name="on_primary">#FFFFFF</color>
-
-    <color name="secondary">#C6A56A</color>
-    <color name="on_secondary">#17121D</color>
-
-    <color name="primary_container">#342747</color>
-    <color name="on_primary_container">#E9DDFB</color>
-
-    <color name="tertiary">#B28BCB</color>
-    <color name="on_tertiary">#17121D</color>
-    <color name="external_mod_ad">#FFB74D</color>
-
-    <color name="error">#F87171</color>
-    <color name="on_error">#000000</color>
-
-    <!-- Material 3 default dark neutral scheme -->
-    <color name="background">#100E16</color>
-    <color name="surface">#1A1721</color>
-    <color name="surface_variant">#282330</color>
-    <color name="on_background">#F1ECF5</color>
-    <color name="on_surface">#F1ECF5</color>
-
-    <color name="outline">#655A70</color>
-    <color name="divider">#393240</color>
-
+    <color name="primary">#B59ACD</color>
+    <color name="on_primary">#241B2D</color>
+    <color name="secondary">#B9A5C9</color>
+    <color name="on_secondary">#241B2D</color>
+    <color name="primary_container">#392C47</color>
+    <color name="on_primary_container">#E6D9F0</color>
+    <color name="tertiary">#C99BAF</color>
+    <color name="on_tertiary">#2A1B25</color>
+    <color name="external_mod_ad">#E3A879</color>
+    <color name="error">#F08A9B</color>
+    <color name="on_error">#2A1018</color>
+    <color name="background">#100D15</color>
+    <color name="surface">#191520</color>
+    <color name="surface_variant">#292231</color>
+    <color name="on_background">#EEE8F2</color>
+    <color name="on_surface">#EEE8F2</color>
+    <color name="on_surface_variant">#D2C5DD</color>
+    <color name="outline">#65586F</color>
+    <color name="divider">#342B3D</color>
     <color name="white">#FFFFFF</color>
-    <color name="scrim">#99000000</color>
-
-    <color name="glow_green">#C6A56A</color>
-    <color name="glow_cyan">#9B7BC6</color>
-
-    <color name="abi_label_text">#E6E0E9</color>
-    <color name="accent_text">#D5B9F4</color>
-
-    <color name="text_primary">#F1ECF5</color>
-    <color name="text_secondary">#B7ACBE</color>
-    <color name="qa_icon_color">#F1ECF5</color>
-
-    <color name="ui_chrome">#17131D</color>
-    <color name="ui_default">#292330</color>
-    <color name="ui_segment">#30283A</color>
-    <color name="ui_border">#4A4052</color>
-    <color name="ui_input">#211C28</color>
-    <color name="ui_strip">#211C28</color>
-    <color name="ui_muted">#AFA3B8</color>
-    <color name="ui_heading">#D2B5EF</color>
-    <color name="ui_card_surface">#1D1825</color>
-    <color name="ui_card_stroke">#3D3348</color>
-    <color name="ui_inner_card_stroke">#342B3D</color>
-    <color name="ui_danger">#F87171</color>
-    <color name="ui_danger_soft">#3A1D2A</color>
-    <color name="ui_warning_soft">#382B18</color>
-    <color name="ui_warning">#D4AD68</color>
+    <color name="scrim">#CC08060D</color>
+    <color name="glow_green">#9D83B7</color>
+    <color name="glow_cyan">#A48FAF</color>
+    <color name="abi_label_text">#EEE8F2</color>
+    <color name="accent_text">#C4A9DC</color>
+    <color name="text_primary">#EEE8F2</color>
+    <color name="text_secondary">#BDB2C8</color>
+    <color name="qa_icon_color">#EEE8F2</color>
+    <color name="ui_chrome">@color/surface</color>
+    <color name="ui_default">#211B2B</color>
+    <color name="ui_segment">@color/primary</color>
+    <color name="ui_border">@color/outline</color>
+    <color name="ui_input">@color/surface_variant</color>
+    <color name="ui_strip">@color/surface</color>
+    <color name="ui_muted">#B2A7BD</color>
+    <color name="ui_heading">#C4A9DC</color>
+    <color name="ui_card_surface">@color/surface</color>
+    <color name="ui_card_stroke">#25FFFFFF</color>
+    <color name="ui_inner_card_stroke">@color/surface_variant</color>
+    <color name="ui_danger">#F08A9B</color>
+    <color name="ui_danger_soft">#40202B</color>
+    <color name="ui_warning_soft">#382A1A</color>
+    <color name="ui_warning">#E6B978</color>
+    <color name="oblivion_profile_surface">#211A2B</color>
+    <color name="oblivion_profile_stroke">#51425F</color>
 </resources>
