@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 
 import org.levimc.launcher.R;
-import org.levimc.launcher.BuildConfig;
 import org.levimc.launcher.core.modcatalog.ModCatalog;
 import org.levimc.launcher.core.modcatalog.ModCatalogInstaller;
 import org.levimc.launcher.core.modcatalog.ModCatalogRepository;
@@ -48,6 +47,7 @@ import java.util.List;
 import java.util.Locale;
 
 public final class ExternalModsActivity extends BaseActivity {
+    private static final String COMMUNITY_DISCORD_URL = "https://discord.gg/rMgdpTFFVg";
     private final List<ModCatalog.CatalogMod> allMods = new ArrayList<>();
     private ExternalModsAdapter adapter;
     private RecyclerView recycler;
@@ -145,7 +145,6 @@ public final class ExternalModsActivity extends BaseActivity {
     }
 
     private void setupControls() {
-        discord.setVisibility(TextUtils.isEmpty(BuildConfig.DISCORD_SERVER_INVITE) ? View.GONE : View.VISIBLE);
         discord.setOnClickListener(v -> openCommunityDiscord());
         refresh.setOnClickListener(v -> refreshCatalog(true));
         DynamicAnim.applyPressScale(discord);
@@ -159,7 +158,7 @@ public final class ExternalModsActivity extends BaseActivity {
 
     private void openCommunityDiscord() {
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.DISCORD_SERVER_INVITE)));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(COMMUNITY_DISCORD_URL)));
         } catch (ActivityNotFoundException error) {
             Toast.makeText(this, R.string.external_mods_discord_open_failed, Toast.LENGTH_SHORT).show();
         }
@@ -218,7 +217,7 @@ public final class ExternalModsActivity extends BaseActivity {
             progress.setVisibility(View.GONE);
             refreshFailed = error != null;
             renderCatalog(catalog);
-            if (userRequested && error == null && !TextUtils.isEmpty(BuildConfig.OBLIVION_MOD_CATALOG_URL)) {
+            if (userRequested && error == null) {
                 Toast.makeText(this, R.string.external_mods_refreshed, Toast.LENGTH_SHORT).show();
             }
         });
@@ -380,10 +379,7 @@ public final class ExternalModsActivity extends BaseActivity {
     }
 
     private void updateStatus() {
-        if (TextUtils.isEmpty(BuildConfig.OBLIVION_MOD_CATALOG_URL)) {
-            status.setText(R.string.oblivion_mod_catalog_not_configured);
-            status.setVisibility(View.VISIBLE);
-        } else if (minecraftVersion.isEmpty()) {
+        if (minecraftVersion.isEmpty()) {
             status.setText(R.string.external_mods_no_version);
             status.setVisibility(View.VISIBLE);
         } else if (refreshFailed) {

@@ -15,8 +15,8 @@
     <string name="current_instance">Instância Atual</string>
     <!-- Mods -->
     <string name="mods_title">Mods (%d)</string>
-    <string name="mods_section_title">OblivionMod</string>
-    <string name="external_mods_label">OblivionMod Catalog</string>
+    <string name="mods_section_title">Mods</string>
+    <string name="external_mods_label">Mods Externos</string>
     <string name="inbuilt_mods_label">Mods Integrados</string>
     <string name="manage_mods">Gerenciar Mods</string>
     <string name="no_mods_found">Nenhum Mod Encontrado</string>
@@ -379,7 +379,7 @@
     <string name="external_mods_load_failed">Não foi possível atualizar o catálogo. Exibindo a cópia salva.</string>
     <string name="external_mods_refresh">Atualizar catálogo</string>
     <string name="external_mods_refreshed">Catálogo atualizado</string>
-    <string name="external_mods_join_discord">Join Oblivion Discord</string>
+    <string name="external_mods_join_discord">Entrar no Discord da comunidade</string>
     <string name="external_mods_discord_open_failed">Nenhum aplicativo pode abrir o convite do Discord</string>
     <string name="external_mods_download">Baixando %1$s</string>
     <string name="external_mods_choose_download">Escolher download</string>
@@ -816,7 +816,7 @@
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Código Fonte e Open Source</string>
-    <string name="about_github_repo">GitHub · Oblivion</string>
+    <string name="about_github_repo">GitHub · LeviDroid-Modder</string>
     <string name="about_github_org">sang765</string>
     <string name="about_license_note">Veja LICENSE no repositório para detalhes.</string>
     <string name="about_contribute_title">Contribuir</string>
@@ -973,7 +973,7 @@
     <string name="changelog_title">Novidades</string>
     <string name="changelog_version">Oblivion %1$s</string>
     <string name="changelog_continue">Continuar</string>
-    <string name="news_title">Oblivion News</string>
+    <string name="news_title">OblivionNews</string>
     <string name="news_subtitle">Atualizações, anúncios e avisos importantes da equipe do Oblivion.</string>
     <string name="news_enable_notifications">Ativar notificações</string>
     <string name="news_refresh">Atualizar notícias</string>

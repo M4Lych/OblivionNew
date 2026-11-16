@@ -180,8 +180,8 @@
 
     <!-- Developer guide -->
     <string name="pkg_guide_open">Hướng dẫn cho nhà phát triển</string>
-    <string name="pkg_guide_title">Hướng dẫn nhà phát triển LeviMC Mods</string>
-    <string name="pkg_guide_description">Nếu bạn muốn mod của mình xuất hiện trên trang LeviMC Mods, hãy phát hành nó kèm tệp lip.toml như mô tả trong tài liệu.</string>
+    <string name="pkg_guide_title">Hướng dẫn nhà phát triển OblivionMod</string>
+    <string name="pkg_guide_description">Nếu bạn muốn mod của mình xuất hiện trên trang OblivionMod, hãy phát hành nó kèm tệp lip.toml như mô tả trong tài liệu.</string>
     <string name="pkg_guide_manifest_hint">Hộp thoại này chỉ là phần tổng quan nhanh dành cho nhà phát triển. Tên trường, các mục bắt buộc, ví dụ và quy tắc kiểm tra được định nghĩa trong tài liệu chính thức.</string>
     <string name="pkg_guide_variant_hint">Launcher chỉ liệt kê một gói khi phiên bản mới nhất trong lip.toml của gói có một mục chạy ở phía client trên nền tảng của thiết bị này: side = \"client\" và platform = \"android-arm64\". Gói có tất cả các mục client dành cho nền tảng khác (chẳng hạn \"win-x64\") sẽ không được liệt kê. Launcher ưu tiên cài biến thể có tên \"client\", sau đó là biến thể mặc định \"\", rồi đến các biến thể khác theo thứ tự bảng chữ cái.</string>
     <string name="pkg_guide_android_hint">Các phiên bản cũ hơn cũng tuân theo quy tắc này: một phiên bản chỉ có thể cài đặt khi lip.toml của nó có mục client cho nền tảng của thiết bị này. Không thể cài đặt các mục dành cho nền tảng khác tại đây.</string>

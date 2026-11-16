@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="oblivion_hub">Hub Oblivion</string>
+    <string name="oblivion_start_game">Avvia il gioco</string>
+    <string name="oblivion_change">Cambia</string>
+    <string name="oblivion_switch_skin">Cambia skin</string>
+    <string name="oblivion_dashboard">Dashboard</string>
+    <string name="oblivion_skin_changer">Cambia skin</string>
+    <string name="oblivion_cosmetics">Cosmetici</string>
+    <string name="oblivion_skin_pick">Scegli skin (PNG)</string>
+    <string name="oblivion_skin_apply">Applica a Minecraft</string>
+    <string name="oblivion_skin_applied">Skin installata. Selezionala nello spogliatoio di Minecraft.</string>
+    <string name="oblivion_cosmetic_wear">Indossa</string>
+    <string name="oblivion_cosmetic_remove">Rimuovi</string>
+    <string name="oblivion_whats_new">Novità</string>
+    <string name="oblivion_account">Account</string>
+    <string name="oblivion_link_discord">Collega Discord</string>
+    <string name="oblivion_unlink">Scollega</string>
+    <string name="oblivion_refresh">Aggiorna</string>
+    <string name="oblivion_claim">Codice di riscatto</string>
+    <string name="oblivion_claim_hint">Inserisci il codice</string>
+    <string name="oblivion_claim_redeem">Riscatta</string>
+    <string name="oblivion_dlc_install">Installa tema</string>
+    <string name="oblivion_dlc_reset">Ripristina tema</string>
+    <string name="oblivion_client_settings">Impostazioni client</string>
+    <string name="oblivion_tools">Strumenti</string>
+    <string name="oblivion_onboarding_title">Benvenuto in Oblivion</string>
+    <string name="oblivion_step_of">Passo %1$d di %2$d</string>
+    <string name="oblivion_next">Avanti</string>
+    <string name="oblivion_accept">Accetta</string>
+    <string name="oblivion_skip">Salta</string>
+    <string name="oblivion_skip_all">Salta tutto</string>
+    <string name="oblivion_finish">Fine</string>
+    <string name="oblivion_rules_title">Regole e condizioni</string>
+    <string name="oblivion_rules_text">Oblivion è un launcher non ufficiale. Devi possedere Minecraft. Pirateria e cheat non sono consentiti. I mod si usano a proprio rischio.</string>
+    <string name="oblivion_license_title">Licenza</string>
+    <string name="oblivion_license_text">Oblivion è open source (Apache-2.0), basato su LeviLauncher di LiteLDev e LeviDroid-Modder di sang765.</string>
+    <string name="oblivion_modder_title">Modder di Oblivion</string>
+    <string name="oblivion_modder_text">Oblivion è sviluppato da %1$s.</string>
+    <string name="oblivion_community_title">Community</string>
+    <string name="oblivion_community_text">Unisciti al nostro server Discord e seguici sui social.</string>
+    <string name="oblivion_accounts_title">Account</string>
+    <string name="oblivion_accounts_text">Collega i tuoi account Microsoft e Discord, oppure salta e fallo più tardi.</string>
+    <string name="oblivion_connect_microsoft">Collega Microsoft</string>
+    <string name="oblivion_player_default">Giocatore</string>
+    <string name="oblivion_no_version">Nessuna versione selezionata</string>
+</resources>

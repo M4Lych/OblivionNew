@@ -182,7 +182,7 @@
     <!-- Developer guide -->
     <string name="pkg_guide_open">Geliştirici Kılavuzu</string>
     <string name="pkg_guide_title">LeviMC Modları Geliştirici Kılavuzu</string>
-    <string name="pkg_guide_description">Modunuzun LeviMC Mods sayfasında görünmesini istiyorsanız, belgelerde açıklandığı gibi bir lip.toml ile yayınlayın.</string>
+    <string name="pkg_guide_description">Modunuzun OblivionMod sayfasında görünmesini istiyorsanız, belgelerde açıklandığı gibi bir lip.toml ile yayınlayın.</string>
     <string name="pkg_guide_manifest_hint">Bu pencere yalnızca geliştiriciler için kısa bir özettir. Alan adları, zorunlu girdiler, örnekler ve doğrulama kuralları resmi belgelerde tanımlanmıştır.</string>
     <string name="pkg_guide_variant_hint">Başlatıcı bir paketi yalnızca lip.toml dosyasındaki en son sürümde bu cihazın platformunda istemci tarafında çalışan bir girdi varsa listeler: side = \"client\" ve platform = \"android-arm64\". İstemci girdilerinin tamamı başka platformlar (örneğin \"win-x64\") için olan paketler listelenmez. Başlatıcı önce \"client\" adlı varyantı, ardından varsayılan \"\" varyantını, sonra diğerlerini alfabetik sırayla yükler.</string>
     <string name="pkg_guide_android_hint">Eski sürümler de aynı kurala uyar: bir sürüm yalnızca lip.toml dosyasında bu cihazın platformu için bir istemci girdisi varsa yüklenebilir. Başka platformlara yönelik girdiler burada yüklenemez.</string>

@@ -17,17 +17,11 @@
     <string name="bedrock_edition">Bedrock Edition</string>
     <string name="bedrock_edition_bugrock">Bugrock Edition</string>
     <string name="current_instance">Current Instance</string>
-    <string name="oblivion_player_not_connected">Connect a Microsoft account</string>
-    <string name="oblivion_player_connect_microsoft">Tap to manage Microsoft accounts</string>
-    <string name="oblivion_player_microsoft_connected">Microsoft account connected</string>
-    <string name="oblivion_player_unknown">Minecraft Player</string>
-    <string name="oblivion_player_manage_skins">Manage Skins</string>
-    <string name="oblivion_player_avatar_description">Microsoft Xbox profile avatar</string>
 
     <!-- Mods -->
     <string name="mods_title">Mods (%d)</string>
-    <string name="mods_section_title">OblivionMod</string>
-    <string name="external_mods_label">OblivionMod Catalog</string>
+    <string name="mods_section_title">Mods</string>
+    <string name="external_mods_label">External Mods</string>
     <string name="inbuilt_mods_label">Inbuilt Mods</string>
     <string name="manage_mods">Manage Mods</string>
     <string name="no_mods_found">No Mods Found</string>
@@ -39,7 +33,7 @@
     <string name="about_title">☕ About</string>
     <string name="copyright">©2024–2026 LeviMC. All rights reserved.</string>
     <string name="font_license">This app uses the Misans font.</string>
-    <string name="about_footer_github" translatable="false">GitHub: https://github.com/M4Lych/Oblivion</string>
+    <string name="about_footer_github" translatable="false">GitHub: https://github.com/sang765/LeviDroid-Modder</string>
     <string name="quick_actions_title">Quick Actions</string>
     <string name="content_mgmt_section_title">Content Management</string>
     <string name="misc_section_title">Miscellaneous</string>
@@ -527,10 +521,9 @@
     <string name="add_mod">Add Mod</string>
     <string name="add_mod_from_device">Import from device</string>
     <string name="add_mod_from_device_desc">Pick a .so or .levipack file already on this device</string>
-    <string name="external_mods">OblivionMod Catalog</string>
-    <string name="external_mods_subtitle">Oblivion community mods for Minecraft %1$s</string>
+    <string name="external_mods">External Mods</string>
+    <string name="external_mods_subtitle">Community mods for Minecraft %1$s</string>
     <string name="external_mods_no_version">Select a Minecraft version before installing mods</string>
-    <string name="oblivion_mod_catalog_not_configured">OblivionMod catalog is not connected yet. Configure an HTTPS feed to publish mods.</string>
     <string name="external_mods_search_hint">Search mods, authors, or versions…</string>
     <string name="external_mods_compatible_only">Compatible only</string>
     <string name="external_mods_all_versions">All Minecraft versions</string>
@@ -540,7 +533,7 @@
     <string name="external_mods_load_failed">Could not refresh the catalog. Showing the saved copy.</string>
     <string name="external_mods_refresh">Refresh catalog</string>
     <string name="external_mods_refreshed">Catalog refreshed</string>
-    <string name="external_mods_join_discord">Join Oblivion Discord</string>
+    <string name="external_mods_join_discord">Join Community Discord</string>
     <string name="external_mods_discord_open_failed">No app can open the Discord invite</string>
     <string name="external_mods_download">Downloading %1$s</string>
     <string name="external_mods_choose_download">Choose download</string>
@@ -1143,16 +1136,12 @@
     <string name="about_modder_badge">Modder</string>
     <string name="about_modder_role">Modder Version by sang765</string>
     <string name="about_modder_github">GitHub · sang765</string>
-    <string name="about_oblivion_modder_name">M4Lych</string>
-    <string name="about_oblivion_modder_badge">Oblivion Modder</string>
-    <string name="about_oblivion_modder_role">Project owner and Oblivion client modder</string>
-    <string name="about_oblivion_modder_github">GitHub · M4Lych</string>
     <string name="about_contributors_title">👥 Contributors</string>
     <string name="about_contributor_commits">%d commits</string>
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Source Code &amp; Open Source</string>
-    <string name="about_github_repo">GitHub · Oblivion</string>
+    <string name="about_github_repo">GitHub · LeviDroid-Modder</string>
     <string name="about_github_org">sang765</string>
     <string name="about_license_note">See LICENSE in the repository for license details.</string>
     <string name="about_contribute_title">Contribute</string>
@@ -1358,7 +1347,7 @@
     <string name="abi_warning_message">You are using an arm64-v8a device. Running the armeabi-v7a build of %1$s may be unstable. Do you want to get the arm64-v8a build of %1$s instead?</string>
     <string name="abi_warning_download">Download arm64-v8a build</string>
     <string name="abi_warning_stay">I\'m not scared</string>
-    <string name="news_title">Oblivion News</string>
+    <string name="news_title">OblivionNews</string>
     <string name="news_subtitle">Updates, announcements, and important notices from the Oblivion team.</string>
     <string name="news_enable_notifications">Enable notifications</string>
     <string name="news_refresh">Refresh news</string>

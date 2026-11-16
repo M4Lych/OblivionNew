@@ -30,7 +30,7 @@ public class LanguageManager {
 
     public static String getSavedLanguage(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        String savedTag = prefs.getString(LANGUAGE_KEY, Locale.getDefault().toLanguageTag());
+        String savedTag = prefs.getString(LANGUAGE_KEY, "en");
         String tag = normalizeLanguageTag(savedTag);
         if (!tag.equals(savedTag)) {
             prefs.edit().putString(LANGUAGE_KEY, tag).apply();

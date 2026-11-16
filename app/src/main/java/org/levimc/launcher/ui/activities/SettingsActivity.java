@@ -47,7 +47,6 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import org.levimc.launcher.R;
-import org.levimc.launcher.BuildConfig;
 import org.levimc.launcher.core.ai.AiCrashAnalyzer;
 import org.levimc.launcher.core.crash.CrashReporter;
 import org.levimc.launcher.core.discord.DiscordRpcManager;
@@ -488,35 +487,9 @@ public class SettingsActivity extends BaseActivity {
         LanguageManager languageManager = new LanguageManager(this);
         FeatureSettings fs = FeatureSettings.getInstance();
 
-        String[] languageOptions = {
-                getString(R.string.english),
-                getString(R.string.chinese),
-                getString(R.string.french),
-                getString(R.string.hindi),
-                getString(R.string.indonesian),
-                getString(R.string.japanese),
-                getString(R.string.portuguese),
-                getString(R.string.russian),
-                getString(R.string.spanish),
-                getString(R.string.turkish),
-                getString(R.string.vietnamese)
-        };
-        String[] languageCodes = {"en", "zh-CN", "fr", "hi", "id", "ja", "pt", "ru", "es", "tr", "vi"};
-
-        String currentCode = Locale.forLanguageTag(languageManager.getCurrentLanguage()).getLanguage();
-        int defaultIdx = switch (currentCode) {
-            case "zh" -> 1;
-            case "fr" -> 2;
-            case "hi" -> 3;
-            case "id", "in" -> 4;
-            case "ja" -> 5;
-            case "pt" -> 6;
-            case "ru" -> 7;
-            case "es" -> 8;
-            case "tr" -> 9;
-            case "vi" -> 10;
-            default -> 0;
-        };
+        String[] languageOptions = org.levimc.launcher.oblivion.OblivionLanguages.NAMES;
+        String[] languageCodes = org.levimc.launcher.oblivion.OblivionLanguages.CODES;
+        int defaultIdx = org.levimc.launcher.oblivion.OblivionLanguages.indexOf(languageManager.getCurrentLanguage());
 
         TextView languageCurrent = findViewById(R.id.language_current);
         languageCurrent.setText(languageOptions[defaultIdx]);
@@ -1623,16 +1596,10 @@ public class SettingsActivity extends BaseActivity {
 
     private void setupAboutSection() {
         findViewById(R.id.settings_btn_github).setOnClickListener(v ->
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/M4Lych/Oblivion"))));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/LiteLDev/LeviLauncher-Android"))));
 
-        View discordButton = findViewById(R.id.settings_btn_discord);
-        if (BuildConfig.DISCORD_SERVER_INVITE.isEmpty()) {
-            discordButton.setEnabled(false);
-            discordButton.setAlpha(0.55f);
-        } else {
-            discordButton.setOnClickListener(v ->
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.DISCORD_SERVER_INVITE))));
-        }
+        findViewById(R.id.settings_btn_discord).setOnClickListener(v ->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/jsnzw4ueAt"))));
     }
 
     private void handleUpdateButtonClick() {
@@ -1649,7 +1616,11 @@ public class SettingsActivity extends BaseActivity {
             updateButtonTapCount = 0;
             triggerEasterEgg();
         } else {
-            new GithubReleaseUpdater(this, "M4Lych", "Oblivion", permissionResultLauncher).checkUpdate();
+            String updOwner = getString(R.string.oblivion_update_owner).trim();
+            String updRepo = getString(R.string.oblivion_update_repo).trim();
+            if (!updOwner.isEmpty() && !updRepo.isEmpty()) {
+                new GithubReleaseUpdater(this, updOwner, updRepo, permissionResultLauncher).checkUpdate();
+            }
         }
     }
 

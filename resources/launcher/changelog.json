@@ -1,26 +1,42 @@
 {
   "schemaVersion": 1,
-  "headline": "Oblivion Milestone 1",
-  "summary": "The first Oblivion-focused update adds the OblivionMod and Oblivion News feed configuration, an updated Ave Mujica-inspired palette, and an Xbox profile panel on the home screen.",
+  "headline": "Oblivion 1.0 — built on LeviLauncher and LeviDroid-Modder",
+  "summary": "A new look and a new community layer: Dungeons-style start screen, Skin Changer, Cosmetics, claim codes, OblivionDLC themes and 20 languages.",
   "sections": [
     {
-      "title": "Changes",
+      "title": "New",
       "items": [
         {
-          "text": "Added the Oblivion Modder credit and updated the project repository links.",
-          "url": "https://github.com/M4Lych/Oblivion"
+          "text": "Dungeons-style start screen with your gamertag and the skin you are wearing. START GAME uses the normal launch path."
         },
         {
-          "text": "Added the active Microsoft gamertag and Xbox profile avatar to the launcher home screen, with a shortcut to the existing skin-pack manager.",
-          "url": ""
+          "text": "Skin Changer: pick a PNG skin and install it as a skin pack for the selected Minecraft version."
         },
         {
-          "text": "Moved the news and mod catalog endpoints to optional Oblivion-owned configuration. Empty endpoints use the bundled data.",
-          "url": ""
+          "text": "Oblivion Cosmetics: masks, crowns, coats and capes, unlocked by Discord role, Oblivion+ membership or claim codes."
         },
         {
-          "text": "Applied a charcoal, muted lavender, and plum visual palette inspired by Ave Mujica.",
-          "url": ""
+          "text": "Link Discord to get your Oblivion role (Oblivion, Admin, Staff, Creator, Partner, Oblivion+, Member, New Commer)."
+        },
+        {
+          "text": "Claim codes for events, giveaways and mods. Each code works once; protected files stay encrypted inside Oblivion."
+        },
+        {
+          "text": "OblivionDLC: install custom UI themes made by the developer."
+        },
+        {
+          "text": "First-run wizard: language, rules, license, Oblivion Modder, community, Microsoft and Discord (all skippable)."
+        },
+        {
+          "text": "20 languages and a loading screen with a custom video or animated background."
+        }
+      ]
+    },
+    {
+      "title": "Renamed",
+      "items": [
+        {
+          "text": "LeviMC mods are now OblivionMod and the launcher news is now OblivionNews."
         }
       ]
     }

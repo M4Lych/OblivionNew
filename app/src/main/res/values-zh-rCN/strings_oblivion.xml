@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="oblivion_hub">Oblivion 中心</string>
+    <string name="oblivion_start_game">开始游戏</string>
+    <string name="oblivion_change">更换</string>
+    <string name="oblivion_switch_skin">更换皮肤</string>
+    <string name="oblivion_dashboard">控制台</string>
+    <string name="oblivion_skin_changer">皮肤更换器</string>
+    <string name="oblivion_cosmetics">装饰品</string>
+    <string name="oblivion_skin_pick">选择皮肤（PNG）</string>
+    <string name="oblivion_skin_apply">应用到 Minecraft</string>
+    <string name="oblivion_skin_applied">皮肤已安装。请在 Minecraft 的更衣室中选择。</string>
+    <string name="oblivion_cosmetic_wear">穿戴</string>
+    <string name="oblivion_cosmetic_remove">移除</string>
+    <string name="oblivion_whats_new">更新内容</string>
+    <string name="oblivion_account">账号</string>
+    <string name="oblivion_link_discord">绑定 Discord</string>
+    <string name="oblivion_unlink">解除绑定</string>
+    <string name="oblivion_refresh">刷新</string>
+    <string name="oblivion_claim">兑换码</string>
+    <string name="oblivion_claim_hint">输入兑换码</string>
+    <string name="oblivion_claim_redeem">兑换</string>
+    <string name="oblivion_dlc_install">安装主题</string>
+    <string name="oblivion_dlc_reset">重置主题</string>
+    <string name="oblivion_client_settings">客户端设置</string>
+    <string name="oblivion_tools">工具</string>
+    <string name="oblivion_onboarding_title">欢迎使用 Oblivion</string>
+    <string name="oblivion_step_of">第 %1$d 步，共 %2$d 步</string>
+    <string name="oblivion_next">下一步</string>
+    <string name="oblivion_accept">同意</string>
+    <string name="oblivion_skip">跳过</string>
+    <string name="oblivion_skip_all">全部跳过</string>
+    <string name="oblivion_finish">完成</string>
+    <string name="oblivion_rules_title">规则与条款</string>
+    <string name="oblivion_rules_text">Oblivion 是非官方启动器。你必须拥有正版 Minecraft。禁止盗版和作弊。使用模组风险自负。</string>
+    <string name="oblivion_license_title">许可证</string>
+    <string name="oblivion_license_text">Oblivion 是开源软件（Apache-2.0），基于 LiteLDev 的 LeviLauncher 和 sang765 的 LeviDroid-Modder 构建。</string>
+    <string name="oblivion_modder_title">Oblivion 开发者</string>
+    <string name="oblivion_modder_text">Oblivion 由 %1$s 开发。</string>
+    <string name="oblivion_community_title">社区</string>
+    <string name="oblivion_community_text">加入我们的 Discord 服务器并关注我们的社交媒体。</string>
+    <string name="oblivion_accounts_title">账号</string>
+    <string name="oblivion_accounts_text">连接你的 Microsoft 和 Discord 账号，或跳过稍后再设置。</string>
+    <string name="oblivion_connect_microsoft">连接 Microsoft</string>
+    <string name="oblivion_player_default">玩家</string>
+    <string name="oblivion_no_version">未选择版本</string>
+</resources>

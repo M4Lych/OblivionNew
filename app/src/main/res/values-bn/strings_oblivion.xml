@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="oblivion_hub">Oblivion হাব</string>
+    <string name="oblivion_start_game">গেম শুরু করুন</string>
+    <string name="oblivion_change">পরিবর্তন</string>
+    <string name="oblivion_switch_skin">স্কিন বদলান</string>
+    <string name="oblivion_dashboard">ড্যাশবোর্ড</string>
+    <string name="oblivion_skin_changer">স্কিন চেঞ্জার</string>
+    <string name="oblivion_cosmetics">কসমেটিকস</string>
+    <string name="oblivion_skin_pick">স্কিন বেছে নিন (PNG)</string>
+    <string name="oblivion_skin_apply">Minecraft-এ প্রয়োগ করুন</string>
+    <string name="oblivion_skin_applied">স্কিন ইনস্টল হয়েছে। Minecraft-এর ড্রেসিং রুমে এটি নির্বাচন করুন।</string>
+    <string name="oblivion_cosmetic_wear">পরুন</string>
+    <string name="oblivion_cosmetic_remove">সরান</string>
+    <string name="oblivion_whats_new">নতুন কী</string>
+    <string name="oblivion_account">অ্যাকাউন্ট</string>
+    <string name="oblivion_link_discord">Discord লিঙ্ক করুন</string>
+    <string name="oblivion_unlink">আনলিঙ্ক</string>
+    <string name="oblivion_refresh">রিফ্রেশ</string>
+    <string name="oblivion_claim">ক্লেইম কোড</string>
+    <string name="oblivion_claim_hint">কোড লিখুন</string>
+    <string name="oblivion_claim_redeem">রিডিম করুন</string>
+    <string name="oblivion_dlc_install">থিম ইনস্টল করুন</string>
+    <string name="oblivion_dlc_reset">থিম রিসেট করুন</string>
+    <string name="oblivion_client_settings">ক্লায়েন্ট সেটিংস</string>
+    <string name="oblivion_tools">টুলস</string>
+    <string name="oblivion_onboarding_title">Oblivion-এ স্বাগতম</string>
+    <string name="oblivion_step_of">ধাপ %1$d / %2$d</string>
+    <string name="oblivion_next">পরবর্তী</string>
+    <string name="oblivion_accept">গ্রহণ করুন</string>
+    <string name="oblivion_skip">এড়িয়ে যান</string>
+    <string name="oblivion_skip_all">সব এড়িয়ে যান</string>
+    <string name="oblivion_finish">শেষ</string>
+    <string name="oblivion_rules_title">নিয়ম ও শর্তাবলি</string>
+    <string name="oblivion_rules_text">Oblivion একটি অনানুষ্ঠানিক লঞ্চার। আপনার Minecraft থাকতে হবে। পাইরেসি ও চিটিং নিষিদ্ধ। মড ব্যবহারের ঝুঁকি আপনার নিজের।</string>
+    <string name="oblivion_license_title">লাইসেন্স</string>
+    <string name="oblivion_license_text">Oblivion ওপেন সোর্স (Apache-2.0) এবং LiteLDev-এর LeviLauncher ও sang765-এর LeviDroid-Modder-এর ওপর ভিত্তি করে তৈরি।</string>
+    <string name="oblivion_modder_title">Oblivion মডার</string>
+    <string name="oblivion_modder_text">Oblivion তৈরি করেছেন %1$s।</string>
+    <string name="oblivion_community_title">কমিউনিটি</string>
+    <string name="oblivion_community_text">আমাদের Discord সার্ভারে যোগ দিন এবং সোশ্যাল মিডিয়ায় আমাদের ফলো করুন।</string>
+    <string name="oblivion_accounts_title">অ্যাকাউন্টসমূহ</string>
+    <string name="oblivion_accounts_text">আপনার Microsoft ও Discord অ্যাকাউন্ট যুক্ত করুন, অথবা এড়িয়ে পরে করুন।</string>
+    <string name="oblivion_connect_microsoft">Microsoft যুক্ত করুন</string>
+    <string name="oblivion_player_default">খেলোয়াড়</string>
+    <string name="oblivion_no_version">কোনো সংস্করণ নির্বাচিত নয়</string>
+</resources>

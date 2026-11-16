@@ -181,7 +181,7 @@
     <!-- Developer guide -->
     <string name="pkg_guide_open">開発者ガイド</string>
     <string name="pkg_guide_title">LeviMC モッド開発者ガイド</string>
-    <string name="pkg_guide_description">自分の Mod を LeviMC Mods ページに掲載したい場合は、ドキュメントに従って lip.toml を用意して公開してください。</string>
+    <string name="pkg_guide_description">自分の Mod を OblivionMod ページに掲載したい場合は、ドキュメントに従って lip.toml を用意して公開してください。</string>
     <string name="pkg_guide_manifest_hint">このダイアログは開発者向けの簡単な概要です。フィールド名、必須項目、例、検証ルールは公式ドキュメントで定義されています。</string>
     <string name="pkg_guide_variant_hint">ランチャーがパッケージを掲載するのは、lip.toml の最新バージョンに、このデバイスのプラットフォームのクライアントで動作するエントリー (side = \"client\" かつ platform = \"android-arm64\") がある場合のみです。クライアント向けエントリーがすべて他のプラットフォーム (\"win-x64\" など) 向けのパッケージは掲載されません。ランチャーは \"client\" という名前のバリアントを優先してインストールし、次にデフォルトのバリアント \"\"、その後は他のバリアントをアルファベット順にインストールします。</string>
     <string name="pkg_guide_android_hint">旧バージョンにも同じルールが適用されます: lip.toml にこのデバイスのプラットフォーム向けのクライアントエントリーがあるバージョンのみインストールできます。他のプラットフォーム向けのエントリーはここではインストールできません。</string>

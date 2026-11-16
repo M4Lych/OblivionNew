@@ -1,0 +1,47 @@
+{
+  "cosmetics": [
+    {
+      "id": "mask_black",
+      "name": "Masquerade Mask",
+      "description": "A black masquerade mask with gold trim.",
+      "type": "overlay",
+      "asset": "cosmetics/mask.png"
+    },
+    {
+      "id": "crown_gold",
+      "name": "Oblivion Crown",
+      "description": "Gold crown for Oblivion staff.",
+      "type": "overlay",
+      "asset": "cosmetics/crown.png",
+      "roles": [
+        "staff"
+      ]
+    },
+    {
+      "id": "coat_masquerade",
+      "name": "Masquerade Coat",
+      "description": "For Creators and Partners.",
+      "type": "overlay",
+      "asset": "cosmetics/coat.png",
+      "roles": [
+        "partner"
+      ]
+    },
+    {
+      "id": "cape_crimson",
+      "name": "Crimson Cape",
+      "description": "Exclusive to Oblivion+ members.",
+      "type": "cape",
+      "asset": "cosmetics/cape_crimson.png",
+      "membership": true
+    },
+    {
+      "id": "mask_gold",
+      "name": "Golden Mask",
+      "description": "Unlock with a claim code.",
+      "type": "overlay",
+      "asset": "cosmetics/gold_mask.png",
+      "claim": true
+    }
+  ]
+}

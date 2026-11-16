@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="oblivion_hub">Oblivion Merkezi</string>
+    <string name="oblivion_start_game">Oyunu başlat</string>
+    <string name="oblivion_change">Değiştir</string>
+    <string name="oblivion_switch_skin">Skin değiştir</string>
+    <string name="oblivion_dashboard">Panel</string>
+    <string name="oblivion_skin_changer">Skin değiştirici</string>
+    <string name="oblivion_cosmetics">Kozmetikler</string>
+    <string name="oblivion_skin_pick">Skin seç (PNG)</string>
+    <string name="oblivion_skin_apply">Minecraft\'a uygula</string>
+    <string name="oblivion_skin_applied">Skin yüklendi. Minecraft\'taki soyunma odasından seç.</string>
+    <string name="oblivion_cosmetic_wear">Kuşan</string>
+    <string name="oblivion_cosmetic_remove">Çıkar</string>
+    <string name="oblivion_whats_new">Yenilikler</string>
+    <string name="oblivion_account">Hesap</string>
+    <string name="oblivion_link_discord">Discord\'u bağla</string>
+    <string name="oblivion_unlink">Bağlantıyı kaldır</string>
+    <string name="oblivion_refresh">Yenile</string>
+    <string name="oblivion_claim">Hediye kodu</string>
+    <string name="oblivion_claim_hint">Kodu gir</string>
+    <string name="oblivion_claim_redeem">Kullan</string>
+    <string name="oblivion_dlc_install">Tema yükle</string>
+    <string name="oblivion_dlc_reset">Temayı sıfırla</string>
+    <string name="oblivion_client_settings">İstemci ayarları</string>
+    <string name="oblivion_tools">Araçlar</string>
+    <string name="oblivion_onboarding_title">Oblivion\'a hoş geldin</string>
+    <string name="oblivion_step_of">Adım %1$d / %2$d</string>
+    <string name="oblivion_next">İleri</string>
+    <string name="oblivion_accept">Kabul et</string>
+    <string name="oblivion_skip">Atla</string>
+    <string name="oblivion_skip_all">Tümünü atla</string>
+    <string name="oblivion_finish">Bitir</string>
+    <string name="oblivion_rules_title">Kurallar ve şartlar</string>
+    <string name="oblivion_rules_text">Oblivion resmî olmayan bir başlatıcıdır. Minecraft\'a sahip olmalısın. Korsan ve hile yasaktır. Modlar kendi sorumluluğundadır.</string>
+    <string name="oblivion_license_title">Lisans</string>
+    <string name="oblivion_license_text">Oblivion açık kaynaklıdır (Apache-2.0); LiteLDev\'in LeviLauncher\'ı ve sang765\'in LeviDroid-Modder\'ı üzerine kuruludur.</string>
+    <string name="oblivion_modder_title">Oblivion Modder</string>
+    <string name="oblivion_modder_text">Oblivion, %1$s tarafından geliştirilmektedir.</string>
+    <string name="oblivion_community_title">Topluluk</string>
+    <string name="oblivion_community_text">Discord sunucumuza katıl ve sosyal medyada bizi takip et.</string>
+    <string name="oblivion_accounts_title">Hesaplar</string>
+    <string name="oblivion_accounts_text">Microsoft ve Discord hesaplarını bağla ya da atla ve sonra yap.</string>
+    <string name="oblivion_connect_microsoft">Microsoft\'u bağla</string>
+    <string name="oblivion_player_default">Oyuncu</string>
+    <string name="oblivion_no_version">Sürüm seçilmedi</string>
+</resources>

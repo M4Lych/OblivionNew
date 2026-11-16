@@ -608,6 +608,32 @@
             android:theme="@style/Base.Theme.FullScreen"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc" />
 
+        <activity
+            android:name="org.levimc.launcher.oblivion.OnboardingActivity"
+            android:exported="false"
+            android:screenOrientation="unspecified" />
+        <activity
+            android:name="org.levimc.launcher.oblivion.OblivionHubActivity"
+            android:exported="false" />
+        <activity
+            android:name="org.levimc.launcher.oblivion.SkinChangerActivity"
+            android:exported="false" />
+        <activity
+            android:name="org.levimc.launcher.oblivion.CosmeticsActivity"
+            android:exported="false" />
+        <activity
+            android:name="org.levimc.launcher.oblivion.OblivionAuthCallbackActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="oblivion" android:host="auth" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:exported="false"

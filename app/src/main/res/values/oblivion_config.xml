@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="oblivion_api_base" translatable="false"></string>
+    <string name="oblivion_server_pubkey" translatable="false"></string>
+    <string name="oblivion_news_url" translatable="false"></string>
+    <string name="oblivion_discord_invite" translatable="false">https://discord.gg/bkSqCMkn6D</string>
+    <string name="oblivion_dev_name" translatable="false">M4LychMC</string>
+    <string name="oblivion_dev_github" translatable="false">https://github.com/M4Lych</string>
+    <string name="oblivion_social_youtube" translatable="false">https://youtube.com/@M4LClips</string>
+    <string name="oblivion_social_instagram" translatable="false">https://instagram.com/M4Lych</string>
+    <string name="oblivion_update_owner" translatable="false"></string>
+    <string name="oblivion_update_repo" translatable="false"></string>
+</resources>

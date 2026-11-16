@@ -77,7 +77,7 @@ public final class AiCrashAnalyzer {
                     + "a fork of LeviLaunchroid (LiteLDev). The game runs in the same process as the launcher; "
                     + "the launcher supports installing mods (.levipack / mod APKs); crashes are captured by "
                     + "xCrash and by the engine's own dump files.\n"
-                    + "Launcher source code: https://github.com/M4Lych/Oblivion\n"
+                    + "Launcher source code: https://github.com/sang765/LeviDroid-Modder\n"
                     + "Enabled mods:\n{mods}\n"
                     + "Analyze the crash log below: the most likely cause, the specific culprit "
                     + "(mod/library if any), and suggested fixes. Be concise and structured.\n"

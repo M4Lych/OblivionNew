@@ -10,11 +10,11 @@
 
 **A lightweight Android launcher for Minecraft: Bedrock Edition**
 
-[![GitHub Release](https://img.shields.io/github/v/release/M4Lych/Oblivion?style=flat-square&color=blue)](https://github.com/M4Lych/Oblivion/releases)
-[![License: Apache 2.0](https://img.shields.io/github/license/M4Lych/Oblivion)](https://github.com/M4Lych/Oblivion/blob/main/LICENSE)
-[![Issues](https://img.shields.io/github/issues/M4Lych/Oblivion?style=flat-square&color=red)](https://github.com/M4Lych/Oblivion/issues)
-[![Stars](https://img.shields.io/github/stars/M4Lych/Oblivion?style=flat-square&color=yellow)](https://github.com/M4Lych/Oblivion)
-[![Downloads](https://img.shields.io/github/downloads/M4Lych/Oblivion/total.svg)](https://github.com/M4Lych/Oblivion/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/sang765/LeviDroid-Modder?style=flat-square&color=blue)](https://github.com/sang765/LeviDroid-Modder/releases)
+[![License: Apache 2.0](https://img.shields.io/github/license/sang765/LeviDroid-Modder)](https://github.com/sang765/LeviDroid-Modder/blob/main/LICENSE)
+[![Issues](https://img.shields.io/github/issues/sang765/LeviDroid-Modder?style=flat-square&color=red)](https://github.com/sang765/LeviDroid-Modder/issues)
+[![Stars](https://img.shields.io/github/stars/sang765/LeviDroid-Modder?style=flat-square&color=yellow)](https://github.com/sang765/LeviDroid-Modder)
+[![Downloads](https://img.shields.io/github/downloads/sang765/LeviDroid-Modder/total.svg)](https://github.com/sang765/LeviDroid-Modder/releases)
 [![Android](https://img.shields.io/badge/Android-9.0%2B-green?style=flat-square&logo=android)](https://www.android.com/)
 
 <table>
@@ -74,7 +74,7 @@ Oblivion enables you to import your official Minecraft APK and run it directly w
 - **Copyable crash logs** – The game crash dialog includes a button that copies the full log to the clipboard, making it easy to report issues.
 - **CurseForge made optional** – CurseForge browsing is hidden automatically in builds compiled without a CurseForge API key, instead of being always present and failing on requests.
 - **Wallpaper accent color** – The theme color settings include a "Use wallpaper color" option that picks the accent color from your wallpaper. On Android 11 and below, this asks for Storage access when the wallpaper cannot be read.
-- **Rebranded UI and credits** – The app is named "Oblivion", with separate credits for the upstream author/modder and the Oblivion project modder.
+- **Rebranded UI and credits** – The app is named "Oblivion", with a credit card for [sang765](https://github.com/sang765) on the About screen.
 - **Alternative update methods** – Unlike the original version, the Modder build can also be installed via Shizuku or root.
 - **External mods catalog** – The Mods screen links to a browsable catalog of community mods, with search, compatibility filtering against the selected Minecraft version, and one-tap installs.
 - **GitHub mod import & updates** – The Add Mod dialog imports `.so`/`.levipack` files from a repository's latest release (accepts a repository URL, `user/repo`, or `user repo`), warns when the mod targets a different Minecraft version, and remembers the source so the mod list can flag newer versions ("Version 1.0 ⬆ 1.1") and install them in one tap.
@@ -110,7 +110,7 @@ Before proceeding with Oblivion installation, ensure that you have your own lice
 
 ### Installation Steps
 
-1. Visit the [Releases Page](https://github.com/M4Lych/Oblivion/releases) and download the latest release. Each release ships three APKs: `-arm64-v8a` for most modern devices, `-armeabi-v7a` for older 32-bit devices, and `-universal` which bundles both if you are unsure
+1. Visit the [Releases Page](https://github.com/sang765/LeviDroid-Modder/releases) and download the latest release. Each release ships three APKs: `-arm64-v8a` for most modern devices, `-armeabi-v7a` for older 32-bit devices, and `-universal` which bundles both if you are unsure
 2. Open your device Settings and navigate to Security or Applications
 3. Enable "Unknown Sources" or "Allow installation from unknown sources" to permit APK installation
 4. Locate the downloaded APK file using your file manager and tap to install
@@ -139,7 +139,7 @@ If you want to build Oblivion from source or contribute to development, follow t
 1. Clone the Oblivion repository:
 
    ```bash
-   git clone https://github.com/M4Lych/Oblivion.git
+   git clone https://github.com/sang765/LeviDroid-Modder.git
    ```
 
 2. Open the project directory in Android Studio
@@ -156,7 +156,7 @@ If you want to build Oblivion from source or contribute to development, follow t
 
 > **Build Tip:** For faster builds during development, use `Build > Make Project` to compile incrementally instead of full rebuilds.
 
-The application keeps the upstream namespace and Gradle modules for compatibility; the source repository is `M4Lych/Oblivion`. To build from the command line:
+The project root is named `levilauncher` in the Gradle settings, while the repository is `LeviDroid-Modder`. To build from the command line:
 
 ```bash
 ./gradlew assembleDebug
@@ -249,13 +249,13 @@ Oblivion would not be possible without the contributions and support of many tal
 
 **Maintainer:** [sang765](https://github.com/sang765)
 
-**Project Repository:** [https://github.com/M4Lych/Oblivion](https://github.com/M4Lych/Oblivion)
+**Project Repository:** [https://github.com/sang765/LeviDroid-Modder](https://github.com/sang765/LeviDroid-Modder)
 
 **Original Repository:** [https://github.com/LiteLDev/LeviLauncher-Android](https://github.com/LiteLDev/LeviLauncher-Android)
 
 **Documentation:** [docs.levimc.org/LeviLauncher](https://docs.levimc.org/LeviLauncher/guide/quick-start?platform=android) · native mods: [docs.levimc.org/LeviLamina](https://docs.levimc.org/LeviLamina/developer_guides/android/)
 
-**Report Issues:** [GitHub Issues Page](https://github.com/M4Lych/Oblivion/issues)
+**Report Issues:** [GitHub Issues Page](https://github.com/sang765/LeviDroid-Modder/issues)
 
 **For support and questions:** Please create an issue on this GitHub repository
 
@@ -264,11 +264,11 @@ Oblivion would not be possible without the contributions and support of many tal
 ## Star History
 
 <div align="center">
-<a href="https://star-history.com/#M4Lych/Oblivion&Date">
+<a href="https://star-history.com/#sang765/LeviDroid-Modder&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=M4Lych/Oblivion&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=M4Lych/Oblivion&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=M4Lych/Oblivion&type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=sang765/LeviDroid-Modder&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=sang765/LeviDroid-Modder&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=sang765/LeviDroid-Modder&type=Date" />
   </picture>
 </a>
 </div>
@@ -287,11 +287,11 @@ Oblivion would not be possible without the contributions and support of many tal
 
 <div align="center">
 
-[![GitHub Release](https://img.shields.io/github/v/release/M4Lych/Oblivion?style=flat-square&color=blue)](https://github.com/M4Lych/Oblivion/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/sang765/LeviDroid-Modder?style=flat-square&color=blue)](https://github.com/sang765/LeviDroid-Modder/releases)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
-[![Issues](https://img.shields.io/github/issues/M4Lych/Oblivion?style=flat-square&color=red)](https://github.com/M4Lych/Oblivion/issues)
-[![Stars](https://img.shields.io/github/stars/M4Lych/Oblivion?style=flat-square&color=yellow)](https://github.com/M4Lych/Oblivion)
-[![Downloads](https://img.shields.io/github/downloads/M4Lych/Oblivion/total.svg)](https://github.com/M4Lych/Oblivion/releases)
+[![Issues](https://img.shields.io/github/issues/sang765/LeviDroid-Modder?style=flat-square&color=red)](https://github.com/sang765/LeviDroid-Modder/issues)
+[![Stars](https://img.shields.io/github/stars/sang765/LeviDroid-Modder?style=flat-square&color=yellow)](https://github.com/sang765/LeviDroid-Modder)
+[![Downloads](https://img.shields.io/github/downloads/sang765/LeviDroid-Modder/total.svg)](https://github.com/sang765/LeviDroid-Modder/releases)
 [![Android](https://img.shields.io/badge/Android-9.0%2B-green?style=flat-square&logo=android)](https://www.android.com/)
 
 **Made with ❤️ by [sang765](https://github.com/sang765)**

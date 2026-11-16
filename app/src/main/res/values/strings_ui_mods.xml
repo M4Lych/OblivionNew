@@ -16,7 +16,7 @@
     <string name="mods_empty_filtered">No mods match the filters</string>
     <string name="mods_sort_by_name">Sort by name</string>
     <!-- External mods page -->
-    <string name="mods_external_join">Join Oblivion Discord</string>
+    <string name="mods_external_join">Join community</string>
     <string name="mods_external_compatible">Compatible only</string>
     <string name="mods_external_sort">Sort: %1$s</string>
     <string name="mods_external_author">by %1$s</string>

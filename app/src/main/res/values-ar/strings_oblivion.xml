@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="oblivion_hub">مركز Oblivion</string>
+    <string name="oblivion_start_game">ابدأ اللعبة</string>
+    <string name="oblivion_change">تغيير</string>
+    <string name="oblivion_switch_skin">تغيير المظهر</string>
+    <string name="oblivion_dashboard">لوحة التحكم</string>
+    <string name="oblivion_skin_changer">مغيّر المظهر</string>
+    <string name="oblivion_cosmetics">الإكسسوارات</string>
+    <string name="oblivion_skin_pick">اختر المظهر (PNG)</string>
+    <string name="oblivion_skin_apply">تطبيق على Minecraft</string>
+    <string name="oblivion_skin_applied">تم تثبيت المظهر. اخترْه من غرفة التبديل في Minecraft.</string>
+    <string name="oblivion_cosmetic_wear">ارتداء</string>
+    <string name="oblivion_cosmetic_remove">إزالة</string>
+    <string name="oblivion_whats_new">ما الجديد</string>
+    <string name="oblivion_account">الحساب</string>
+    <string name="oblivion_link_discord">ربط Discord</string>
+    <string name="oblivion_unlink">إلغاء الربط</string>
+    <string name="oblivion_refresh">تحديث</string>
+    <string name="oblivion_claim">رمز المطالبة</string>
+    <string name="oblivion_claim_hint">أدخل الرمز</string>
+    <string name="oblivion_claim_redeem">استخدام</string>
+    <string name="oblivion_dlc_install">تثبيت السمة</string>
+    <string name="oblivion_dlc_reset">إعادة ضبط السمة</string>
+    <string name="oblivion_client_settings">إعدادات العميل</string>
+    <string name="oblivion_tools">الأدوات</string>
+    <string name="oblivion_onboarding_title">مرحبًا بك في Oblivion</string>
+    <string name="oblivion_step_of">الخطوة %1$d من %2$d</string>
+    <string name="oblivion_next">التالي</string>
+    <string name="oblivion_accept">موافق</string>
+    <string name="oblivion_skip">تخطي</string>
+    <string name="oblivion_skip_all">تخطي الكل</string>
+    <string name="oblivion_finish">إنهاء</string>
+    <string name="oblivion_rules_title">القواعد والشروط</string>
+    <string name="oblivion_rules_text">Oblivion مشغّل غير رسمي. يجب أن تمتلك Minecraft. القرصنة والغش غير مسموحين. استخدام الإضافات على مسؤوليتك.</string>
+    <string name="oblivion_license_title">الترخيص</string>
+    <string name="oblivion_license_text">Oblivion مفتوح المصدر (Apache-2.0) ومبني على LeviLauncher من LiteLDev و LeviDroid-Modder من sang765.</string>
+    <string name="oblivion_modder_title">مطوّر Oblivion</string>
+    <string name="oblivion_modder_text">تم تطوير Oblivion بواسطة %1$s.</string>
+    <string name="oblivion_community_title">المجتمع</string>
+    <string name="oblivion_community_text">انضم إلى خادم Discord الخاص بنا وتابعنا على وسائل التواصل.</string>
+    <string name="oblivion_accounts_title">الحسابات</string>
+    <string name="oblivion_accounts_text">اربط حسابي Microsoft و Discord، أو تخطَّ ذلك وافعله لاحقًا.</string>
+    <string name="oblivion_connect_microsoft">ربط Microsoft</string>
+    <string name="oblivion_player_default">لاعب</string>
+    <string name="oblivion_no_version">لم يتم اختيار إصدار</string>
+</resources>

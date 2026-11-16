@@ -127,11 +127,19 @@ public class MainActivity extends BaseActivity {
         closeLauncherRestartAfterFirstDraw();
         setupNavBar();
         setupManagersAndHandlers();
-        if (!isInstanceShortcutIntent()) {
-            new GithubReleaseUpdater(this, "M4Lych", "Oblivion", permissionResultLauncher).checkUpdateOnLaunch();
+        String updOwner = getString(R.string.oblivion_update_owner).trim();
+        String updRepo = getString(R.string.oblivion_update_repo).trim();
+        if (!isInstanceShortcutIntent() && !updOwner.isEmpty() && !updRepo.isEmpty()) {
+            new GithubReleaseUpdater(this, updOwner, updRepo, permissionResultLauncher).checkUpdateOnLaunch();
         }
         showEulaIfNeeded();
         setupOnBackPressedCallback();
+        if (!isInstanceShortcutIntent()) {
+            org.levimc.launcher.oblivion.DungeonHomeView.attach(this,
+                    () -> { if (binding.launchButton.isEnabled()) binding.launchButton.performClick(); },
+                    () -> binding.selectVersionButton.performClick(),
+                    () -> getOnBackPressedDispatcher().onBackPressed());
+        }
 
         setupTitleEasterEgg();
         binding.getRoot().post(this::showPostEulaFlow);
@@ -416,7 +424,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        bindOblivionPlayerCard();
         tipsVisible = true;
         if (tipRotator != null) {
             tipHandler.removeCallbacks(tipRotator);
@@ -464,46 +471,9 @@ public class MainActivity extends BaseActivity {
         binding.homeInstanceSettingsButton.setOnClickListener(v -> openInstanceSettings());
         DynamicAnim.applyPressScale(binding.homeInstanceSettingsButton);
         styleHomeAccents();
-        bindOblivionPlayerCard();
 
         FeatureSettings.init(getApplicationContext());
         showRandomTip();
-    }
-
-    /** Updates the compact Oblivion profile panel from the active Microsoft account. */
-    private void bindOblivionPlayerCard() {
-        if (binding == null) return;
-        View card = binding.getRoot().findViewById(R.id.oblivion_player_card);
-        ImageView avatar = binding.getRoot().findViewById(R.id.oblivion_player_avatar);
-        TextView gamertag = binding.getRoot().findViewById(R.id.oblivion_player_gamertag);
-        TextView status = binding.getRoot().findViewById(R.id.oblivion_player_status);
-        View skins = binding.getRoot().findViewById(R.id.oblivion_player_skins);
-        if (card == null || avatar == null || gamertag == null || status == null || skins == null) return;
-
-        MsftAccountStore.MsftAccount account = getActiveAccount();
-        if (account == null) {
-            gamertag.setText(R.string.oblivion_player_not_connected);
-            status.setText(R.string.oblivion_player_connect_microsoft);
-            avatar.setImageResource(R.drawable.ic_qa_account);
-        } else {
-            String displayName = !TextUtils.isEmpty(account.xboxGamertag)
-                    ? account.xboxGamertag : account.minecraftUsername;
-            gamertag.setText(TextUtils.isEmpty(displayName)
-                    ? getString(R.string.oblivion_player_unknown) : displayName);
-            status.setText(R.string.oblivion_player_microsoft_connected);
-            if (!TextUtils.isEmpty(account.xboxAvatarUrl)) {
-                Glide.with(this).load(account.xboxAvatarUrl)
-                        .placeholder(R.drawable.ic_qa_account)
-                        .error(R.drawable.ic_qa_account)
-                        .circleCrop().into(avatar);
-            } else {
-                avatar.setImageResource(R.drawable.ic_qa_account);
-            }
-        }
-        card.setOnClickListener(v -> startActivity(new Intent(this, AccountsActivity.class)));
-        skins.setOnClickListener(v -> openContentList(ContentListActivity.TYPE_SKIN_PACKS));
-        DynamicAnim.applyPressScale(card);
-        DynamicAnim.applyPressScale(skins);
     }
 
     private void showRandomTip() {

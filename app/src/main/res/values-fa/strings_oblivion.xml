@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="oblivion_hub">مرکز Oblivion</string>
+    <string name="oblivion_start_game">شروع بازی</string>
+    <string name="oblivion_change">تغییر</string>
+    <string name="oblivion_switch_skin">تغییر اسکین</string>
+    <string name="oblivion_dashboard">داشبورد</string>
+    <string name="oblivion_skin_changer">تغییر دهنده اسکین</string>
+    <string name="oblivion_cosmetics">لوازم آرایشی</string>
+    <string name="oblivion_skin_pick">انتخاب اسکین (PNG)</string>
+    <string name="oblivion_skin_apply">اعمال در Minecraft</string>
+    <string name="oblivion_skin_applied">اسکین نصب شد. آن را در اتاق لباس Minecraft انتخاب کنید.</string>
+    <string name="oblivion_cosmetic_wear">پوشیدن</string>
+    <string name="oblivion_cosmetic_remove">برداشتن</string>
+    <string name="oblivion_whats_new">تازه‌ها</string>
+    <string name="oblivion_account">حساب</string>
+    <string name="oblivion_link_discord">اتصال Discord</string>
+    <string name="oblivion_unlink">قطع اتصال</string>
+    <string name="oblivion_refresh">تازه‌سازی</string>
+    <string name="oblivion_claim">کد دریافت</string>
+    <string name="oblivion_claim_hint">کد را وارد کنید</string>
+    <string name="oblivion_claim_redeem">استفاده از کد</string>
+    <string name="oblivion_dlc_install">نصب تم</string>
+    <string name="oblivion_dlc_reset">بازنشانی تم</string>
+    <string name="oblivion_client_settings">تنظیمات کلاینت</string>
+    <string name="oblivion_tools">ابزارها</string>
+    <string name="oblivion_onboarding_title">به Oblivion خوش آمدید</string>
+    <string name="oblivion_step_of">مرحله %1$d از %2$d</string>
+    <string name="oblivion_next">بعدی</string>
+    <string name="oblivion_accept">پذیرفتن</string>
+    <string name="oblivion_skip">رد کردن</string>
+    <string name="oblivion_skip_all">رد کردن همه</string>
+    <string name="oblivion_finish">پایان</string>
+    <string name="oblivion_rules_title">قوانین و شرایط</string>
+    <string name="oblivion_rules_text">Oblivion یک لانچر غیررسمی است. باید Minecraft را داشته باشید. دزدی نرم‌افزار و تقلب مجاز نیست. استفاده از مودها با مسئولیت خودتان است.</string>
+    <string name="oblivion_license_title">مجوز</string>
+    <string name="oblivion_license_text">Oblivion متن‌باز (Apache-2.0) است و بر پایه LeviLauncher از LiteLDev و LeviDroid-Modder از sang765 ساخته شده.</string>
+    <string name="oblivion_modder_title">مودر Oblivion</string>
+    <string name="oblivion_modder_text">Oblivion توسط %1$s توسعه یافته است.</string>
+    <string name="oblivion_community_title">جامعه</string>
+    <string name="oblivion_community_text">به سرور Discord ما بپیوندید و در شبکه‌های اجتماعی دنبالمان کنید.</string>
+    <string name="oblivion_accounts_title">حساب‌ها</string>
+    <string name="oblivion_accounts_text">حساب‌های Microsoft و Discord خود را متصل کنید، یا رد کنید و بعداً انجام دهید.</string>
+    <string name="oblivion_connect_microsoft">اتصال Microsoft</string>
+    <string name="oblivion_player_default">بازیکن</string>
+    <string name="oblivion_no_version">نسخه‌ای انتخاب نشده</string>
+</resources>

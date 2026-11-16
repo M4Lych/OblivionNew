@@ -8,8 +8,6 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
-import org.levimc.launcher.BuildConfig;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -32,7 +30,7 @@ public final class NewsRepository {
         void onResult(NewsFeed feed, Throwable error);
     }
 
-    public static final String REMOTE_URL = BuildConfig.OBLIVION_NEWS_URL;
+    public static final String REMOTE_URL = "https://raw.githubusercontent.com/sang765/LeviDroid-Modder/dev/resources/launcher/news.json";
     private static final String ASSET_PATH = "launcher/news.json";
     private static final String CACHE_FILE = "launcher_news.json";
     private static final String PREFS = "launcher_news_repository";
@@ -67,10 +65,6 @@ public final class NewsRepository {
 
     public static void refresh(Context context, Callback callback) {
         Context appContext = context.getApplicationContext();
-        if (TextUtils.isEmpty(REMOTE_URL)) {
-            loadCached(appContext, callback);
-            return;
-        }
         synchronized (REFRESH_LOCK) {
             if (callback != null) REFRESH_CALLBACKS.add(callback);
             if (refreshing) return;
@@ -81,7 +75,7 @@ public final class NewsRepository {
             Throwable resultError = null;
             try {
                 Request request = new Request.Builder()
-                        .url(REMOTE_URL)
+                        .url(remoteUrl(appContext))
                         .header("Cache-Control", "no-cache")
                         .build();
                 try (Response response = HTTP.newCall(request).execute()) {
@@ -110,6 +104,11 @@ public final class NewsRepository {
             }
             for (Callback pending : callbacks) deliver(pending, result, resultError);
         });
+    }
+
+    private static String remoteUrl(Context context) {
+        String u = org.levimc.launcher.oblivion.OblivionConfig.newsUrl(context);
+        return u.startsWith("http") ? u : "https://invalid.oblivion.local/news.json";
     }
 
     private static NewsFeed loadLocal(Context context) {

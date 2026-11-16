@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="mods_empty_levimc">No LeviMC mods installed</string>
+    <string name="mods_empty_levimc">No OblivionMod installed</string>
     <string name="mods_empty_levimc_help">Mods installed from LeviMC appear here. Use Get mods to browse the catalog.</string>
     <string name="mods_empty_normal">No external mods installed</string>
     <string name="mods_empty_normal_help">Mods added from files appear here. Use Add mod to import one.</string>

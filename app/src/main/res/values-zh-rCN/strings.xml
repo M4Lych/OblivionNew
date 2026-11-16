@@ -15,8 +15,8 @@
     <string name="current_instance">当前实例</string>
     <!-- Mods -->
     <string name="mods_title">模组 (%d)</string>
-    <string name="mods_section_title">OblivionMod</string>
-    <string name="external_mods_label">OblivionMod Catalog</string>
+    <string name="mods_section_title">模组</string>
+    <string name="external_mods_label">外部模组</string>
     <string name="inbuilt_mods_label">内置模组</string>
     <string name="manage_mods">管理模组</string>
     <string name="no_mods_found">未找到模组</string>
@@ -379,7 +379,7 @@
     <string name="external_mods_load_failed">无法刷新目录。正在显示已保存的副本。</string>
     <string name="external_mods_refresh">刷新目录</string>
     <string name="external_mods_refreshed">目录已刷新</string>
-    <string name="external_mods_join_discord">Join Oblivion Discord</string>
+    <string name="external_mods_join_discord">加入社区 Discord</string>
     <string name="external_mods_discord_open_failed">没有应用可以打开 Discord 邀请</string>
     <string name="external_mods_download">正在下载 %1$s</string>
     <string name="external_mods_choose_download">选择下载</string>
@@ -816,7 +816,7 @@
     <string name="about_afdian">爱发电</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">源代码与开源</string>
-    <string name="about_github_repo">GitHub · Oblivion</string>
+    <string name="about_github_repo">GitHub · LeviDroid-Modder</string>
     <string name="about_github_org">sang765</string>
     <string name="about_license_note">许可证详情请参阅仓库中的 LICENSE。</string>
     <string name="about_contribute_title">参与贡献</string>
@@ -973,7 +973,7 @@
     <string name="changelog_title">新增内容</string>
     <string name="changelog_version">Oblivion %1$s</string>
     <string name="changelog_continue">继续</string>
-    <string name="news_title">Oblivion News</string>
+    <string name="news_title">OblivionNews</string>
     <string name="news_subtitle">来自 Oblivion 团队的更新、公告和重要通知。</string>
     <string name="news_enable_notifications">启用通知</string>
     <string name="news_refresh">刷新新闻</string>

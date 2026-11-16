@@ -76,6 +76,11 @@ class MinecraftLoadingActivity : BaseActivity(), MinecraftRuntimePreparer.Progre
             findViewById<ImageView>(R.id.minecraftLaunchLogo),
             MinecraftRuntimePreparer.resolveGameVersion(intent)
         )
+        org.levimc.launcher.oblivion.LoadingBackground.applyLogo(
+            findViewById<ImageView>(R.id.minecraftLaunchLogo),
+            MinecraftRuntimePreparer.resolveGameVersion(intent)
+        )
+        org.levimc.launcher.oblivion.LoadingBackground.attach(this)
         hideSystemUi()
 
         progressBar = findViewById(R.id.minecraftLaunchProgress)

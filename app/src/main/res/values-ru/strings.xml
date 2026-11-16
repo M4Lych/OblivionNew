@@ -15,8 +15,8 @@
     <string name="current_instance">Текущий экземпляр</string>
     <!-- Mods -->
     <string name="mods_title">Моды (%d)</string>
-    <string name="mods_section_title">OblivionMod</string>
-    <string name="external_mods_label">OblivionMod Catalog</string>
+    <string name="mods_section_title">Моды</string>
+    <string name="external_mods_label">Внешние моды</string>
     <string name="inbuilt_mods_label">Встроенные моды</string>
     <string name="manage_mods">Управление модами</string>
     <string name="no_mods_found">Моды не найдены</string>
@@ -381,7 +381,7 @@
     <string name="external_mods_load_failed">Не удалось обновить каталог. Показана сохранённая копия.</string>
     <string name="external_mods_refresh">Обновить каталог</string>
     <string name="external_mods_refreshed">Каталог обновлён</string>
-    <string name="external_mods_join_discord">Join Oblivion Discord</string>
+    <string name="external_mods_join_discord">Присоединиться к Discord сообщества</string>
     <string name="external_mods_discord_open_failed">Нет приложения, которое может открыть приглашение Discord</string>
     <string name="external_mods_download">Загрузка %1$s</string>
     <string name="external_mods_choose_download">Выбор загрузки</string>
@@ -824,7 +824,7 @@
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Исходный код и открытый исходный код</string>
-    <string name="about_github_repo">GitHub · Oblivion</string>
+    <string name="about_github_repo">GitHub · LeviDroid-Modder</string>
     <string name="about_github_org">sang765</string>
     <string name="about_license_note">Подробности лицензии смотрите в файле LICENSE в репозитории.</string>
     <string name="about_contribute_title">Участие в разработке</string>
@@ -981,7 +981,7 @@
     <string name="changelog_title">Что нового</string>
     <string name="changelog_version">Oblivion %1$s</string>
     <string name="changelog_continue">Продолжить</string>
-    <string name="news_title">Oblivion News</string>
+    <string name="news_title">OblivionNews</string>
     <string name="news_subtitle">Обновления, объявления и важные уведомления от команды Oblivion.</string>
     <string name="news_enable_notifications">Включить уведомления</string>
     <string name="news_refresh">Обновить новости</string>
