@@ -613,8 +613,27 @@
             android:exported="false"
             android:screenOrientation="unspecified" />
         <activity
-            android:name="org.levimc.launcher.oblivion.OblivionHubActivity"
+            android:name="org.levimc.launcher.oblivion.ProfileActivity"
             android:exported="false" />
+        <activity
+            android:name="org.levimc.launcher.oblivion.CreditsActivity"
+            android:exported="false" />
+        <activity
+            android:name="org.levimc.launcher.oblivion.ResourcesActivity"
+            android:exported="false" />
+        <activity
+            android:name="org.levimc.launcher.oblivion.SettingsHubActivity"
+            android:exported="false" />
+        <activity
+            android:name="org.levimc.launcher.oblivion.OblivionModActivity"
+            android:exported="false" />
+        <activity
+            android:name="org.levimc.launcher.oblivion.PartyActivity"
+            android:exported="false" />
+        <activity
+            android:name="org.levimc.launcher.oblivion.OblivionIntroActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.FullScreen" />
         <activity
             android:name="org.levimc.launcher.oblivion.SkinChangerActivity"
             android:exported="false" />

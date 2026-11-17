@@ -44,4 +44,17 @@
     <string name="oblivion_connect_microsoft">เชื่อมต่อ Microsoft</string>
     <string name="oblivion_player_default">ผู้เล่น</string>
     <string name="oblivion_no_version">ยังไม่ได้เลือกเวอร์ชัน</string>
+    <string name="oblivion_party">ปาร์ตี้</string>
+    <string name="oblivion_newsworthy">ข่าวด่วน</string>
+    <string name="oblivion_friends">เพื่อน</string>
+    <string name="oblivion_resources">ทรัพยากร</string>
+    <string name="oblivion_launch">เริ่มเกม</string>
+    <string name="oblivion_menu_installed">เลือกเวอร์ชันที่ติดตั้ง</string>
+    <string name="oblivion_menu_download">ดาวน์โหลดจาก Google Play</string>
+    <string name="oblivion_menu_import">นำเข้า APK / แพตช์ MCBE</string>
+    <string name="oblivion_role_none">ไม่มียศ</string>
+    <string name="oblivion_logs">บันทึก</string>
+    <string name="oblivion_save_log">บันทึกล็อก</string>
+    <string name="oblivion_credits_title">เครดิต Oblivion</string>
+    <string name="oblivion_profile_title">โปรไฟล์</string>
 </resources>

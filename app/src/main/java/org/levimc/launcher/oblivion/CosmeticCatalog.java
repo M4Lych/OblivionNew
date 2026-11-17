@@ -45,6 +45,7 @@ public final class CosmeticCatalog {
             }
         } catch (Exception ignored) {
         }
+        out.addAll(OblivionDlc.cosmetics(c));
         return out;
     }
 
@@ -63,6 +64,9 @@ public final class CosmeticCatalog {
 
     public static Bitmap loadBitmap(Context c, Cosmetic cos) {
         try {
+            if (cos.file != null) {
+                return BitmapFactory.decodeFile(cos.file);
+            }
             if (cos.vaultName != null) {
                 byte[] data = SecureVault.get(c, cos.vaultName);
                 if (data != null) return BitmapFactory.decodeByteArray(data, 0, data.length);

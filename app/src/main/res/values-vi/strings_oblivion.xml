@@ -44,4 +44,17 @@
     <string name="oblivion_connect_microsoft">Kết nối Microsoft</string>
     <string name="oblivion_player_default">Người chơi</string>
     <string name="oblivion_no_version">Chưa chọn phiên bản</string>
+    <string name="oblivion_party">Nhóm</string>
+    <string name="oblivion_newsworthy">Tin nóng</string>
+    <string name="oblivion_friends">Bạn bè</string>
+    <string name="oblivion_resources">Tài nguyên</string>
+    <string name="oblivion_launch">CHẠY</string>
+    <string name="oblivion_menu_installed">Chọn phiên bản đã cài</string>
+    <string name="oblivion_menu_download">Tải từ Google Play</string>
+    <string name="oblivion_menu_import">Nhập APK / bản vá MCBE</string>
+    <string name="oblivion_role_none">Chưa có vai trò</string>
+    <string name="oblivion_logs">Nhật ký</string>
+    <string name="oblivion_save_log">Lưu nhật ký</string>
+    <string name="oblivion_credits_title">Ghi công Oblivion</string>
+    <string name="oblivion_profile_title">Hồ sơ</string>
 </resources>

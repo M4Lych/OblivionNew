@@ -73,6 +73,68 @@ CONFIG = {
 "dev_github": "", "social_youtube": "", "social_instagram": "", "update_owner": "", "update_repo": "",
 }
 
+
+K2 = ["party","newsworthy","friends","resources","launch","menu_installed","menu_download","menu_import","role_none","logs","save_log","credits_title","profile_title"]
+EN2 = ["Party","Newsworthy","Friends","Resources","LAUNCH","Select installed version","Download from Google Play","Import APK / MCBE-patch","No role","Logs","Save log","Oblivion Credits","Profile"]
+TR2 = {
+"values-zh-rCN": ["派对","快讯","好友","资源","启动","选择已安装版本","从 Google Play 下载","导入 APK / MCBE 补丁","无身份组","日志","保存日志","Oblivion 制作名单","个人资料"],
+"values-hi": ["पार्टी","ताज़ा खबरें","दोस्त","संसाधन","लॉन्च","इंस्टॉल किया गया संस्करण चुनें","Google Play से डाउनलोड करें","APK / MCBE-पैच इम्पोर्ट करें","कोई रोल नहीं","लॉग","लॉग सहेजें","Oblivion क्रेडिट्स","प्रोफ़ाइल"],
+"values-es": ["Grupo","Novedades","Amigos","Recursos","JUGAR","Elegir versión instalada","Descargar de Google Play","Importar APK / parche MCBE","Sin rol","Registros","Guardar registro","Créditos de Oblivion","Perfil"],
+"values-fr": ["Groupe","À la une","Amis","Ressources","LANCER","Choisir une version installée","Télécharger depuis Google Play","Importer un APK / patch MCBE","Aucun rôle","Journaux","Enregistrer le journal","Crédits Oblivion","Profil"],
+"values-ar": ["المجموعة","آخر الأخبار","الأصدقاء","الموارد","تشغيل","اختيار إصدار مثبّت","التنزيل من Google Play","استيراد APK / تصحيح MCBE","بلا رتبة","السجلات","حفظ السجل","شكر وتقدير Oblivion","الملف الشخصي"],
+"values-bn": ["পার্টি","সর্বশেষ খবর","বন্ধু","রিসোর্স","লঞ্চ","ইনস্টল করা সংস্করণ বেছে নিন","Google Play থেকে ডাউনলোড","APK / MCBE-প্যাচ ইমপোর্ট","কোনো রোল নেই","লগ","লগ সংরক্ষণ","Oblivion ক্রেডিট","প্রোফাইল"],
+"values-pt": ["Grupo","Últimas notícias","Amigos","Recursos","INICIAR","Escolher versão instalada","Baixar do Google Play","Importar APK / patch MCBE","Sem cargo","Registros","Salvar registro","Créditos do Oblivion","Perfil"],
+"values-ru": ["Группа","Новости","Друзья","Ресурсы","ЗАПУСК","Выбрать установленную версию","Скачать из Google Play","Импорт APK / патча MCBE","Нет роли","Логи","Сохранить лог","Авторы Oblivion","Профиль"],
+"values-ur": ["پارٹی","تازہ خبریں","دوست","وسائل","لانچ","نصب شدہ ورژن منتخب کریں","Google Play سے ڈاؤنلوڈ کریں","APK / MCBE پیچ امپورٹ کریں","کوئی رول نہیں","لاگز","لاگ محفوظ کریں","Oblivion کریڈٹس","پروفائل"],
+"values-in": ["Grup","Berita Terkini","Teman","Sumber Daya","LUNCURKAN","Pilih versi terpasang","Unduh dari Google Play","Impor APK / patch MCBE","Tanpa role","Log","Simpan log","Kredit Oblivion","Profil"],
+"values-de": ["Gruppe","Neuigkeiten","Freunde","Ressourcen","STARTEN","Installierte Version wählen","Von Google Play laden","APK / MCBE-Patch importieren","Keine Rolle","Protokoll","Protokoll speichern","Oblivion-Credits","Profil"],
+"values-ja": ["パーティー","ニュース","フレンド","リソース","起動","インストール済みバージョンを選択","Google Playからダウンロード","APK / MCBEパッチをインポート","ロールなし","ログ","ログを保存","Oblivionクレジット","プロフィール"],
+"values-tr": ["Grup","Son Haberler","Arkadaşlar","Kaynaklar","BAŞLAT","Yüklü sürümü seç","Google Play'den indir","APK / MCBE yamasını içe aktar","Rol yok","Günlük","Günlüğü kaydet","Oblivion Emeği Geçenler","Profil"],
+"values-vi": ["Nhóm","Tin nóng","Bạn bè","Tài nguyên","CHẠY","Chọn phiên bản đã cài","Tải từ Google Play","Nhập APK / bản vá MCBE","Chưa có vai trò","Nhật ký","Lưu nhật ký","Ghi công Oblivion","Hồ sơ"],
+"values-ko": ["파티","뉴스","친구","리소스","실행","설치된 버전 선택","Google Play에서 다운로드","APK / MCBE 패치 가져오기","역할 없음","로그","로그 저장","Oblivion 크레딧","프로필"],
+"values-it": ["Gruppo","Ultime notizie","Amici","Risorse","AVVIA","Scegli versione installata","Scarica da Google Play","Importa APK / patch MCBE","Nessun ruolo","Log","Salva log","Crediti Oblivion","Profilo"],
+"values-th": ["ปาร์ตี้","ข่าวด่วน","เพื่อน","ทรัพยากร","เริ่มเกม","เลือกเวอร์ชันที่ติดตั้ง","ดาวน์โหลดจาก Google Play","นำเข้า APK / แพตช์ MCBE","ไม่มียศ","บันทึก","บันทึกล็อก","เครดิต Oblivion","โปรไฟล์"],
+"values-pl": ["Grupa","Najnowsze","Znajomi","Zasoby","URUCHOM","Wybierz zainstalowaną wersję","Pobierz z Google Play","Importuj APK / łatkę MCBE","Brak roli","Dzienniki","Zapisz dziennik","Autorzy Oblivion","Profil"],
+"values-fa": ["گروه","خبرهای فوری","دوستان","منابع","اجرا","انتخاب نسخه نصب‌شده","دانلود از Google Play","وارد کردن APK / وصله MCBE","بدون نقش","گزارش‌ها","ذخیره گزارش","سازندگان Oblivion","پروفایل"],
+}
+EN_ONLY.update({
+"ach_code": "Redeem a claim code", "ach_cosmetic": "Wear a cosmetic", "ach_dlc": "Install an OblivionDLC",
+"ach_first_launch": "Launch Minecraft for the first time", "ach_launch_25": "Launch Minecraft 25 times",
+"ach_note": "Minecraft's own Xbox achievements are not shown here yet.", "ach_skin": "Install your skin into Minecraft",
+"buy": "Buy · %1$d", "buy_unavailable": "Purchases need the Oblivion server (not available in this build).",
+"credits_built_on": "Built on LeviLauncher",
+"credits_built_on_text": "Oblivion uses LeviLauncher as its source code and launch engine. Thank you to LiteLDev, sang765 and every contributor.",
+"credits_contributors": "Levi developers & contributors",
+"credits_license": "Licensed under Apache-2.0. Unofficial; not affiliated with Mojang or Microsoft.",
+"credits_modder_role": "Oblivion Modder",
+"dlc_get": "Download & install", "dlc_none": "No DLC installed yet.", "dlc_remove": "Remove",
+"dlc_restart": "Applied. Some changes show after reopening the client.", "dlc_state_active": "In use",
+"dlc_state_installed": "Installed", "dlc_state_locked": "Locked", "dlc_state_owned": "Owned", "dlc_stop": "Stop using", "dlc_use": "Use",
+"intro_tagline": "Built on LeviLauncher", "log_saved": "Log saved: %1$s", "mod_title": "OblivionMod",
+"party_add_friend": "Add a friend", "party_create": "Create party", "party_friend_hint": "Friend's Discord name",
+"party_friends_sub": "Requests and your friend list", "party_incoming": "Requests", "party_invite": "Invite a friend",
+"party_invited": "Invited.", "party_leave": "Leave party", "party_message_hint": "Message", "party_name_hint": "Party name",
+"party_need_account": "Link your Discord account to use Party.", "party_no_friends": "Add friends first.",
+"party_none": "You are not in any party.", "party_outgoing": "Sent requests", "party_remove": "Remove",
+"party_request_sent": "Request sent.", "party_send": "Send", "party_send_request": "Send request", "party_voice": "On mic",
+"party_voice_soon": "Voice chat is not available yet. Text chat works.",
+"profile_accounts": "Accounts", "profile_achievements": "Achievements",
+"profile_manage_accounts": "Add / switch / remove Microsoft accounts",
+"res_curseforge_sub": "Download addons from CurseForge", "res_import_export": "Import / Export",
+"res_import_export_sub": "Worlds, resource & behavior packs, add-ons, skin packs, servers",
+"res_mods_sub": "Shop, installed, locked and owned DLC", "res_native_mods": "Native mods",
+"res_native_mods_sub": "Install and enable .so mods", "res_packs": "Resource packs", "res_packs_sub": "Enable or disable packs",
+"set_instances": "Instances", "set_instances_sub": "Versions, storage and per-instance options",
+"set_launcher": "Launcher settings", "set_launcher_sub": "Language, theme, connection, accounts",
+"set_restart_hint": "Some options apply the next time the client opens.",
+"shop": "OblivionDLC shop", "shop_load": "Load shop", "shop_needs_server": "Link your Discord account (server required) to see the shop.",
+"tab_available": "Available", "tab_empty": "Nothing here yet.", "tab_equipped": "Equipped", "tab_locked": "Locked",
+"theme": "Theme", "theme_movie": "Movie (bright)", "theme_mujica": "Mujica (dark)",
+"set_dungeon_home": "New Oblivion start screen (off = classic Levi screen)",
+})
+CONFIG.update({"social_tiktok": ""})
+CONFIG["dev_name"] = "M4LychMC"
+
 def esc(t):
     return t.replace("&", "&amp;").replace("<", "&lt;").replace("'", "\\'").replace('"', '\\"')
 
@@ -86,11 +148,14 @@ def write(path, items, nontrans=False):
     open(path, 'w', encoding='utf-8').write("\n".join(lines) + "\n")
 
 assert len(EN) == len(K), (len(EN), len(K))
+assert len(EN2) == len(K2)
+for code, vals in TR2.items():
+    assert len(vals) == len(K2), (code, len(vals))
 for code, vals in TR.items():
     assert len(vals) == len(K), (code, len(vals))
-base = [(k, v) for k, v in zip(K, EN)] + [(k, v) for k, v in EN_ONLY.items() if not k.endswith('dummy')]
+base = [(k, v) for k, v in zip(K, EN)] + list(zip(K2, EN2)) + [(k, v) for k, v in EN_ONLY.items() if not k.endswith('dummy')]
 write(os.path.join(RES, 'values', 'strings_oblivion.xml'), base)
 write(os.path.join(RES, 'values', 'oblivion_config.xml'), list(CONFIG.items()), nontrans=True)
 for code, vals in TR.items():
-    write(os.path.join(RES, code, 'strings_oblivion.xml'), list(zip(K, vals)))
+    write(os.path.join(RES, code, 'strings_oblivion.xml'), list(zip(K, vals)) + list(zip(K2, TR2[code])))
 print('written', len(TR) + 1, 'languages;', len(base), 'English strings')

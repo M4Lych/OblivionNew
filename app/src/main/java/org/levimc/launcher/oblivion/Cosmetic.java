@@ -19,4 +19,7 @@ public final class Cosmetic {
     /** Needs a claim code / server entitlement with this id. */
     public boolean claimOnly;
     public boolean membershipOnly;
+    /** Absolute file path when the image comes from an installed OblivionDLC. */
+    public String file;
+    public int price;
 }

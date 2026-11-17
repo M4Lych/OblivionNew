@@ -56,6 +56,7 @@ class MinecraftLoadingActivity : BaseActivity(), MinecraftRuntimePreparer.Progre
     private var returningToLauncher = false
     private var preparingStarted = false
     private var enteringGame = false
+    private val loadingStartedAt = android.os.SystemClock.elapsedRealtime()
     private var progressAnimator: ValueAnimator? = null
     private var currentProgress = 0
     private var lastLogMessage: String? = null
@@ -100,6 +101,13 @@ class MinecraftLoadingActivity : BaseActivity(), MinecraftRuntimePreparer.Progre
         returnButton.setOnClickListener {
             appendLog("Returning to launcher")
             returnToLauncher()
+        }
+
+        findViewById<TextView>(R.id.minecraftLaunchLogToggle).setOnClickListener {
+            logScroll.visibility = if (logScroll.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        }
+        findViewById<Button>(R.id.minecraftLaunchSaveLog).setOnClickListener {
+            org.levimc.launcher.oblivion.LogExport.save(this, logView.text.toString())
         }
 
         copyLogButton.setOnClickListener {
@@ -240,6 +248,8 @@ class MinecraftLoadingActivity : BaseActivity(), MinecraftRuntimePreparer.Progre
         appendLog(message)
         returnButton.visibility = View.VISIBLE
         copyLogButton.visibility = View.VISIBLE
+        findViewById<Button>(R.id.minecraftLaunchSaveLog).visibility = View.VISIBLE
+        logScroll.visibility = View.VISIBLE
     }
 
     private fun animateProgressTo(targetProgress: Int) {
@@ -257,11 +267,10 @@ class MinecraftLoadingActivity : BaseActivity(), MinecraftRuntimePreparer.Progre
 
     private fun applyLaunchTheme() {
         val configuredAccent = PersonalizationManager(this).getAccentColor()
-        val accent = if (configuredAccent != 0) configuredAccent else ContextCompat.getColor(this, R.color.primary)
+        val accent = if (configuredAccent != 0) configuredAccent else org.levimc.launcher.oblivion.OblivionTheme.launch
         val accentTint = ColorStateList.valueOf(accent)
         val secondaryText = ContextCompat.getColor(this, R.color.text_secondary)
 
-        PersonalizationManager.applyAccentToLogo(findViewById(R.id.minecraftLaunchLogo), accent)
         cancelButton.setColorFilter(accent)
 
         progressBar.progressTintList = accentTint
@@ -314,10 +323,16 @@ class MinecraftLoadingActivity : BaseActivity(), MinecraftRuntimePreparer.Progre
         enteringGame = true
 
         if (returningToLauncher || isFinishing || isDestroyed) return
-        startActivity(gameIntent)
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-        finish()
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        // Oblivion: keep the loading animation on screen for its full length (OblivionTiming.LOADING_MS)
+        // before Minecraft is shown. Everything needed to start the game is already prepared at this point.
+        val wait = org.levimc.launcher.oblivion.OblivionTiming.remainingLoadingMs(loadingStartedAt)
+        mainHandler.postDelayed({
+            if (returningToLauncher || isFinishing || isDestroyed) return@postDelayed
+            startActivity(gameIntent)
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+            finish()
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        }, wait)
     }
 
     private fun showSkippedIncompatibleModsIfNeeded(

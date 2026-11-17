@@ -44,4 +44,17 @@
     <string name="oblivion_connect_microsoft">Microsoftを連携</string>
     <string name="oblivion_player_default">プレイヤー</string>
     <string name="oblivion_no_version">バージョン未選択</string>
+    <string name="oblivion_party">パーティー</string>
+    <string name="oblivion_newsworthy">ニュース</string>
+    <string name="oblivion_friends">フレンド</string>
+    <string name="oblivion_resources">リソース</string>
+    <string name="oblivion_launch">起動</string>
+    <string name="oblivion_menu_installed">インストール済みバージョンを選択</string>
+    <string name="oblivion_menu_download">Google Playからダウンロード</string>
+    <string name="oblivion_menu_import">APK / MCBEパッチをインポート</string>
+    <string name="oblivion_role_none">ロールなし</string>
+    <string name="oblivion_logs">ログ</string>
+    <string name="oblivion_save_log">ログを保存</string>
+    <string name="oblivion_credits_title">Oblivionクレジット</string>
+    <string name="oblivion_profile_title">プロフィール</string>
 </resources>

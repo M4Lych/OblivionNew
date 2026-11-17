@@ -28,6 +28,12 @@ def db():
     CREATE TABLE IF NOT EXISTS codes(code TEXT PRIMARY KEY, title TEXT, entitlement TEXT, package_id TEXT,
         used_by TEXT, used_at REAL, created_by TEXT, created REAL);
     CREATE TABLE IF NOT EXISTS entitlements(discord_id TEXT, entitlement TEXT, PRIMARY KEY(discord_id, entitlement));
+    CREATE TABLE IF NOT EXISTS friends(a TEXT, b TEXT, status TEXT, PRIMARY KEY(a, b));
+    CREATE TABLE IF NOT EXISTS parties(id TEXT PRIMARY KEY, name TEXT, owner TEXT, created REAL);
+    CREATE TABLE IF NOT EXISTS party_members(party_id TEXT, discord_id TEXT, PRIMARY KEY(party_id, discord_id));
+    CREATE TABLE IF NOT EXISTS messages(id INTEGER PRIMARY KEY AUTOINCREMENT, party_id TEXT, discord_id TEXT,
+        username TEXT, text TEXT, ts REAL);
+    CREATE TABLE IF NOT EXISTS dlc(id TEXT PRIMARY KEY, name TEXT, description TEXT, package_id TEXT);
     CREATE TABLE IF NOT EXISTS oauth_state(state TEXT PRIMARY KEY, redirect TEXT, created REAL);
     """)
     return con
@@ -82,3 +88,15 @@ def redeem(con, code, discord_id):
         con.execute("INSERT OR IGNORE INTO entitlements(discord_id, entitlement) VALUES(?,?)",
                     (discord_id, "pkg:" + row["package_id"]))
     return row
+
+
+def name_of(con, discord_id):
+    row = con.execute("SELECT username FROM sessions WHERE discord_id=? ORDER BY created DESC LIMIT 1",
+                      (discord_id,)).fetchone()
+    return row["username"] if row else discord_id
+
+
+def are_friends(con, a, b):
+    row = con.execute("SELECT 1 FROM friends WHERE status='accepted' AND ((a=? AND b=?) OR (a=? AND b=?))",
+                      (a, b, b, a)).fetchone()
+    return row is not None

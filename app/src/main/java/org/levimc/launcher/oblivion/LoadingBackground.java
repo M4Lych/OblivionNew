@@ -55,9 +55,9 @@ public final class LoadingBackground {
                 vv.start();
                 bg = vv;
             } else {
-                AmbientBackgroundView ambient = new AmbientBackgroundView(activity);
-                ambient.setAnimated(OblivionSettings.get(activity, OblivionSettings.AMBIENT_ANIM));
-                bg = ambient;
+                MovieBackgroundView movie = new MovieBackgroundView(activity);
+                movie.setAnimated(OblivionSettings.get(activity, OblivionSettings.AMBIENT_ANIM));
+                bg = movie;
             }
             content.addView(bg, 0, new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -66,6 +66,8 @@ public final class LoadingBackground {
     }
 
     private static File resolveVideo(Activity a) {
+        File dlc = OblivionDlc.asset(a, "loading_video");
+        if (dlc != null) return dlc;
         File user = userVideo(a);
         if (user.isFile() && user.length() > 0) return user;
         try {

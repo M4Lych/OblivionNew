@@ -28,7 +28,11 @@ public abstract class OblivionBaseActivity extends AppCompatActivity {
         super.onCreate(state);
         OblivionTheme.ensureLoaded(this);
         FrameLayout root = new FrameLayout(this);
-        root.addView(new AmbientBackgroundView(this), new FrameLayout.LayoutParams(
+        root.addView(new MovieBackgroundView(this), new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        View scrim = new View(this);
+        scrim.setBackgroundColor(0x99000000);
+        root.addView(scrim, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         LinearLayout page = new LinearLayout(this);

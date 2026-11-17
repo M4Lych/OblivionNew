@@ -135,10 +135,12 @@ public class MainActivity extends BaseActivity {
         showEulaIfNeeded();
         setupOnBackPressedCallback();
         if (!isInstanceShortcutIntent()) {
-            org.levimc.launcher.oblivion.DungeonHomeView.attach(this,
-                    () -> { if (binding.launchButton.isEnabled()) binding.launchButton.performClick(); },
-                    () -> binding.selectVersionButton.performClick(),
-                    () -> getOnBackPressedDispatcher().onBackPressed());
+            org.levimc.launcher.oblivion.OblivionHomeView.attach(this, new org.levimc.launcher.oblivion.OblivionHomeView.Host() {
+                @Override public void launch() { if (binding.launchButton.isEnabled()) binding.launchButton.performClick(); }
+                @Override public void pickInstalled(View anchor) { showVersionSelectDialog(anchor); }
+                @Override public void importApk() { startApkFilePicker(); }
+                @Override public void exit() { getOnBackPressedDispatcher().onBackPressed(); }
+            });
         }
 
         setupTitleEasterEgg();
@@ -905,6 +907,10 @@ public class MainActivity extends BaseActivity {
     }
 
      private void showVersionSelectDialog() {
+        showVersionSelectDialog(binding.selectVersionButton);
+    }
+
+     private void showVersionSelectDialog(View anchorView) {
         if (!isVersionManagerReady()) return;
 
         List<GameVersion> allVersions = new ArrayList<>();
@@ -943,15 +949,16 @@ public class MainActivity extends BaseActivity {
             versionManager.selectVersion(version);
             viewModel.setCurrentVersion(version);
             setTextMinecraftVersion();
+            org.levimc.launcher.oblivion.OblivionHomeView.refreshInstance();
             popup.dismiss();
         });
 
         popupView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         int popupWidth = popupView.getMeasuredWidth();
-        int anchorWidth = binding.selectVersionButton.getWidth();
+        int anchorWidth = anchorView.getWidth();
         int xOffset = anchorWidth - popupWidth;
-        popup.showAsDropDown(binding.selectVersionButton, xOffset, 4);
+        popup.showAsDropDown(anchorView, xOffset, 4);
     }
 
     private static class InstancePopupAdapter extends RecyclerView.Adapter<InstancePopupAdapter.VH> {

@@ -44,4 +44,17 @@
     <string name="oblivion_connect_microsoft">连接 Microsoft</string>
     <string name="oblivion_player_default">玩家</string>
     <string name="oblivion_no_version">未选择版本</string>
+    <string name="oblivion_party">派对</string>
+    <string name="oblivion_newsworthy">快讯</string>
+    <string name="oblivion_friends">好友</string>
+    <string name="oblivion_resources">资源</string>
+    <string name="oblivion_launch">启动</string>
+    <string name="oblivion_menu_installed">选择已安装版本</string>
+    <string name="oblivion_menu_download">从 Google Play 下载</string>
+    <string name="oblivion_menu_import">导入 APK / MCBE 补丁</string>
+    <string name="oblivion_role_none">无身份组</string>
+    <string name="oblivion_logs">日志</string>
+    <string name="oblivion_save_log">保存日志</string>
+    <string name="oblivion_credits_title">Oblivion 制作名单</string>
+    <string name="oblivion_profile_title">个人资料</string>
 </resources>

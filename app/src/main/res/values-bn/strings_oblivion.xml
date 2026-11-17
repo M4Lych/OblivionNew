@@ -44,4 +44,17 @@
     <string name="oblivion_connect_microsoft">Microsoft যুক্ত করুন</string>
     <string name="oblivion_player_default">খেলোয়াড়</string>
     <string name="oblivion_no_version">কোনো সংস্করণ নির্বাচিত নয়</string>
+    <string name="oblivion_party">পার্টি</string>
+    <string name="oblivion_newsworthy">সর্বশেষ খবর</string>
+    <string name="oblivion_friends">বন্ধু</string>
+    <string name="oblivion_resources">রিসোর্স</string>
+    <string name="oblivion_launch">লঞ্চ</string>
+    <string name="oblivion_menu_installed">ইনস্টল করা সংস্করণ বেছে নিন</string>
+    <string name="oblivion_menu_download">Google Play থেকে ডাউনলোড</string>
+    <string name="oblivion_menu_import">APK / MCBE-প্যাচ ইমপোর্ট</string>
+    <string name="oblivion_role_none">কোনো রোল নেই</string>
+    <string name="oblivion_logs">লগ</string>
+    <string name="oblivion_save_log">লগ সংরক্ষণ</string>
+    <string name="oblivion_credits_title">Oblivion ক্রেডিট</string>
+    <string name="oblivion_profile_title">প্রোফাইল</string>
 </resources>

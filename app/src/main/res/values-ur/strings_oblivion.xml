@@ -44,4 +44,17 @@
     <string name="oblivion_connect_microsoft">Microsoft جوڑیں</string>
     <string name="oblivion_player_default">کھلاڑی</string>
     <string name="oblivion_no_version">کوئی ورژن منتخب نہیں</string>
+    <string name="oblivion_party">پارٹی</string>
+    <string name="oblivion_newsworthy">تازہ خبریں</string>
+    <string name="oblivion_friends">دوست</string>
+    <string name="oblivion_resources">وسائل</string>
+    <string name="oblivion_launch">لانچ</string>
+    <string name="oblivion_menu_installed">نصب شدہ ورژن منتخب کریں</string>
+    <string name="oblivion_menu_download">Google Play سے ڈاؤنلوڈ کریں</string>
+    <string name="oblivion_menu_import">APK / MCBE پیچ امپورٹ کریں</string>
+    <string name="oblivion_role_none">کوئی رول نہیں</string>
+    <string name="oblivion_logs">لاگز</string>
+    <string name="oblivion_save_log">لاگ محفوظ کریں</string>
+    <string name="oblivion_credits_title">Oblivion کریڈٹس</string>
+    <string name="oblivion_profile_title">پروفائل</string>
 </resources>

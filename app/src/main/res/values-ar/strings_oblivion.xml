@@ -44,4 +44,17 @@
     <string name="oblivion_connect_microsoft">ربط Microsoft</string>
     <string name="oblivion_player_default">لاعب</string>
     <string name="oblivion_no_version">لم يتم اختيار إصدار</string>
+    <string name="oblivion_party">المجموعة</string>
+    <string name="oblivion_newsworthy">آخر الأخبار</string>
+    <string name="oblivion_friends">الأصدقاء</string>
+    <string name="oblivion_resources">الموارد</string>
+    <string name="oblivion_launch">تشغيل</string>
+    <string name="oblivion_menu_installed">اختيار إصدار مثبّت</string>
+    <string name="oblivion_menu_download">التنزيل من Google Play</string>
+    <string name="oblivion_menu_import">استيراد APK / تصحيح MCBE</string>
+    <string name="oblivion_role_none">بلا رتبة</string>
+    <string name="oblivion_logs">السجلات</string>
+    <string name="oblivion_save_log">حفظ السجل</string>
+    <string name="oblivion_credits_title">شكر وتقدير Oblivion</string>
+    <string name="oblivion_profile_title">الملف الشخصي</string>
 </resources>

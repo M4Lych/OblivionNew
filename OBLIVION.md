@@ -1,35 +1,42 @@
 # Oblivion – feature layer
 
-Everything new lives in `app/src/main/java/org/levimc/launcher/oblivion/` plus a few small hooks.
-The launch pipeline (`MinecraftLauncher`, `MinecraftRuntimePreparer`, preloader, mods, auth) is untouched.
+The Oblivion screens live in `app/src/main/java/org/levimc/launcher/oblivion/`. The launch pipeline
+(`MinecraftLauncher`, `MinecraftRuntimePreparer`, preloader, mod loader, auth) is not changed; the new UI only
+forwards taps to the existing launcher functions.
 
-## Configure (edit `app/src/main/res/values/oblivion_config.xml`)
-| Key | Purpose |
-|---|---|
-| `oblivion_dev_name`, `oblivion_dev_github` | Your card in **About** |
-| `oblivion_discord_invite`, `oblivion_social_youtube`, `oblivion_social_instagram` | Onboarding + hub links |
-| `oblivion_api_base`, `oblivion_server_pubkey` | Server for Discord roles, claim codes (see `server/`) |
-| `oblivion_news_url` | URL of your `news.json` (OblivionNews). Empty = bundled news only |
-| `oblivion_update_owner`, `oblivion_update_repo` | GitHub repo for update checks. Empty = update check off |
+## New main screen (replaces the Levi home page)
+Logo + "Oblivion" (tap = Oblivion Credits) · Party · Newsworthy ticker (tap = that news) · Friends (Xbox friends) ·
+3D player model (tap = Cosmetics) · @Role + avatar + gamertag (tap = Profile) · version above LAUNCH · ▼ menu
+(installed version / download from Google Play / import APK) · Resources · Settings.
+Settings → "New Oblivion start screen" off = the classic Levi screen (fallback).
 
-> Update checks were pointing at the LeviDroid-Modder releases (it would offer to replace Oblivion with that APK).
-> They are now off until you set your own repo.
+Other Levi screens (instances, content lists, mods, launcher settings, accounts, CurseForge, news catalogue,
+Xbox friends) are kept and reachable from Resources / Settings / Profile; they use the Levi layouts with the
+launcher colours, they were **not** re-laid-out.
 
-## What each request became
-1 OblivionMod / 2 OblivionNews – renamed in all languages. 3/7/18 Discord link, roles, membership, bot – `OblivionSession` +
-`server/` (needs hosting). 4 About – developer card. 5 Dungeons-style start screen – `DungeonHomeView`
-(START GAME forwards to the normal launch button). 6 OblivionDLC – install a `theme.json`/zip in Hub → recolours Oblivion
-screens. 8 Ave-Mujica-inspired dark/crimson/violet look (original artwork, no copied assets). 9 Loading background –
-`LoadingBackground` (video from Hub, or `assets/oblivion/loading.mp4`, else animated embers). 11 Oblivion logo on the
-loading screen. 12 Skin Changer – writes a skin pack into the selected instance. 13/15 Cosmetics + preview, role/claim
-gated. 14 Claim codes – server-side atomic one-use redemption; packages stored AES-GCM encrypted (Android Keystore) in
-app-private storage. 16 Client settings in Hub. 17 Changelog (`resources/launcher/changelog.json`). 19 First-run wizard,
-re-shown when the app version changes. 20 Languages – 20 offered; Oblivion screens are translated in all 20, the rest of
-the app uses the upstream translations (11 languages) and falls back to English for the other 9.
+## Intro and loading
+Intro: `OblivionTiming.INTRO_MS` (5000 ms). Loading: `OblivionTiming.LOADING_MS` (10000 ms) – Minecraft is shown only
+after that. Logs are behind a **Logs** button (text only); on failure you get Copy / Save log (Downloads/Oblivion) and
+Back to Launcher; the X cancels. Videos: OblivionDLC `intro_video` / `loading_video`, or Profile-less shortcut:
+`assets/oblivion/loading.mp4`.
 
-## Not done / honest limits
-- 10 In-game UI redesign and custom player *geometry* models need game-side work (not attempted).
-- Role/claim checks are enforced on the server; a patched APK can bypass client-side checks. Files Minecraft must read
-  end up readable while the game uses them.
-- The server is a reference implementation; deploy and test it before relying on it.
-- Nothing here was compiled in the authoring environment – the first CI run may need small fixes.
+## OblivionDLC (see docs/OblivionDLC.md)
+Zip with `dlc.json`: theme colours, logo, home background, intro/loading video, custom player model, cosmetics,
+timings. Data only (no code) by design.
+
+## Configure `app/src/main/res/values/oblivion_config.xml`
+`oblivion_dev_name` (M4LychMC), `oblivion_dev_github`, `oblivion_discord_invite`, `oblivion_social_*`,
+`oblivion_api_base` + `oblivion_server_pubkey` (server), `oblivion_news_url`, `oblivion_update_owner/_repo`.
+
+## Needs the server (`server/`)
+Discord roles/membership, claim codes, DLC shop catalogue, Oblivion friends and **Party text chat**. Without it the
+rest works.
+
+## Honest limits
+- **Party voice chat is not implemented** (needs a realtime media server); text chat only.
+- Buying cosmetics/DLC is not implemented (no payment backend); locked items show how to unlock them.
+- Minecraft's own Xbox achievements are not read; Profile shows client achievements.
+- Friends = your Xbox friends (existing Levi screen). Party uses Oblivion friends (accepted on the server).
+- Global resource packs: no separate Levi feature exists; the Resource packs tile opens the pack list.
+- A DLC cannot change screen *structure* with code (security); it restyles via data.
+- 3D model/UI code has not been compiled or run on a device in the authoring environment.

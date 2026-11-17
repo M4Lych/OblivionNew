@@ -44,4 +44,17 @@
     <string name="oblivion_connect_microsoft">Hubungkan Microsoft</string>
     <string name="oblivion_player_default">Pemain</string>
     <string name="oblivion_no_version">Belum ada versi dipilih</string>
+    <string name="oblivion_party">Grup</string>
+    <string name="oblivion_newsworthy">Berita Terkini</string>
+    <string name="oblivion_friends">Teman</string>
+    <string name="oblivion_resources">Sumber Daya</string>
+    <string name="oblivion_launch">LUNCURKAN</string>
+    <string name="oblivion_menu_installed">Pilih versi terpasang</string>
+    <string name="oblivion_menu_download">Unduh dari Google Play</string>
+    <string name="oblivion_menu_import">Impor APK / patch MCBE</string>
+    <string name="oblivion_role_none">Tanpa role</string>
+    <string name="oblivion_logs">Log</string>
+    <string name="oblivion_save_log">Simpan log</string>
+    <string name="oblivion_credits_title">Kredit Oblivion</string>
+    <string name="oblivion_profile_title">Profil</string>
 </resources>

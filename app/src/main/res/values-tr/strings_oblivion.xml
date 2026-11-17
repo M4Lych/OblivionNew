@@ -44,4 +44,17 @@
     <string name="oblivion_connect_microsoft">Microsoft\'u bağla</string>
     <string name="oblivion_player_default">Oyuncu</string>
     <string name="oblivion_no_version">Sürüm seçilmedi</string>
+    <string name="oblivion_party">Grup</string>
+    <string name="oblivion_newsworthy">Son Haberler</string>
+    <string name="oblivion_friends">Arkadaşlar</string>
+    <string name="oblivion_resources">Kaynaklar</string>
+    <string name="oblivion_launch">BAŞLAT</string>
+    <string name="oblivion_menu_installed">Yüklü sürümü seç</string>
+    <string name="oblivion_menu_download">Google Play\'den indir</string>
+    <string name="oblivion_menu_import">APK / MCBE yamasını içe aktar</string>
+    <string name="oblivion_role_none">Rol yok</string>
+    <string name="oblivion_logs">Günlük</string>
+    <string name="oblivion_save_log">Günlüğü kaydet</string>
+    <string name="oblivion_credits_title">Oblivion Emeği Geçenler</string>
+    <string name="oblivion_profile_title">Profil</string>
 </resources>

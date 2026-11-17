@@ -152,3 +152,143 @@ def admin_codes(body: NewCodes, x_admin_key: str = Header(None)):
     con = core.db()
     return {"codes": core.make_codes(con, max(1, min(body.count, 500)), body.title, body.entitlement,
                                      body.package_id, "admin-api")}
+
+
+# ---------------------------------------------------------------- friends / party (text chat)
+class FriendBody(BaseModel):
+    discord_id: str = ""
+    username: str = ""
+
+
+@app.get("/v1/friends")
+def friends(authorization: str = Header(None)):
+    con, row = session_for(authorization)
+    me = row["discord_id"]
+    out = {"friends": [], "incoming": [], "outgoing": []}
+    for r in con.execute("SELECT * FROM friends WHERE a=? OR b=?", (me, me)):
+        other = r["b"] if r["a"] == me else r["a"]
+        entry = {"discord_id": other, "username": core.name_of(con, other)}
+        if r["status"] == "accepted":
+            out["friends"].append(entry)
+        elif r["a"] == me:
+            out["outgoing"].append(entry)
+        else:
+            out["incoming"].append(entry)
+    return out
+
+
+@app.post("/v1/friends/request")
+def friend_request(body: FriendBody, authorization: str = Header(None)):
+    con, row = session_for(authorization)
+    target = body.discord_id
+    if not target and body.username:
+        r = con.execute("SELECT discord_id FROM sessions WHERE lower(username)=lower(?) ORDER BY created DESC LIMIT 1",
+                        (body.username.strip(),)).fetchone()
+        target = r["discord_id"] if r else ""
+    if not target or target == row["discord_id"]:
+        return error(404, "user not found")
+    con.execute("INSERT OR IGNORE INTO friends(a,b,status) VALUES(?,?,'pending')", (row["discord_id"], target))
+    return {"ok": True}
+
+
+@app.post("/v1/friends/accept")
+def friend_accept(body: FriendBody, authorization: str = Header(None)):
+    con, row = session_for(authorization)
+    cur = con.execute("UPDATE friends SET status='accepted' WHERE a=? AND b=? AND status='pending'",
+                      (body.discord_id, row["discord_id"]))
+    return {"ok": cur.rowcount == 1}
+
+
+@app.post("/v1/friends/remove")
+def friend_remove(body: FriendBody, authorization: str = Header(None)):
+    con, row = session_for(authorization)
+    me = row["discord_id"]
+    con.execute("DELETE FROM friends WHERE (a=? AND b=?) OR (a=? AND b=?)", (me, body.discord_id, body.discord_id, me))
+    return {"ok": True}
+
+
+class PartyBody(BaseModel):
+    name: str
+
+
+def member_of(con, party_id, me):
+    return con.execute("SELECT 1 FROM party_members WHERE party_id=? AND discord_id=?", (party_id, me)).fetchone()
+
+
+@app.post("/v1/party")
+def party_create(body: PartyBody, authorization: str = Header(None)):
+    con, row = session_for(authorization)
+    pid = core.new_token()[:12]
+    con.execute("INSERT INTO parties(id,name,owner,created) VALUES(?,?,?,?)",
+                (pid, body.name.strip()[:48] or "Party", row["discord_id"], time.time()))
+    con.execute("INSERT INTO party_members(party_id,discord_id) VALUES(?,?)", (pid, row["discord_id"]))
+    return {"id": pid}
+
+
+@app.get("/v1/party")
+def party_list(authorization: str = Header(None)):
+    con, row = session_for(authorization)
+    items = []
+    for p in con.execute("SELECT p.* FROM parties p JOIN party_members m ON m.party_id=p.id WHERE m.discord_id=?",
+                         (row["discord_id"],)):
+        members = [core.name_of(con, m["discord_id"]) for m in con.execute(
+            "SELECT discord_id FROM party_members WHERE party_id=?", (p["id"],))]
+        items.append({"id": p["id"], "name": p["name"], "owner": p["owner"], "members": members})
+    return {"items": items}
+
+
+class InviteBody(BaseModel):
+    discord_id: str
+
+
+@app.post("/v1/party/{party_id}/invite")
+def party_invite(party_id: str, body: InviteBody, authorization: str = Header(None)):
+    con, row = session_for(authorization)
+    me = row["discord_id"]
+    if not member_of(con, party_id, me):
+        return error(403, "not in this party")
+    if not core.are_friends(con, me, body.discord_id):
+        return error(403, "you can only invite friends")
+    con.execute("INSERT OR IGNORE INTO party_members(party_id,discord_id) VALUES(?,?)", (party_id, body.discord_id))
+    return {"ok": True}
+
+
+@app.post("/v1/party/{party_id}/leave")
+def party_leave(party_id: str, authorization: str = Header(None)):
+    con, row = session_for(authorization)
+    con.execute("DELETE FROM party_members WHERE party_id=? AND discord_id=?", (party_id, row["discord_id"]))
+    return {"ok": True}
+
+
+class MessageBody(BaseModel):
+    text: str
+
+
+@app.get("/v1/party/{party_id}/messages")
+def party_messages(party_id: str, after: int = 0, authorization: str = Header(None)):
+    con, row = session_for(authorization)
+    if not member_of(con, party_id, row["discord_id"]):
+        return error(403, "not in this party")
+    msgs = [{"id": m["id"], "user": m["username"], "text": m["text"], "ts": m["ts"],
+             "mine": m["discord_id"] == row["discord_id"]}
+            for m in con.execute("SELECT * FROM messages WHERE party_id=? AND id>? ORDER BY id LIMIT 100",
+                                 (party_id, after))]
+    return {"messages": msgs}
+
+
+@app.post("/v1/party/{party_id}/messages")
+def party_send(party_id: str, body: MessageBody, authorization: str = Header(None)):
+    con, row = session_for(authorization)
+    if not member_of(con, party_id, row["discord_id"]):
+        return error(403, "not in this party")
+    text = body.text.strip()[:500]
+    if text:
+        con.execute("INSERT INTO messages(party_id,discord_id,username,text,ts) VALUES(?,?,?,?,?)",
+                    (party_id, row["discord_id"], row["username"], text, time.time()))
+    return {"ok": True}
+
+
+@app.get("/v1/dlc")
+def dlc_catalog(authorization: str = Header(None)):
+    con, row = session_for(authorization)
+    return {"items": [dict(r) for r in con.execute("SELECT id,name,description,package_id FROM dlc")]}

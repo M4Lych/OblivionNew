@@ -30,6 +30,15 @@ public final class SkinApply {
         return SkinTools.withCosmetics(c, base, wornCosmetics(c));
     }
 
+    public static Bitmap defaultSkin(Context c) {
+        try (java.io.InputStream in = c.getAssets().open("oblivion/default_skin.png")) {
+            Bitmap b = android.graphics.BitmapFactory.decodeStream(in);
+            return b == null ? null : SkinTools.normalize(b);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public static GameVersion selectedVersion(Context c) {
         try {
             VersionManager vm = VersionManager.getIfInitialized();

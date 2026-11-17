@@ -44,4 +44,17 @@
     <string name="oblivion_connect_microsoft">Подключить Microsoft</string>
     <string name="oblivion_player_default">Игрок</string>
     <string name="oblivion_no_version">Версия не выбрана</string>
+    <string name="oblivion_party">Группа</string>
+    <string name="oblivion_newsworthy">Новости</string>
+    <string name="oblivion_friends">Друзья</string>
+    <string name="oblivion_resources">Ресурсы</string>
+    <string name="oblivion_launch">ЗАПУСК</string>
+    <string name="oblivion_menu_installed">Выбрать установленную версию</string>
+    <string name="oblivion_menu_download">Скачать из Google Play</string>
+    <string name="oblivion_menu_import">Импорт APK / патча MCBE</string>
+    <string name="oblivion_role_none">Нет роли</string>
+    <string name="oblivion_logs">Логи</string>
+    <string name="oblivion_save_log">Сохранить лог</string>
+    <string name="oblivion_credits_title">Авторы Oblivion</string>
+    <string name="oblivion_profile_title">Профиль</string>
 </resources>

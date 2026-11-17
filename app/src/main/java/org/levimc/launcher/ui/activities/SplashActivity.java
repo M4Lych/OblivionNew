@@ -82,11 +82,7 @@ public class SplashActivity extends BaseActivity {
     private void navigateToMain() {
         if (!resumed || !ready || navigated || isFinishing() || isDestroyed() || !hasWindowFocus()) return;
         navigated = true;
-        if (org.levimc.launcher.oblivion.OnboardingActivity.isNeeded(this)) {
-            startActivity(new Intent(this, org.levimc.launcher.oblivion.OnboardingActivity.class));
-        } else {
-            startActivity(new Intent(this, MainActivity.class));
-        }
+        startActivity(new Intent(this, org.levimc.launcher.oblivion.OblivionIntroActivity.class));
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }

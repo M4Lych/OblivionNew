@@ -44,4 +44,17 @@
     <string name="oblivion_connect_microsoft">Microsoft 연결</string>
     <string name="oblivion_player_default">플레이어</string>
     <string name="oblivion_no_version">선택된 버전 없음</string>
+    <string name="oblivion_party">파티</string>
+    <string name="oblivion_newsworthy">뉴스</string>
+    <string name="oblivion_friends">친구</string>
+    <string name="oblivion_resources">리소스</string>
+    <string name="oblivion_launch">실행</string>
+    <string name="oblivion_menu_installed">설치된 버전 선택</string>
+    <string name="oblivion_menu_download">Google Play에서 다운로드</string>
+    <string name="oblivion_menu_import">APK / MCBE 패치 가져오기</string>
+    <string name="oblivion_role_none">역할 없음</string>
+    <string name="oblivion_logs">로그</string>
+    <string name="oblivion_save_log">로그 저장</string>
+    <string name="oblivion_credits_title">Oblivion 크레딧</string>
+    <string name="oblivion_profile_title">프로필</string>
 </resources>

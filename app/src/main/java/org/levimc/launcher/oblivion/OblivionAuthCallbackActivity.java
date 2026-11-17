@@ -18,7 +18,7 @@ public class OblivionAuthCallbackActivity extends Activity {
             } else {
                 Toast.makeText(this, getString(R.string.oblivion_login_ok, account.username), Toast.LENGTH_SHORT).show();
             }
-            Intent hub = new Intent(this, OblivionHubActivity.class);
+            Intent hub = new Intent(this, ProfileActivity.class);
             hub.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(hub);
             finish();
