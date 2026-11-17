@@ -1,0 +1,47 @@
+{
+  "id": "creator.example-theme",
+  "name": "Example Theme Pack",
+  "version": "1.0.0",
+  "author": "Creator Name",
+  "intro_ms": 5000,
+  "loading_ms": 10000,
+  "theme": {
+    "name": "Example Theme",
+    "bg": "#10141C",
+    "surface": "#202936",
+    "surfaceAlt": "#293746",
+    "stroke": "#425A70",
+    "primary": "#1FD77F",
+    "accent": "#5DBBFF",
+    "gold": "#FFD166",
+    "text": "#FFFFFF",
+    "textDim": "#CAD4DF",
+    "glass": "#B3202933",
+    "glassStroke": "#55FFFFFF",
+    "launch": "#1FD77F",
+    "launchLight": "#6CFFB0",
+    "info": "#2867A5",
+    "danger": "#D9534F"
+  },
+  "assets": {
+    "logo": "assets/logo.png",
+    "home_background": "assets/home-background.png",
+    "intro_video": "assets/intro.mp4",
+    "loading_video": "assets/loading.mp4"
+  },
+  "model": "models/player.json",
+  "model_texture": "models/player.png",
+  "cosmetics": [
+    {
+      "id": "example-cape",
+      "name": "Example Cape",
+      "description": "A cape included in this theme pack.",
+      "type": "cape",
+      "asset": "cosmetics/example-cape.png",
+      "roles": [],
+      "claim": false,
+      "membership": false,
+      "price": 0
+    }
+  ]
+}
