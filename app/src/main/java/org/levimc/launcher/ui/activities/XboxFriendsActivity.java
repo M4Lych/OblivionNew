@@ -1,0 +1,504 @@
+package org.levimc.launcher.ui.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
+
+import org.levimc.launcher.R;
+import org.levimc.launcher.core.auth.MsftAccountStore;
+import org.levimc.launcher.core.discord.DiscordRpcManager;
+import org.levimc.launcher.core.xbox.XboxLiveClient;
+import org.levimc.launcher.ui.adapter.XboxFriendsAdapter;
+import org.levimc.launcher.ui.adapter.XboxRequestsAdapter;
+import org.levimc.launcher.ui.adapter.XboxSearchAdapter;
+import org.levimc.launcher.ui.animation.DynamicAnim;
+import org.levimc.launcher.ui.widget.SegmentedControl;
+import org.levimc.launcher.util.PersonalizationManager;
+import org.levimc.launcher.ui.dialogs.CustomAlertDialog;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+public class XboxFriendsActivity extends BaseActivity {
+
+    private XboxLiveClient client;
+    private XboxFriendsAdapter friendsAdapter;
+    private XboxRequestsAdapter requestsAdapter;
+    private XboxSearchAdapter searchAdapter;
+    private SegmentedControl friendFilter;
+    private TextView tabFriends;
+    private TextView tabRequests;
+    private TextView emptyText;
+    private TextView searchStatus;
+    private EditText searchInput;
+    private View searchSection;
+    private View clearSearchButton;
+    private ProgressBar progress;
+    private final Handler searchHandler = new Handler(Looper.getMainLooper());
+    private Runnable pendingSearch;
+    private int searchGeneration;
+    private boolean searchActive;
+    private boolean friendsVisible = true;
+    private boolean friendsLoaded;
+    private boolean requestsLoaded;
+    private boolean incomingLoaded;
+    private boolean outgoingLoaded;
+    private int friendFilterIndex;
+    private final List<XboxLiveClient.XboxFriend> allFriends = new ArrayList<>();
+    private final List<XboxLiveClient.XboxFriend> incomingRequests = new ArrayList<>();
+    private final List<XboxLiveClient.XboxFriend> outgoingRequests = new ArrayList<>();
+    private final List<XboxLiveClient.XboxFriend> knownFriends = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_xbox_friends);
+        new PersonalizationManager(this).applyAccentToView(findViewById(android.R.id.content), this);
+
+        client = new XboxLiveClient(this);
+        tabFriends = findViewById(R.id.tab_friends);
+        tabRequests = findViewById(R.id.tab_requests);
+        emptyText = findViewById(R.id.empty_text);
+        progress = findViewById(R.id.progress);
+
+        RecyclerView friendsList = findViewById(R.id.friends_list);
+        RecyclerView requestsList = findViewById(R.id.requests_list);
+        friendsList.setLayoutManager(new LinearLayoutManager(this));
+        requestsList.setLayoutManager(new LinearLayoutManager(this));
+
+        friendsAdapter = new XboxFriendsAdapter(new XboxFriendsAdapter.Listener() {
+            @Override
+            public void onViewProfile(XboxLiveClient.XboxFriend friend) {
+                Intent intent = new Intent(XboxFriendsActivity.this, XboxProfileActivity.class);
+                intent.putExtra(XboxProfileActivity.EXTRA_XUID, friend.xuid);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onRemoveFriend(XboxLiveClient.XboxFriend friend) {
+                showRemoveDialog(friend);
+            }
+        });
+        requestsAdapter = new XboxRequestsAdapter(new XboxRequestsAdapter.Listener() {
+            @Override
+            public void onAccept(XboxLiveClient.XboxFriend friend) {
+                performAction(callback -> client.acceptRequest(friend.xuid, callback),
+                        getString(R.string.xbox_friends_request_accepted, XboxLiveClient.displayName(friend)));
+            }
+
+            @Override
+            public void onDecline(XboxLiveClient.XboxFriend friend) {
+                performAction(callback -> client.removeFriend(friend.xuid, callback),
+                        getString(R.string.xbox_friends_request_declined));
+            }
+            @Override
+            public void onCancelOutgoing(XboxLiveClient.XboxFriend friend) {
+                performAction(callback -> client.removeFriend(friend.xuid, callback),
+                        getString(R.string.xbox_friends_request_cancelled, XboxLiveClient.displayName(friend)));
+            }
+        });
+        friendsList.setAdapter(friendsAdapter);
+        requestsList.setAdapter(requestsAdapter);
+
+        tabFriends.setOnClickListener(v -> selectTab(true));
+        tabRequests.setOnClickListener(v -> selectTab(false));
+
+        friendFilter = findViewById(R.id.friend_filter);
+        friendFilter.setItems(getString(R.string.filter_all),
+                getString(R.string.xbox_friends_online),
+                getString(R.string.xbox_friends_offline));
+        friendFilter.setOnSegmentSelectedListener(index -> {
+            friendFilterIndex = index;
+            applyFriendFilter();
+        });
+        friendFilter.setSelectedIndex(0, false);
+
+        View refreshButton = findViewById(R.id.refresh_button);
+        refreshButton.setOnClickListener(v -> refreshAll());
+        DynamicAnim.applyPressScale(refreshButton);
+
+        setupSearch();
+
+        selectTab(true);
+        refreshAll();
+    }
+
+    private void setupSearch() {
+        searchInput = findViewById(R.id.xbox_search_input);
+        searchSection = findViewById(R.id.search_section);
+        searchStatus = findViewById(R.id.search_status);
+        clearSearchButton = findViewById(R.id.clear_search_button);
+
+        RecyclerView searchResults = findViewById(R.id.search_results_list);
+        searchResults.setLayoutManager(new LinearLayoutManager(this));
+        searchAdapter = new XboxSearchAdapter(this::confirmAdd);
+        searchResults.setAdapter(searchAdapter);
+
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                scheduleSearch(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        searchInput.setOnEditorActionListener((view, actionId, event) -> {
+            if (actionId != EditorInfo.IME_ACTION_SEARCH) return false;
+            String query = searchInput.getText().toString().trim();
+            if (query.isEmpty()) return true;
+            hideKeyboard();
+            if (friendsVisible) applyFriendFilter();
+            else runDirectorySearch(query);
+            return true;
+        });
+        clearSearchButton.setOnClickListener(v -> clearSearch());
+    }
+
+    private void scheduleSearch(String raw) {
+        String query = raw.trim();
+        clearSearchButton.setVisibility(query.isEmpty() ? View.GONE : View.VISIBLE);
+        if (friendsVisible) {
+            applyFriendFilter();
+            return;
+        }
+        if (pendingSearch != null) searchHandler.removeCallbacks(pendingSearch);
+        if (query.length() < 2) {
+            if (searchActive) hideDirectoryResults();
+            return;
+        }
+        pendingSearch = () -> runDirectorySearch(query);
+        searchHandler.postDelayed(pendingSearch, 450L);
+    }
+
+    private void runDirectorySearch(String query) {
+        final int generation = ++searchGeneration;
+        setDirectoryResultsVisible(true);
+        searchStatus.setText(R.string.xbox_friends_search_results);
+        searchAdapter.submit(new ArrayList<>());
+        progress.setVisibility(View.VISIBLE);
+        client.searchFriends(query, new XboxLiveClient.ListCallback() {
+            @Override
+            public void onList(List<XboxLiveClient.XboxFriend> results) {
+                if (generation != searchGeneration) return;
+                progress.setVisibility(View.GONE);
+                List<XboxLiveClient.XboxFriend> filtered = filterSearchResults(results);
+                searchAdapter.submit(filtered);
+                searchStatus.setText(filtered.isEmpty()
+                        ? R.string.xbox_friends_search_empty
+                        : R.string.xbox_friends_search_results);
+            }
+
+            @Override
+            public void onError(String message) {
+                if (generation != searchGeneration) return;
+                progress.setVisibility(View.GONE);
+                setDirectoryResultsVisible(false);
+                Toast.makeText(XboxFriendsActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setDirectoryResultsVisible(boolean visible) {
+        searchActive = visible;
+        searchSection.setVisibility(visible ? View.VISIBLE : View.GONE);
+        findViewById(R.id.friends_list).setVisibility(visible || !friendsVisible ? View.GONE : View.VISIBLE);
+        findViewById(R.id.requests_list).setVisibility(visible || friendsVisible ? View.GONE : View.VISIBLE);
+        friendFilter.setVisibility(!visible && friendsVisible ? View.VISIBLE : View.GONE);
+        updateEmpty();
+    }
+
+    private void hideDirectoryResults() {
+        searchActive = false;
+        searchGeneration++;
+        if (pendingSearch != null) searchHandler.removeCallbacks(pendingSearch);
+        searchAdapter.submit(new ArrayList<>());
+        setDirectoryResultsVisible(false);
+    }
+
+    private void clearSearch() {
+        hideDirectoryResults();
+        if (searchInput.getText().length() > 0) searchInput.setText("");
+        clearSearchButton.setVisibility(View.GONE);
+        applyFriendFilter();
+        hideKeyboard();
+    }
+
+    private void hideKeyboard() {
+        searchInput.clearFocus();
+        InputMethodManager keyboard = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (keyboard != null) keyboard.hideSoftInputFromWindow(searchInput.getWindowToken(), 0);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DiscordRpcManager.getInstance().reportScreen(DiscordRpcManager.SCREEN_FRIENDS, R.string.rpc_friends);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DiscordRpcManager.getInstance().clearScreen(DiscordRpcManager.SCREEN_FRIENDS);
+    }
+
+    private void selectTab(boolean friends) {
+        friendsVisible = friends;
+        searchInput.setHint(friends
+                ? R.string.xbox_friends_search_local_hint
+                : R.string.xbox_friends_search_prompt);
+        clearSearch();
+        tabFriends.setBackgroundResource(friends
+                ? R.drawable.bg_tab_selected : R.drawable.bg_tab_unselected);
+        tabFriends.setTextColor(getColor(friends ? R.color.on_primary : R.color.text_secondary));
+        tabRequests.setBackgroundResource(friends
+                ? R.drawable.bg_tab_unselected : R.drawable.bg_tab_selected);
+        tabRequests.setTextColor(getColor(friends ? R.color.text_secondary : R.color.on_primary));
+        findViewById(R.id.friends_list).setVisibility(friends ? View.VISIBLE : View.GONE);
+        findViewById(R.id.requests_list).setVisibility(friends ? View.GONE : View.VISIBLE);
+        friendFilter.setVisibility(friends ? View.VISIBLE : View.GONE);
+        int accent = new PersonalizationManager(this).getAccentColor();
+        android.graphics.drawable.Drawable friendsTabBg = tabFriends.getBackground();
+        if (friendsTabBg instanceof android.graphics.drawable.GradientDrawable) {
+            ((android.graphics.drawable.GradientDrawable) friendsTabBg).setColor(friends ? accent
+                    : ContextCompat.getColor(this, R.color.surface_variant));
+        }
+        android.graphics.drawable.Drawable requestsTabBg = tabRequests.getBackground();
+        if (requestsTabBg instanceof android.graphics.drawable.GradientDrawable) {
+            ((android.graphics.drawable.GradientDrawable) requestsTabBg).setColor(friends
+                    ? ContextCompat.getColor(this, R.color.surface_variant) : accent);
+        }
+        tabFriends.setTextColor(getColor(friends ? android.R.color.white : R.color.text_secondary));
+        tabRequests.setTextColor(getColor(friends ? R.color.text_secondary : android.R.color.white));
+        updateEmpty();
+    }
+
+    private void refreshAll() {
+        friendsLoaded = false;
+        requestsLoaded = false;
+        incomingLoaded = false;
+        outgoingLoaded = false;
+        incomingRequests.clear();
+        outgoingRequests.clear();
+        progress.setVisibility(View.VISIBLE);
+        updateEmpty();
+
+        client.fetchFriends(new XboxLiveClient.FriendsCallback() {
+            @Override
+            public void onFriends(List<XboxLiveClient.XboxFriend> friends) {
+                knownFriends.clear();
+                knownFriends.addAll(friends);
+                allFriends.clear();
+                allFriends.addAll(friends);
+                applyFriendFilter();
+                friendsLoaded = true;
+                finishLoading();
+            }
+
+            @Override
+            public void onError(String message) {
+                friendsLoaded = true;
+                finishLoading();
+                Toast.makeText(XboxFriendsActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        client.fetchIncoming(new XboxLiveClient.ListCallback() {
+            @Override
+            public void onList(List<XboxLiveClient.XboxFriend> incoming) {
+                incomingRequests.clear();
+                incomingRequests.addAll(incoming);
+                incomingLoaded = true;
+                tryFinishRequests();
+            }
+
+            @Override
+            public void onError(String message) {
+                incomingLoaded = true;
+                tryFinishRequests();
+                Toast.makeText(XboxFriendsActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        client.fetchOutgoing(new XboxLiveClient.ListCallback() {
+            @Override
+            public void onList(List<XboxLiveClient.XboxFriend> outgoing) {
+                outgoingRequests.clear();
+                outgoingRequests.addAll(outgoing);
+                outgoingLoaded = true;
+                tryFinishRequests();
+            }
+
+            @Override
+            public void onError(String message) {
+                outgoingLoaded = true;
+                tryFinishRequests();
+                Toast.makeText(XboxFriendsActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void tryFinishRequests() {
+        if (!incomingLoaded || !outgoingLoaded) return;
+        requestsAdapter.submit(cleanIncomingRequests(), cleanOutgoingRequests());
+        requestsLoaded = true;
+        finishLoading();
+    }
+
+    private List<XboxLiveClient.XboxFriend> cleanIncomingRequests() {
+        List<XboxLiveClient.XboxFriend> deduped = new ArrayList<>();
+        for (XboxLiveClient.XboxFriend friend : incomingRequests) {
+            if (containsXuid(outgoingRequests, friend.xuid)) continue;
+            deduped.add(friend);
+        }
+        List<XboxLiveClient.XboxFriend> confirmed = new ArrayList<>();
+        for (XboxLiveClient.XboxFriend friend : deduped) {
+            if (!Boolean.FALSE.equals(friend.isFriendRequestReceived)) confirmed.add(friend);
+        }
+        return confirmed.isEmpty() ? deduped : confirmed;
+    }
+
+    private List<XboxLiveClient.XboxFriend> cleanOutgoingRequests() {
+        List<XboxLiveClient.XboxFriend> confirmed = new ArrayList<>();
+        for (XboxLiveClient.XboxFriend friend : outgoingRequests) {
+            if (!Boolean.FALSE.equals(friend.isFriendRequestSent)) confirmed.add(friend);
+        }
+        return confirmed.isEmpty() ? outgoingRequests : confirmed;
+    }
+
+    private static boolean containsXuid(List<XboxLiveClient.XboxFriend> list, String xuid) {
+        if (xuid == null) return false;
+        for (XboxLiveClient.XboxFriend friend : list) {
+            if (xuid.equals(friend.xuid)) return true;
+        }
+        return false;
+    }
+
+    private void finishLoading() {
+        if (friendsLoaded && requestsLoaded) {
+            progress.setVisibility(View.GONE);
+        }
+        updateEmpty();
+    }
+
+    private void applyFriendFilter() {
+        String query = searchInput.getText().toString().trim().toLowerCase(Locale.ROOT);
+        List<XboxLiveClient.XboxFriend> filtered = new ArrayList<>();
+        for (XboxLiveClient.XboxFriend friend : allFriends) {
+            boolean online = "Online".equals(friend.presenceState);
+            if (friendFilterIndex == 1 && !online) continue;
+            if (friendFilterIndex == 2 && online) continue;
+            if (!query.isEmpty()
+                    && !XboxLiveClient.displayName(friend).toLowerCase(Locale.ROOT).contains(query)) continue;
+            filtered.add(friend);
+        }
+        friendsAdapter.submit(filtered);
+        updateEmpty();
+    }
+
+    private void updateEmpty() {
+        if (searchActive) {
+            emptyText.setVisibility(View.GONE);
+            return;
+        }
+        boolean loaded = friendsVisible ? friendsLoaded : requestsLoaded;
+        int count = friendsVisible ? friendsAdapter.getItemCount() : requestsAdapter.getItemCount();
+        emptyText.setVisibility(loaded && count == 0 ? View.VISIBLE : View.GONE);
+        if (!friendsVisible) {
+            emptyText.setText(R.string.xbox_friends_empty_requests);
+        } else if (!allFriends.isEmpty() && !searchInput.getText().toString().trim().isEmpty()) {
+            emptyText.setText(R.string.xbox_friends_search_empty);
+        } else if (!allFriends.isEmpty() && friendFilterIndex == 1) {
+            emptyText.setText(R.string.xbox_friends_empty_online);
+        } else if (!allFriends.isEmpty() && friendFilterIndex == 2) {
+            emptyText.setText(R.string.xbox_friends_empty_offline);
+        } else {
+            emptyText.setText(R.string.xbox_friends_empty_friends);
+        }
+    }
+
+    private interface ActionStarter {
+        void start(XboxLiveClient.ActionCallback callback);
+    }
+
+    private void performAction(ActionStarter starter, String doneMessage) {
+        starter.start(new XboxLiveClient.ActionCallback() {
+            @Override
+            public void onDone() {
+                Toast.makeText(XboxFriendsActivity.this, doneMessage, Toast.LENGTH_SHORT).show();
+                clearSearch();
+                refreshAll();
+                // Xbox backend results can lag slightly after friend mutations.
+                new Handler(Looper.getMainLooper()).postDelayed(XboxFriendsActivity.this::refreshAll, 900L);
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(XboxFriendsActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private List<XboxLiveClient.XboxFriend> filterSearchResults(List<XboxLiveClient.XboxFriend> results) {
+        MsftAccountStore.MsftAccount account = MsftAccountStore.getActive(this);
+        String selfXuid = account != null ? account.xuid : null;
+        List<XboxLiveClient.XboxFriend> filtered = new ArrayList<>();
+        for (XboxLiveClient.XboxFriend candidate : results) {
+            if (TextUtils.isEmpty(candidate.xuid)) continue;
+            if (candidate.xuid.equals(selfXuid)) continue;
+            boolean alreadyFriend = false;
+            for (XboxLiveClient.XboxFriend friend : knownFriends) {
+                if (candidate.xuid.equals(friend.xuid)) {
+                    alreadyFriend = true;
+                    break;
+                }
+            }
+            if (!alreadyFriend) filtered.add(candidate);
+        }
+        return filtered;
+    }
+
+    private void confirmAdd(XboxLiveClient.XboxFriend friend) {
+        hideKeyboard();
+        new CustomAlertDialog(this)
+                .setTitleText(getString(R.string.xbox_friends_add))
+                .setMessage(getString(R.string.xbox_friends_add_confirm, XboxLiveClient.displayName(friend)))
+                .setPositiveButton(getString(R.string.xbox_friends_add), v ->
+                        performAction(callback -> client.acceptRequest(friend.xuid, callback),
+                                getString(R.string.xbox_friends_added, XboxLiveClient.displayName(friend))))
+                .setNegativeButton(getString(R.string.dialog_negative_cancel), null)
+                .show();
+    }
+
+    private void showRemoveDialog(XboxLiveClient.XboxFriend friend) {
+        new CustomAlertDialog(this)
+                .setTitleText(getString(R.string.xbox_friends_remove_title))
+                .setMessage(getString(R.string.xbox_friends_remove_confirm, XboxLiveClient.displayName(friend)))
+                .setPositiveButton(getString(R.string.xbox_friends_remove), v ->
+                        performAction(callback -> client.removeFriend(friend.xuid, callback),
+                                getString(R.string.xbox_friends_removed, XboxLiveClient.displayName(friend))))
+                .setNegativeButton(getString(R.string.dialog_negative_cancel), null)
+                .show();
+    }
+}

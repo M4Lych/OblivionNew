@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "headline": "LeviLauncher Modder v1.6.1-modder.41",
+  "summary": "Exiting the launcher now says goodbye properly: confirming Exit shows a one-second farewell note before the app closes for real.",
+  "sections": [
+    {
+      "title": "Changes",
+      "items": [
+        {
+          "text": "Pressing Exit in the quit dialog now opens a fullscreen farewell note for one second, and the app then closes completely instead of lingering in the background.",
+          "url": "https://github.com/sang765/LeviDroid-Modder/commit/f6aa76b4"
+        },
+        {
+          "text": "The farewell note draws edge-to-edge under the display cutout, so the notch never pushes or clips it.",
+          "url": "https://github.com/sang765/LeviDroid-Modder/commit/f6aa76b4"
+        }
+      ]
+    },
+    {
+      "title": "Fixes",
+      "items": [
+        {
+          "text": "English locale shows the translated note \"Thanks for coming\", while Vietnamese keeps the deliberately accent-free \"Cam on vi da den\".",
+          "url": "https://github.com/sang765/LeviDroid-Modder/commit/f6aa76b4"
+        }
+      ]
+    }
+  ]
+}
