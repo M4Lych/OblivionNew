@@ -2,7 +2,7 @@
 
 ![Original LeviMC project logo](https://avatars.githubusercontent.com/u/78095377?s=200&v=4)
 
-# Oblivion for Android — Ave Mujica Edition
+# Oblivion for Android — Ave Mujica Edition 1.2
 
 **🇺🇸 English** | **[🇻🇳 Tiếng Việt (Vietnamese)](README_vi.md)** | **[🇯🇵 日本語 (Japanese)](README_jp.md)** | **[🇷🇺 Русский (Russian)](README_ru.md)** | **[🇨🇳 中文 (Chinese)](README_zh.md)**
 
