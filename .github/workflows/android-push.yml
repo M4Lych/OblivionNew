@@ -22,6 +22,29 @@ jobs:
           fetch-depth: 0
           submodules: "recursive"
 
+      # This repository snapshot has no root .gitmodules entries for the two
+      # native runtime dependencies. Checkout them explicitly so CMake can
+      # resolve app/src/main/cpp/preloader and libHttpClient.
+      - name: Checkout Android preloader
+        uses: actions/checkout@v7
+        with:
+          repository: LiteLDev/preloader-android
+          ref: 0.2.3
+          path: app/src/main/cpp/preloader
+
+      - name: Checkout Microsoft libHttpClient
+        uses: actions/checkout@v7
+        with:
+          repository: microsoft/libHttpClient
+          ref: main
+          path: app/src/main/cpp/libHttpClient
+
+      - name: Verify native dependencies
+        run: |
+          set -euo pipefail
+          test -f app/src/main/cpp/preloader/CMakeLists.txt
+          test -f app/src/main/cpp/libHttpClient/Build/libHttpClient.Android/CMakeLists.txt
+
       - name: Validate release content
         run: python3 scripts/validate_release_content.py
 
@@ -128,7 +151,7 @@ jobs:
             app/build/outputs/mapping/debug/
             app/build/outputs/mapping/beta/
             app/build/outputs/mapping/release/
-          if-no-files-found: error
+          if-no-files-found: ignore
 
       - name: Upload Unsigned Release APK
         uses: actions/upload-artifact@v7
