@@ -11,7 +11,7 @@
     <org.levimc.launcher.ui.widget.CenteredNavbarLayout
         android:id="@+id/nav_bar_root"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="56dp"
         android:background="@color/ui_chrome"
         android:baselineAligned="false"
         android:gravity="center_vertical"
@@ -57,9 +57,11 @@
                 android:includeFontPadding="false"
                 android:singleLine="true"
                 android:text="@string/app_name"
-                android:textColor="@color/accent_text"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:letterSpacing="0.22"
+                android:textAllCaps="true"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:textStyle="normal"
                 android:translationY="-0.5dp" />
         </LinearLayout>
 
@@ -84,31 +86,26 @@
                 <TextView
                     android:id="@+id/nav_tab_launch"
                     style="@style/Widget.Levi.NavbarItem"
-                    android:drawableStart="@drawable/ic_nav_launch"
                     android:text="@string/nav_launch" />
 
                 <TextView
                     android:id="@+id/nav_tab_download"
                     style="@style/Widget.Levi.NavbarItem"
-                    android:drawableStart="@drawable/ic_nav_download"
                     android:text="@string/nav_download" />
 
                 <TextView
                     android:id="@+id/nav_tab_instances"
                     style="@style/Widget.Levi.NavbarItem"
-                    android:drawableStart="@drawable/ic_nav_instances"
                     android:text="@string/nav_instances" />
 
                 <TextView
                     android:id="@+id/nav_tab_about"
                     style="@style/Widget.Levi.NavbarItem"
-                    android:drawableStart="@drawable/ic_nav_about"
                     android:text="@string/nav_about" />
 
                 <TextView
                     android:id="@+id/nav_tab_settings"
                     style="@style/Widget.Levi.NavbarItem"
-                    android:drawableStart="@drawable/ic_nav_settings"
                     android:text="@string/nav_settings" />
             </LinearLayout>
         </HorizontalScrollView>

@@ -88,17 +88,13 @@ public final class UiKit {
      */
     public static void tintIconChip(View chip, ImageView icon, int color) {
         Context ctx = chip.getContext();
-        PersonalizationManager personalization = new PersonalizationManager(ctx);
-        boolean dark = personalization.isDarkMode(ctx);
-        float opacity = dark ? 0.55f : 0.12f;
-        if (personalization.hasBackgroundImage()) {
-            opacity = Math.min(opacity, Color.alpha(personalization.getEffectiveSurfaceColor()) / 255f);
-        }
+        int tone = accent(ctx);
         GradientDrawable gd = new GradientDrawable();
-        gd.setCornerRadius(dp(ctx, 10));
-        gd.setColor(ThemePalette.withAlpha(dark ? ThemePalette.shade(color, 900) : color, opacity));
+        gd.setCornerRadius(dp(ctx, 2));
+        gd.setColor(Color.TRANSPARENT);
+        gd.setStroke(Math.round(dp(ctx, 1)), ThemePalette.withAlpha(tone, 0.55f));
         chip.setBackground(gd);
-        if (icon != null) icon.setImageTintList(ColorStateList.valueOf(color));
+        if (icon != null) icon.setImageTintList(ColorStateList.valueOf(tone));
     }
 
     /** Selected-row / current-item highlight: soft accent fill with a 2dp accent ring. */

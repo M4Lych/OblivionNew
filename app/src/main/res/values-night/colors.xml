@@ -48,7 +48,7 @@
     <color name="ui_muted">#9A919B</color>
     <color name="ui_heading">#E8607F</color>
     <color name="ui_card_surface">@color/surface</color>
-    <color name="ui_card_stroke">#1AFFFFFF</color>
+    <color name="ui_card_stroke">#40C2234A</color>
     <color name="ui_inner_card_stroke">@color/surface_variant</color>
     <color name="ui_danger">#F2778A</color>
     <color name="ui_danger_soft">#2E1219</color>

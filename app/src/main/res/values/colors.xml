@@ -59,7 +59,7 @@
     <color name="ui_muted">#6F6670</color>
     <color name="ui_heading">#9B1535</color>
     <color name="ui_card_surface">@color/surface</color>
-    <color name="ui_card_stroke">#1A17131A</color>
+    <color name="ui_card_stroke">#339B1535</color>
     <color name="ui_inner_card_stroke">@android:color/transparent</color>
     <color name="ui_danger">#B3261E</color>
     <color name="ui_danger_soft">#FBE9E9</color>

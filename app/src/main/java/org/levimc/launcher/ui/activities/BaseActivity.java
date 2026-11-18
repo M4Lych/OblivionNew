@@ -127,6 +127,7 @@ public class BaseActivity extends AppCompatActivity {
 
         String navPos = new PersonalizationManager(this).getNavBarPosition();
         boolean sideNav = "left".equals(navPos) || "right".equals(navPos);
+        sideNavActive = sideNav;
         View shell = LayoutInflater.from(this).inflate(
                 sideNav ? R.layout.shell_navbar_side : R.layout.shell_navbar, null, false);
         if ("bottom".equals(navPos) || "right".equals(navPos)) {
@@ -177,6 +178,8 @@ public class BaseActivity extends AppCompatActivity {
             R.id.nav_tab_about, R.id.nav_tab_settings
     };
 
+    private boolean sideNavActive;
+
     private void setupBaseNavBar() {
         PersonalizationManager pm = new PersonalizationManager(this);
 
@@ -194,6 +197,12 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         for (int id : NAV_TAB_IDS) styleNavTab(findViewById(id), false);
+        if (sideNavActive) {
+            int[] railIds = {R.id.nav_back_button, R.id.nav_theme_toggle, R.id.nav_news_container,
+                    R.id.nav_sign_in_button, R.id.nav_account_avatar_container};
+            for (int id : NAV_TAB_IDS) org.levimc.launcher.ui.widget.NavHoverLabel.attach(findViewById(id));
+            for (int id : railIds) org.levimc.launcher.ui.widget.NavHoverLabel.attach(findViewById(id));
+        }
 
         View backButton = findViewById(R.id.nav_back_button);
         if (backButton != null) {
@@ -285,7 +294,10 @@ public class BaseActivity extends AppCompatActivity {
         TextViewCompat.setCompoundDrawableTintList(tab, ColorStateList.valueOf(text));
         android.util.TypedValue ripple = new android.util.TypedValue();
         getTheme().resolveAttribute(android.R.attr.selectableItemBackground, ripple, true);
-        tab.setBackgroundResource(ripple.resourceId);
+        boolean side = tab.getLayoutParams() != null
+                && tab.getLayoutParams().width == ViewGroup.LayoutParams.MATCH_PARENT;
+        tab.setBackgroundResource(active ? (side ? R.drawable.bg_nav_tab_active_side : R.drawable.bg_nav_tab_active)
+                : ripple.resourceId);
     }
 
     private void refreshNewsBadge() {
@@ -462,6 +474,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        org.levimc.launcher.ui.widget.NavHoverLabel.dismiss();
         hideSystemUI();
         super.onPause();
     }

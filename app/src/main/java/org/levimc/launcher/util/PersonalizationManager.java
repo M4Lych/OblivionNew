@@ -181,7 +181,7 @@ public class PersonalizationManager {
     // "top" (default), "bottom", "left", "right" — BaseActivity rebuilds the
     // wrapper orientation per activity recreate, so bump the generation too.
     public String getNavBarPosition() {
-        return prefs.getString(KEY_NAV_BAR_POSITION, "top");
+        return prefs.getString(KEY_NAV_BAR_POSITION, "left");
     }
 
     public void setNavBarPosition(String position) {

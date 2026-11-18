@@ -6,7 +6,7 @@
     <!-- Cards -->
     <style name="Widget.Levi.Card" parent="Widget.MaterialComponents.CardView">
         <item name="cardBackgroundColor">@color/ui_card_surface</item>
-        <item name="cardCornerRadius">8dp</item>
+        <item name="cardCornerRadius">2dp</item>
         <item name="cardElevation">0dp</item>
         <item name="strokeColor">@color/ui_card_stroke</item>
         <item name="strokeWidth">1dp</item>
@@ -15,7 +15,7 @@
 
     <style name="Widget.Levi.Card.Inner">
         <item name="cardBackgroundColor">@color/surface</item>
-        <item name="cardCornerRadius">12dp</item>
+        <item name="cardCornerRadius">4dp</item>
         <item name="strokeColor">@color/ui_inner_card_stroke</item>
         <item name="strokeWidth">1dp</item>
     </style>
@@ -203,5 +203,7 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:singleLine">true</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.1</item>
     </style>
 </resources>
