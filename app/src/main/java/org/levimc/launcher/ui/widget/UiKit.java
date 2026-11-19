@@ -88,13 +88,11 @@ public final class UiKit {
      */
     public static void tintIconChip(View chip, ImageView icon, int color) {
         Context ctx = chip.getContext();
-        int tone = accent(ctx);
         GradientDrawable gd = new GradientDrawable();
-        gd.setCornerRadius(dp(ctx, 2));
+        gd.setCornerRadius(dp(ctx, 8));
         gd.setColor(Color.TRANSPARENT);
-        gd.setStroke(Math.round(dp(ctx, 1)), ThemePalette.withAlpha(tone, 0.55f));
         chip.setBackground(gd);
-        if (icon != null) icon.setImageTintList(ColorStateList.valueOf(tone));
+        if (icon != null) icon.setImageTintList(ColorStateList.valueOf(accent(ctx)));
     }
 
     /** Selected-row / current-item highlight: soft accent fill with a 2dp accent ring. */

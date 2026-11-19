@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:id="@+id/nav_bar_root"
-        android:layout_width="64dp"
+        android:layout_width="56dp"
         android:layout_height="match_parent"
         android:background="@color/ui_chrome"
         android:gravity="center_horizontal"
@@ -32,10 +32,10 @@
 
         <ImageView
             android:id="@+id/nav_logo"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="6dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="4dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_leaf_logo" />
 
@@ -48,52 +48,82 @@
         <TextView
             android:id="@+id/nav_tab_launch"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="56dp"
             android:contentDescription="@string/nav_launch"
-            android:drawableStart="@drawable/ic_nav_launch"
+            android:drawableTop="@drawable/ic_nav_launch"
+            android:drawablePadding="3dp"
             android:gravity="center"
-            android:paddingStart="@dimen/levi_sidebar_icon_inset"
-            android:paddingEnd="@dimen/levi_sidebar_icon_inset" />
+            android:letterSpacing="0"
+            android:maxLines="1"
+            android:paddingTop="8dp"
+            android:paddingBottom="6dp"
+            android:text="@string/nav_launch"
+            android:textAllCaps="false"
+            android:textSize="9sp" />
 
         <TextView
             android:id="@+id/nav_tab_download"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="56dp"
             android:contentDescription="@string/nav_download"
-            android:drawableStart="@drawable/ic_nav_download"
+            android:drawableTop="@drawable/ic_nav_download"
+            android:drawablePadding="3dp"
             android:gravity="center"
-            android:paddingStart="@dimen/levi_sidebar_icon_inset"
-            android:paddingEnd="@dimen/levi_sidebar_icon_inset" />
+            android:letterSpacing="0"
+            android:maxLines="1"
+            android:paddingTop="8dp"
+            android:paddingBottom="6dp"
+            android:text="@string/nav_download"
+            android:textAllCaps="false"
+            android:textSize="9sp" />
 
         <TextView
             android:id="@+id/nav_tab_instances"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="56dp"
             android:contentDescription="@string/nav_instances"
-            android:drawableStart="@drawable/ic_nav_instances"
+            android:drawableTop="@drawable/ic_nav_instances"
+            android:drawablePadding="3dp"
             android:gravity="center"
-            android:paddingStart="@dimen/levi_sidebar_icon_inset"
-            android:paddingEnd="@dimen/levi_sidebar_icon_inset" />
+            android:letterSpacing="0"
+            android:maxLines="1"
+            android:paddingTop="8dp"
+            android:paddingBottom="6dp"
+            android:text="@string/nav_instances"
+            android:textAllCaps="false"
+            android:textSize="9sp" />
 
         <TextView
             android:id="@+id/nav_tab_about"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="56dp"
             android:contentDescription="@string/nav_about"
-            android:drawableStart="@drawable/ic_nav_about"
+            android:drawableTop="@drawable/ic_nav_about"
+            android:drawablePadding="3dp"
             android:gravity="center"
-            android:paddingStart="@dimen/levi_sidebar_icon_inset"
-            android:paddingEnd="@dimen/levi_sidebar_icon_inset" />
+            android:letterSpacing="0"
+            android:maxLines="1"
+            android:paddingTop="8dp"
+            android:paddingBottom="6dp"
+            android:text="@string/nav_about"
+            android:textAllCaps="false"
+            android:textSize="9sp" />
 
         <TextView
             android:id="@+id/nav_tab_settings"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="56dp"
             android:contentDescription="@string/nav_settings"
-            android:drawableStart="@drawable/ic_nav_settings"
+            android:drawableTop="@drawable/ic_nav_settings"
+            android:drawablePadding="3dp"
             android:gravity="center"
-            android:paddingStart="@dimen/levi_sidebar_icon_inset"
-            android:paddingEnd="@dimen/levi_sidebar_icon_inset" />
+            android:letterSpacing="0"
+            android:maxLines="1"
+            android:paddingTop="8dp"
+            android:paddingBottom="6dp"
+            android:text="@string/nav_settings"
+            android:textAllCaps="false"
+            android:textSize="9sp" />
 
         <View
             android:layout_width="match_parent"

@@ -267,7 +267,7 @@ public class SettingsActivity extends BaseActivity {
         scrollView = findViewById(R.id.settings_scroll);
         scrollContent = findViewById(R.id.settings_scroll_content);
         settingsTabs = findViewById(R.id.settings_tabs);
-        settingsTabs.setVertical(true);
+        settingsTabs.setVertical(false);
         settingsTabs.setItems(
                 getString(R.string.settings_tab_basic),
                 getString(R.string.settings_tab_personalize),
@@ -275,15 +275,6 @@ public class SettingsActivity extends BaseActivity {
                 getString(R.string.settings_tab_privacy),
                 getString(R.string.settings_ui_tab_updates),
                 getString(R.string.settings_tab_about));
-        View categoryBody = (View) settingsTabs.getParent();
-        ScrollView categoryScroll = (ScrollView) categoryBody.getParent();
-        View.OnLayoutChangeListener fitNavigation = (v, l, t, r, b, oldL, oldT, oldR, oldB) -> {
-            int availableHeight = categoryScroll.getHeight() - categoryScroll.getPaddingTop()
-                    - categoryScroll.getPaddingBottom() - settingsTabs.getTop() - categoryBody.getPaddingBottom();
-            settingsTabs.fitVerticalHeight(availableHeight);
-        };
-        categoryScroll.addOnLayoutChangeListener(fitNavigation);
-        settingsTabs.addOnLayoutChangeListener(fitNavigation);
         settingsTabs.setOnSegmentSelectedListener(index -> {
             selectTab(index, true);
             scrollView.scrollTo(0, 0);

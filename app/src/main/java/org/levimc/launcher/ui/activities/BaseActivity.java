@@ -197,10 +197,9 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         for (int id : NAV_TAB_IDS) styleNavTab(findViewById(id), false);
-        if (sideNavActive) {
+        if (sideNavActive) { // tabs already carry a label under the icon; hint the icon-only buttons
             int[] railIds = {R.id.nav_back_button, R.id.nav_theme_toggle, R.id.nav_news_container,
                     R.id.nav_sign_in_button, R.id.nav_account_avatar_container};
-            for (int id : NAV_TAB_IDS) org.levimc.launcher.ui.widget.NavHoverLabel.attach(findViewById(id));
             for (int id : railIds) org.levimc.launcher.ui.widget.NavHoverLabel.attach(findViewById(id));
         }
 

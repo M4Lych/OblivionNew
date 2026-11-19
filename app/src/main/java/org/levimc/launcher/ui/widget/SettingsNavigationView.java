@@ -127,13 +127,13 @@ public class SettingsNavigationView extends LinearLayout {
             boolean active = i == selected;
             TextView label = labels.get(i);
             label.setSelected(active);
-            label.setTextColor(active ? text : secondary);
+            label.setTextColor(active ? (vertical ? text : Color.WHITE) : secondary);
             label.setTypeface(font, active ? Typeface.BOLD : Typeface.NORMAL);
             GradientDrawable fill = new GradientDrawable();
-            fill.setCornerRadius(dp(6));
-            fill.setColor(active && vertical ? ThemePalette.withAlpha(accent, 0.10f) : Color.TRANSPARENT);
+            fill.setCornerRadius(dp(vertical ? 6 : 20));
+            fill.setColor(active ? (vertical ? ThemePalette.withAlpha(accent, 0.10f) : accent) : Color.TRANSPARENT);
             GradientDrawable mask = new GradientDrawable();
-            mask.setCornerRadius(dp(6));
+            mask.setCornerRadius(dp(vertical ? 6 : 20));
             mask.setColor(Color.WHITE);
             label.setBackground(new RippleDrawable(
                     ColorStateList.valueOf(ThemePalette.withAlpha(accent, 0.16f)), fill, mask));

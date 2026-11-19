@@ -190,7 +190,7 @@ public class PersonalizationManager {
     }
 
     public String getBackgroundAnimation() {
-        return prefs.getString(KEY_BG_ANIMATION, "none");
+        return prefs.getString(KEY_BG_ANIMATION, "wave");
     }
 
     public void setBackgroundAnimation(String type) {
