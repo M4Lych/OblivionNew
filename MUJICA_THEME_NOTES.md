@@ -12,3 +12,6 @@
 - Background: animated Wave in the accent colour is on by default.
 - Cards 12dp radius with crimson hairline, pill buttons, plain accent-tinted icons.
 - Palette stays Ave Mujica (crimson / gold on near-black); icon stays the Oblivion gear/crescent mark.
+
+## Fix: Microsoft sign-in button cut off on short screens
+- Rail tabs now sit in a scrollable area, with news / sign-in (avatar) / theme toggle pinned at the bottom, and sizes were made compact so they stay on screen in landscape phones.

@@ -6,9 +6,9 @@
 
     <FrameLayout
         android:id="@+id/nav_news_container"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:contentDescription="@string/news_title"
@@ -37,8 +37,8 @@
 
     <ImageView
         android:id="@+id/nav_sign_in_button"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:background="@drawable/bg_shell_avatar"
         android:contentDescription="@string/nav_sign_in_account"
         android:padding="7dp"
