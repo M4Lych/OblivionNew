@@ -1,0 +1,54 @@
+{
+ "game_version": "1.26.70.24_RC0",
+ "architecture": "arm64-v8a",
+ "targets": [
+  {
+   "name": "OverworldGeneratorMultinoise_prepareHeightsForCells",
+   "rva": "0x95f86e8",
+   "size": 5604,
+   "signature_matches": 1
+  },
+  {
+   "name": "OverworldGeneratorMultinoise_prepareHeightsForColumn",
+   "rva": "0x95f7fe4",
+   "size": 1796,
+   "signature_matches": 1
+  },
+  {
+   "name": "OverworldGenerator2d_prepareHeights",
+   "rva": "0x95f2fe0",
+   "size": 2356,
+   "signature_matches": 1
+  },
+  {
+   "name": "ChunkBlender_attenuateDensity",
+   "rva": "0x95f9f5c",
+   "size": 4044,
+   "signature_matches": 1
+  },
+  {
+   "name": "NetherGenerator_decorationPostProcessChunk",
+   "rva": "0x95ead14",
+   "size": 9816,
+   "signature_matches": 1
+  },
+  {
+   "name": "TheEndGenerator_decorationPostProcessChunk",
+   "rva": "0x9602574",
+   "size": 3180,
+   "signature_matches": 1
+  },
+  {
+   "name": "TheEndGenerator_findSpawnPosition",
+   "rva": "0x96034f8",
+   "size": 76,
+   "signature_matches": 1
+  },
+  {
+   "name": "BiomeSource3d_getBiomeArea",
+   "rva": "0x97d0464",
+   "size": 1308,
+   "signature_matches": 1
+  }
+ ]
+}

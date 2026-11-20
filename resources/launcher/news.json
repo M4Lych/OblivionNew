@@ -2,62 +2,21 @@
   "schemaVersion": 1,
   "items": [
     {
-      "id": "2026-09-28-levilauncher-mods-curseforge",
-      "title": "Help bring LeviLauncher Modder mods to CurseForge",
-      "summary": "CurseForge is considering support for LeviLauncher Modder Mods. Vote for the proposal and help bring LeviLauncher Modder mods to CurseForge.",
-      "publishedAt": "2026-09-28T11:32:00Z",
-      "category": "Important",
-      "url": "https://curseforge-ideas.overwolf.com/ideas/CF-I-8666",
-      "important": true,
-      "notify": true
-    },
-    {
-      "id": "2026-09-09-android-17-supported",
-      "title": "Android 17 is now supported",
-      "summary": "LeviLauncher Modder now supports Android 17. You can now use the launcher on devices running Android 17.",
-      "publishedAt": "2026-09-08T23:02:00Z",
-      "category": "Important",
-      "url": "https://github.com/sang765/LeviDroid-Modder/commit/8dce7b88a53b57883d69885357d027cf8c2763e4",
+      "id": "2026-11-20-oblivion-welcome",
+      "title": "Welcome to Oblivion",
+      "summary": "Oblivion now has its own look, news feed and OblivionMod page. Follow this feed for updates about the client and the mods built for it.",
+      "publishedAt": "2026-11-20T09:00:00Z",
+      "category": "Announcement",
+      "url": "https://github.com/M4Lych/OblivionNew",
       "important": true,
       "notify": false
     },
     {
-      "id": "2026-09-02-xbox-servers-restored",
-      "title": "Xbox servers are back online",
-      "summary": "Xbox servers have been restored and are working again. You should now be able to log in to your account normally. Thank you for your patience!",
-      "publishedAt": "2026-09-02T14:50:00Z",
-      "category": "Important",
-      "url": "",
-      "important": true,
-      "notify": true
-    },
-    {
-      "id": "2026-09-02-xbox-servers-down",
-      "title": "Xbox servers are currently down",
-      "summary": "Xbox servers are experiencing an outage right now. If you can't log in to your account, this is not a launcher issue — it's an issue with Xbox itself. Please wait for Xbox to resolve the problem.",
-      "publishedAt": "2026-09-02T14:00:00Z",
-      "category": "Important",
-      "url": "",
-      "important": true,
-      "notify": true
-    },
-    {
-      "id": "2026-08-26-android-17-compatibility",
-      "title": "Android 17 compatibility issue",
-      "summary": "LeviLauncher Modder currently does not support Android 17. If you rely on LeviLauncher Modder, do not update your device to Android 17 yet. Please wait until Android 17 support is announced.",
-      "publishedAt": "2026-08-26T21:13:00Z",
-      "category": "Important",
-      "url": "",
-      "important": true,
-      "notify": true
-    },
-    {
-      "id": "2026-08-26-launcher-news",
-      "title": "Launcher news is now built in",
-      "summary": "Tap the bell at the top of LeviLauncher Modder to see announcements, release information, and important notices in one place.",
-      "publishedAt": "2026-08-26T18:00:00Z",
-      "category": "Launcher",
-      "url": "https://github.com/sang765/LeviDroid-Modder/releases",
+      "id": "2026-11-20-oblivionmod-worldgen-preview",
+      "title": "OblivionMod: Better World Generation is in development",
+      "summary": "Smoother terrain, wider rivers, better caves and oceans, with Nether and End support planned. The first preview will ship as an OblivionMod.",
+      "publishedAt": "2026-11-20T08:00:00Z",
+      "category": "Roadmap",
       "important": false,
       "notify": false
     }

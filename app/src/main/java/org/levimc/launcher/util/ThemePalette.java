@@ -4,7 +4,7 @@ import android.graphics.Color;
 
 /**
  * Theme colors shared with LeviLauncher for Windows (frontend/src/constants/themes.ts).
- * PRESETS is the "Preset colors" group, MORE the "More colors" group; the default is Mujica crimson.
+ * PRESETS is the "Preset colors" group, MORE the "More colors" group; the default is emerald.
  */
 public final class ThemePalette {
     private ThemePalette() {

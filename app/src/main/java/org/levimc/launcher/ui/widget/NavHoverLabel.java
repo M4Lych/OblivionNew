@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import org.levimc.launcher.R;
 
-/** Shows the name of a rail icon beside it while it is hovered (mouse, stylus, trackpad) or long-pressed. */
 public final class NavHoverLabel {
     private static PopupWindow current;
     private static final Runnable NO_OP = () -> { };

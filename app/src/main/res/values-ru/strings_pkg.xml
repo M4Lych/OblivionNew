@@ -104,7 +104,7 @@
     <string name="pkg_err_cause_corrupt">Загруженный файл повреждён или неполон. Очистите кэш пакетов в настройках менеджера пакетов и повторите попытку.</string>
 
     <!-- Browse and package screens (PackagesActivity, BrowseFragment, PackageActivity, InstallDialog) -->
-    <string name="pkg_title_mods">Моды LeviMC</string>
+    <string name="pkg_title_mods">OblivionMod</string>
     <string name="pkg_tab_browse">Обзор</string>
     <string name="pkg_tab_installed">Установленные</string>
     <string name="pkg_tab_details">Подробности</string>
@@ -183,8 +183,8 @@
 
     <!-- Developer guide -->
     <string name="pkg_guide_open">Руководство разработчика</string>
-    <string name="pkg_guide_title">Руководство разработчика модов LeviMC</string>
-    <string name="pkg_guide_description">Чтобы ваш мод появился на странице «Моды LeviMC», опубликуйте его с файлом lip.toml, как описано в документации.</string>
+    <string name="pkg_guide_title">Руководство разработчика модов OblivionMod</string>
+    <string name="pkg_guide_description">Чтобы ваш мод появился на странице «Моды OblivionMod», опубликуйте его с файлом lip.toml, как описано в документации.</string>
     <string name="pkg_guide_manifest_hint">Это окно — лишь краткий обзор для разработчиков. Названия полей, обязательные элементы, примеры и правила проверки определены в официальной документации.</string>
     <string name="pkg_guide_variant_hint">Лаунчер показывает пакет, только если в lip.toml последней версии есть элемент, работающий на клиенте на платформе этого устройства: side = \"client\" и platform = \"android-arm64\". Пакет, все клиентские элементы которого предназначены для других платформ (например, \"win-x64\"), не показывается. Лаунчер сначала устанавливает вариант с именем \"client\", затем вариант по умолчанию \"\", затем остальные в алфавитном порядке.</string>
     <string name="pkg_guide_android_hint">Для старых версий действует то же правило: версию можно установить, только если в её lip.toml есть клиентский элемент для платформы этого устройства. Элементы для других платформ здесь установить нельзя.</string>

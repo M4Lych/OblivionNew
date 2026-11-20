@@ -104,7 +104,7 @@
     <string name="pkg_err_cause_corrupt">El archivo descargado está dañado o incompleto. Limpia la caché de paquetes en los ajustes del Gestor de paquetes e inténtalo de nuevo.</string>
 
     <!-- Browse and package screens (PackagesActivity, BrowseFragment, PackageActivity, InstallDialog) -->
-    <string name="pkg_title_mods">Mods de LeviMC</string>
+    <string name="pkg_title_mods">OblivionMod</string>
     <string name="pkg_tab_browse">Explorar</string>
     <string name="pkg_tab_installed">Instalados</string>
     <string name="pkg_tab_details">Detalles</string>
@@ -181,8 +181,8 @@
 
     <!-- Developer guide -->
     <string name="pkg_guide_open">Guía para desarrolladores</string>
-    <string name="pkg_guide_title">Guía para desarrolladores de Mods de LeviMC</string>
-    <string name="pkg_guide_description">Si quieres que tu mod aparezca en la página de Mods de LeviMC, publícalo con un lip.toml como se describe en la documentación.</string>
+    <string name="pkg_guide_title">Guía para desarrolladores de Mods de OblivionMod</string>
+    <string name="pkg_guide_description">Si quieres que tu mod aparezca en la página de Mods de OblivionMod, publícalo con un lip.toml como se describe en la documentación.</string>
     <string name="pkg_guide_manifest_hint">Este diálogo es solo un resumen rápido para desarrolladores. Los nombres de los campos, las entradas obligatorias, los ejemplos y las reglas de validación se definen en la documentación oficial.</string>
     <string name="pkg_guide_variant_hint">El launcher solo muestra un paquete cuando la última versión de su lip.toml tiene una entrada que se ejecuta en el cliente en la plataforma de este dispositivo: side = \"client\" y platform = \"android-arm64\". Un paquete cuyas entradas de cliente sean todas para otras plataformas (como \"win-x64\") no se muestra. El launcher instala primero la variante llamada \"client\", luego la variante predeterminada \"\" y después las demás en orden alfabético.</string>
     <string name="pkg_guide_android_hint">Las versiones anteriores siguen la misma regla: una versión solo se puede instalar cuando su lip.toml tiene una entrada de cliente para la plataforma de este dispositivo. Las entradas para otras plataformas no se pueden instalar aquí.</string>

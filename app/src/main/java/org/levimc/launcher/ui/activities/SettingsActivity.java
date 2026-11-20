@@ -560,6 +560,8 @@ public class SettingsActivity extends BaseActivity {
             CrashReporter.refreshCrashlyticsCollection(this);
         });
 
+        bindWorldGenSettings();
+
         SwitchMaterial switchManagedLogin = findViewById(R.id.switch_managed_login);
         switchManagedLogin.setChecked(fs.isLauncherManagedMcLoginEnabled());
         switchManagedLogin.setOnCheckedChangeListener((btn, checked) -> fs.setLauncherManagedMcLoginEnabled(checked));
@@ -1613,7 +1615,7 @@ public class SettingsActivity extends BaseActivity {
 
     private void setupAboutSection() {
         findViewById(R.id.settings_btn_github).setOnClickListener(v ->
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/LiteLDev/LeviLauncher-Android"))));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/M4Lych/OblivionNew"))));
 
         findViewById(R.id.settings_btn_discord).setOnClickListener(v ->
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/jsnzw4ueAt"))));
@@ -1633,7 +1635,7 @@ public class SettingsActivity extends BaseActivity {
             updateButtonTapCount = 0;
             triggerEasterEgg();
         } else {
-            new GithubReleaseUpdater(this, "sang765", "LeviDroid-Modder", permissionResultLauncher).checkUpdate();
+            new GithubReleaseUpdater(this, "M4Lych", "OblivionNew", permissionResultLauncher).checkUpdate();
         }
     }
 
@@ -1923,5 +1925,59 @@ public class SettingsActivity extends BaseActivity {
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
         }
+    }
+
+    private void bindWorldGenSettings() {
+        android.widget.TextView status = findViewById(R.id.tv_owg_status);
+        SwitchMaterial enabled = findViewById(R.id.switch_owg_enabled);
+        SwitchMaterial nether = findViewById(R.id.switch_owg_nether);
+        SwitchMaterial end = findViewById(R.id.switch_owg_end);
+        if (status == null || enabled == null || nether == null || end == null) return;
+        org.levimc.launcher.core.worldgen.OblivionWorldGen.apply(this);
+        status.setText(org.levimc.launcher.core.worldgen.OblivionWorldGen.isLibraryAvailable()
+                ? getString(R.string.owg_status_ok, org.levimc.launcher.core.worldgen.OblivionWorldGen.versionLabel())
+                : getString(R.string.owg_status_missing));
+        enabled.setChecked(org.levimc.launcher.core.worldgen.OblivionWorldGen.isEnabled(this));
+        enabled.setOnCheckedChangeListener((btn, checked) -> org.levimc.launcher.core.worldgen.OblivionWorldGen.setEnabled(this, checked));
+        nether.setChecked(org.levimc.launcher.core.worldgen.OblivionWorldGen.isNether(this));
+        nether.setOnCheckedChangeListener((btn, checked) -> org.levimc.launcher.core.worldgen.OblivionWorldGen.setNether(this, checked));
+        end.setChecked(org.levimc.launcher.core.worldgen.OblivionWorldGen.isEnd(this));
+        end.setOnCheckedChangeListener((btn, checked) -> org.levimc.launcher.core.worldgen.OblivionWorldGen.setEnd(this, checked));
+        SwitchMaterial probe = findViewById(R.id.switch_owg_probe);
+        if (probe != null) {
+            probe.setChecked(org.levimc.launcher.core.worldgen.OblivionWorldGen.isProbeEnabled(this));
+            probe.setOnCheckedChangeListener((btn, checked) -> {
+                org.levimc.launcher.core.worldgen.OblivionWorldGen.setProbeEnabled(this, checked);
+                refreshWorldGenValues();
+            });
+        }
+        refreshWorldGenValues();
+        findViewById(R.id.row_owg_height).setOnClickListener(v -> {
+            org.levimc.launcher.core.worldgen.OblivionWorldGen.cycleHeight(this);
+            refreshWorldGenValues();
+        });
+        findViewById(R.id.row_owg_style).setOnClickListener(v -> {
+            org.levimc.launcher.core.worldgen.OblivionWorldGen.cycleStyle(this);
+            refreshWorldGenValues();
+        });
+        findViewById(R.id.row_owg_river).setOnClickListener(v -> {
+            org.levimc.launcher.core.worldgen.OblivionWorldGen.cycleRiver(this);
+            refreshWorldGenValues();
+        });
+    }
+
+    private void refreshWorldGenValues() {
+        int[] styleRes = {R.string.owg_style_natural, R.string.owg_style_smooth, R.string.owg_style_dramatic};
+        int[] riverRes = {R.string.owg_river_wide, R.string.owg_river_larger, R.string.owg_river_vanilla};
+        android.widget.TextView probeText = findViewById(R.id.tv_owg_probe);
+        if (probeText != null) {
+            probeText.setText(getString(R.string.owg_probe_status, org.levimc.launcher.core.worldgen.OblivionWorldGen.probeStatus()));
+        }
+        android.widget.TextView height = findViewById(R.id.tv_owg_height);
+        android.widget.TextView style = findViewById(R.id.tv_owg_style);
+        android.widget.TextView river = findViewById(R.id.tv_owg_river);
+        if (height != null) height.setText(String.valueOf(org.levimc.launcher.core.worldgen.OblivionWorldGen.HEIGHTS[org.levimc.launcher.core.worldgen.OblivionWorldGen.heightIndex(this)]));
+        if (style != null) style.setText(styleRes[org.levimc.launcher.core.worldgen.OblivionWorldGen.styleIndex(this)]);
+        if (river != null) river.setText(riverRes[org.levimc.launcher.core.worldgen.OblivionWorldGen.riverIndex(this)]);
     }
 }

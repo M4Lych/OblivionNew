@@ -15,3 +15,9 @@
 
 ## Fix: Microsoft sign-in button cut off on short screens
 - Rail tabs now sit in a scrollable area, with news / sign-in (avatar) / theme toggle pinned at the bottom, and sizes were made compact so they stay on screen in landscape phones.
+
+## v5
+- Navbar rail is icon-only again (hover or long-press shows the name).
+- "LeviMC" mod page names are now "OblivionMod" in every language.
+- News feed now reads resources/launcher/news.json from M4Lych/OblivionNew (branch Oblivion-Development); the bundled file was rewritten for Oblivion.
+- New native module oblivion_worldgen plus a Settings card (see docs/OBLIVIONMOD_WORLDGEN.md).

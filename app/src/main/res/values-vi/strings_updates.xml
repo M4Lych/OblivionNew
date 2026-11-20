@@ -149,7 +149,7 @@
     <string name="crumb_instance_settings">Cài đặt bản cài</string>
     <string name="crumb_content">Quản lý nội dung</string>
     <string name="crumb_mods">Mod</string>
-    <string name="crumb_levimc_mods">Mod LeviMC</string>
+    <string name="crumb_levimc_mods">OblivionMod</string>
     <string name="crumb_external_mods">Mod bên ngoài</string>
     <string name="crumb_settings">Cài đặt</string>
     <string name="crumb_about">Giới thiệu</string>
@@ -232,8 +232,8 @@
     <string name="catalog_view">Xem</string>
     <string name="catalog_order">Thứ tự</string>
     <string name="catalog_instance_tag">Bản cài: %1$s</string>
-    <string name="mods_empty_levimc">Chưa cài mod LeviMC nào</string>
-    <string name="mods_empty_levimc_help">Mod cài từ LeviMC sẽ xuất hiện ở đây. Dùng Tìm mod để duyệt danh mục.</string>
+    <string name="mods_empty_levimc">Chưa cài mod OblivionMod nào</string>
+    <string name="mods_empty_levimc_help">Mod cài từ OblivionMod sẽ xuất hiện ở đây. Dùng Tìm mod để duyệt danh mục.</string>
     <string name="mods_empty_normal">Chưa cài mod bên ngoài nào</string>
     <string name="mods_empty_normal_help">Mod thêm từ tệp sẽ xuất hiện ở đây. Dùng Thêm mod để nhập.</string>
     <string name="content_import_here">Nhập vào đây</string>

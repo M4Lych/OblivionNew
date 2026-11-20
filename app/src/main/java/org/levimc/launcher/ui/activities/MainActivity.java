@@ -122,13 +122,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        org.levimc.launcher.core.worldgen.OblivionWorldGen.apply(getApplicationContext());
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         closeLauncherRestartAfterFirstDraw();
         setupNavBar();
         setupManagersAndHandlers();
         if (!isInstanceShortcutIntent()) {
-            new GithubReleaseUpdater(this, "sang765", "LeviDroid-Modder", permissionResultLauncher).checkUpdateOnLaunch();
+            new GithubReleaseUpdater(this, "M4Lych", "OblivionNew", permissionResultLauncher).checkUpdateOnLaunch();
         }
         showEulaIfNeeded();
         setupOnBackPressedCallback();

@@ -9,7 +9,7 @@ import org.levimc.launcher.R;
 
 public final class AbiWarningDialog {
 
-    private static final String RELEASES_URL = "https://github.com/sang765/LeviDroid-Modder/releases/latest";
+    private static final String RELEASES_URL = "https://github.com/M4Lych/OblivionNew/releases/latest";
 
     private AbiWarningDialog() {
     }

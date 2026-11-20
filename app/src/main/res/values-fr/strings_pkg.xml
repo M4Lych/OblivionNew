@@ -104,7 +104,7 @@
     <string name="pkg_err_cause_corrupt">Le fichier téléchargé est endommagé ou incomplet. Videz le cache des paquets dans les paramètres du gestionnaire de paquets et réessayez.</string>
 
     <!-- Browse and package screens (PackagesActivity, BrowseFragment, PackageActivity, InstallDialog) -->
-    <string name="pkg_title_mods">Mods LeviMC</string>
+    <string name="pkg_title_mods">OblivionMod</string>
     <string name="pkg_tab_browse">Parcourir</string>
     <string name="pkg_tab_installed">Installés</string>
     <string name="pkg_tab_details">Détails</string>
@@ -182,8 +182,8 @@
 
     <!-- Developer guide -->
     <string name="pkg_guide_open">Guide du développeur</string>
-    <string name="pkg_guide_title">Guide du développeur des mods LeviMC</string>
-    <string name="pkg_guide_description">Si vous souhaitez que votre mod apparaisse sur la page LeviMC Mods, publiez-le avec un lip.toml comme décrit dans la documentation.</string>
+    <string name="pkg_guide_title">Guide du développeur des mods OblivionMod</string>
+    <string name="pkg_guide_description">Si vous souhaitez que votre mod apparaisse sur la page OblivionMod Mods, publiez-le avec un lip.toml comme décrit dans la documentation.</string>
     <string name="pkg_guide_manifest_hint">Cette boîte de dialogue n\'est qu\'un aperçu rapide destiné aux développeurs. Les noms des champs, les entrées obligatoires, les exemples et les règles de validation sont définis dans la documentation officielle.</string>
     <string name="pkg_guide_variant_hint">Le lanceur ne répertorie un paquet que si la dernière version de son lip.toml contient une entrée qui s\'exécute côté client sur la plateforme de cet appareil : side = \"client\" et platform = \"android-arm64\". Un paquet dont toutes les entrées client visent d\'autres plateformes (comme \"win-x64\") n\'est pas répertorié. Le lanceur installe d\'abord la variante nommée \"client\", puis la variante par défaut \"\", puis les autres par ordre alphabétique.</string>
     <string name="pkg_guide_android_hint">Les anciennes versions suivent la même règle : une version n\'est installable que si son lip.toml contient une entrée client pour la plateforme de cet appareil. Les entrées destinées à d\'autres plateformes ne peuvent pas être installées ici.</string>

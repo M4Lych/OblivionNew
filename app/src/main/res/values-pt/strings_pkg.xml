@@ -104,7 +104,7 @@
     <string name="pkg_err_cause_corrupt">O arquivo baixado está danificado ou incompleto. Limpe o cache de pacotes nas configurações do Gerenciador de pacotes e tente novamente.</string>
 
     <!-- Browse and package screens (PackagesActivity, BrowseFragment, PackageActivity, InstallDialog) -->
-    <string name="pkg_title_mods">Mods LeviMC</string>
+    <string name="pkg_title_mods">OblivionMod</string>
     <string name="pkg_tab_browse">Explorar</string>
     <string name="pkg_tab_installed">Instalados</string>
     <string name="pkg_tab_details">Detalhes</string>
@@ -181,8 +181,8 @@
 
     <!-- Developer guide -->
     <string name="pkg_guide_open">Guia do Desenvolvedor</string>
-    <string name="pkg_guide_title">Guia do Desenvolvedor de Mods LeviMC</string>
-    <string name="pkg_guide_description">Se deseja que o seu mod apareça na página LeviMC Mods, publique-o com um lip.toml conforme descrito na documentação.</string>
+    <string name="pkg_guide_title">Guia do Desenvolvedor de Mods OblivionMod</string>
+    <string name="pkg_guide_description">Se deseja que o seu mod apareça na página OblivionMod Mods, publique-o com um lip.toml conforme descrito na documentação.</string>
     <string name="pkg_guide_manifest_hint">Esta janela é apenas um resumo rápido para desenvolvedores. Nomes de campos, entradas obrigatórias, exemplos e regras de validação são definidos na documentação oficial.</string>
     <string name="pkg_guide_variant_hint">O launcher lista um pacote apenas quando a versão mais recente no seu lip.toml tem uma entrada que roda no cliente na plataforma deste dispositivo: side = \"client\" e platform = \"android-arm64\". Um pacote cujas entradas de cliente são todas para outras plataformas (como \"win-x64\") não é listado. O launcher instala primeiro a variante chamada \"client\", depois a variante padrão \"\" e então as demais em ordem alfabética.</string>
     <string name="pkg_guide_android_hint">Versões antigas seguem a mesma regra: uma versão só pode ser instalada quando seu lip.toml tem uma entrada de cliente para a plataforma deste dispositivo. Entradas para outras plataformas não podem ser instaladas aqui.</string>

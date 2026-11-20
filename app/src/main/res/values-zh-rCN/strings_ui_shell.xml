@@ -12,7 +12,7 @@
     <string name="crumb_content">内容管理</string>
     <string name="crumb_mods">模组</string>
     <string name="crumb_curseforge">CurseForge</string>
-    <string name="crumb_levimc_mods">LeviMC 模组</string>
+    <string name="crumb_levimc_mods">OblivionMod</string>
     <string name="crumb_external_mods">外部模组</string>
     <string name="crumb_settings">设置</string>
     <string name="crumb_about">关于</string>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="owg_title">OblivionMod · Better World Generation</string>
+    <string name="owg_enable">Enable better world generation</string>
+    <string name="owg_nether">Improved Nether</string>
+    <string name="owg_end">Improved End</string>
+    <string name="owg_height">Maximum world height</string>
+    <string name="owg_style">Terrain style</string>
+    <string name="owg_river">River size</string>
+    <string name="owg_style_natural">Natural</string>
+    <string name="owg_style_smooth">Very smooth</string>
+    <string name="owg_style_dramatic">Dramatic</string>
+    <string name="owg_river_wide">Wide</string>
+    <string name="owg_river_larger">Large</string>
+    <string name="owg_river_vanilla">Vanilla-like</string>
+    <string name="owg_status_ok">Terrain engine %1$s ready. Engine binding: not attached yet.</string>
+    <string name="owg_status_missing">Terrain engine not available in this build.</string>
+    <string name="owg_probe">Developer: probe engine hooks</string>
+    <string name="owg_probe_status">Engine probe: %1$s</string>
+</resources>

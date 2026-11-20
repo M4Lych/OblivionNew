@@ -150,7 +150,7 @@
     <string name="crumb_instance_settings">इंस्टेंस की सेटिंग्स</string>
     <string name="crumb_content">कॉन्टेंट प्रबंधन</string>
     <string name="crumb_mods">मॉड्स</string>
-    <string name="crumb_levimc_mods">LeviMC मॉड्स</string>
+    <string name="crumb_levimc_mods">OblivionMod</string>
     <string name="crumb_external_mods">बाहरी मॉड्स</string>
     <string name="crumb_settings">सेटिंग्स</string>
     <string name="crumb_about">परिचय</string>
@@ -233,8 +233,8 @@
     <string name="catalog_view">देखें</string>
     <string name="catalog_order">क्रम</string>
     <string name="catalog_instance_tag">इंस्टेंस: %1$s</string>
-    <string name="mods_empty_levimc">कोई LeviMC मॉड इंस्टॉल नहीं है</string>
-    <string name="mods_empty_levimc_help">LeviMC से इंस्टॉल किए गए मॉड यहाँ दिखाई देते हैं। कैटलॉग देखने के लिए मॉड पाएँ का उपयोग करें।</string>
+    <string name="mods_empty_levimc">कोई OblivionMod मॉड इंस्टॉल नहीं है</string>
+    <string name="mods_empty_levimc_help">OblivionMod से इंस्टॉल किए गए मॉड यहाँ दिखाई देते हैं। कैटलॉग देखने के लिए मॉड पाएँ का उपयोग करें।</string>
     <string name="mods_empty_normal">कोई बाहरी मॉड इंस्टॉल नहीं है</string>
     <string name="mods_empty_normal_help">फ़ाइलों से जोड़े गए मॉड यहाँ दिखाई देते हैं। इंपोर्ट करने के लिए मॉड जोड़ें का उपयोग करें।</string>
     <string name="content_import_here">यहाँ इंपोर्ट करें</string>

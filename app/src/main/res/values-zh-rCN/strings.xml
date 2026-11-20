@@ -816,8 +816,8 @@
     <string name="about_afdian">爱发电</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">源代码与开源</string>
-    <string name="about_github_repo">GitHub · LeviDroid-Modder</string>
-    <string name="about_github_org">sang765</string>
+    <string name="about_github_repo">GitHub · OblivionNew</string>
+    <string name="about_github_org">M4Lych</string>
     <string name="about_license_note">许可证详情请参阅仓库中的 LICENSE。</string>
     <string name="about_contribute_title">参与贡献</string>
     <string name="about_contribute_desc">欢迎通过 Issues 或 Pull Requests 改进 Oblivion。</string>

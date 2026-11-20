@@ -150,7 +150,7 @@
     <string name="crumb_instance_settings">Ajustes de la instancia</string>
     <string name="crumb_content">Gestión de contenido</string>
     <string name="crumb_mods">Mods</string>
-    <string name="crumb_levimc_mods">Mods de LeviMC</string>
+    <string name="crumb_levimc_mods">OblivionMod</string>
     <string name="crumb_external_mods">Mods externos</string>
     <string name="crumb_settings">Ajustes</string>
     <string name="crumb_about">Acerca de</string>
@@ -233,8 +233,8 @@
     <string name="catalog_view">Ver</string>
     <string name="catalog_order">Orden</string>
     <string name="catalog_instance_tag">Instancia: %1$s</string>
-    <string name="mods_empty_levimc">No hay mods de LeviMC instalados</string>
-    <string name="mods_empty_levimc_help">Los mods instalados desde LeviMC aparecen aquí. Usa Obtener mods para explorar el catálogo.</string>
+    <string name="mods_empty_levimc">No hay mods de OblivionMod instalados</string>
+    <string name="mods_empty_levimc_help">Los mods instalados desde OblivionMod aparecen aquí. Usa Obtener mods para explorar el catálogo.</string>
     <string name="mods_empty_normal">No hay mods externos instalados</string>
     <string name="mods_empty_normal_help">Los mods añadidos desde archivos aparecen aquí. Usa Añadir mod para importar uno.</string>
     <string name="content_import_here">Importar aquí</string>

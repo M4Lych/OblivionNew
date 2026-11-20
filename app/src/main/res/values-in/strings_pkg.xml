@@ -104,7 +104,7 @@
     <string name="pkg_err_cause_corrupt">File yang diunduh rusak atau tidak lengkap. Bersihkan cache paket di pengaturan Manajer paket lalu coba lagi.</string>
 
     <!-- Browse and package screens (PackagesActivity, BrowseFragment, PackageActivity, InstallDialog) -->
-    <string name="pkg_title_mods">Mod LeviMC</string>
+    <string name="pkg_title_mods">OblivionMod</string>
     <string name="pkg_tab_browse">Jelajahi</string>
     <string name="pkg_tab_installed">Terinstal</string>
     <string name="pkg_tab_details">Detail</string>
@@ -180,8 +180,8 @@
 
     <!-- Developer guide -->
     <string name="pkg_guide_open">Panduan Pengembang</string>
-    <string name="pkg_guide_title">Panduan Pengembang Mod LeviMC</string>
-    <string name="pkg_guide_description">Jika Anda ingin mod Anda muncul di halaman LeviMC Mods, terbitkan dengan lip.toml seperti dijelaskan dalam dokumentasi.</string>
+    <string name="pkg_guide_title">Panduan Pengembang Mod OblivionMod</string>
+    <string name="pkg_guide_description">Jika Anda ingin mod Anda muncul di halaman OblivionMod Mods, terbitkan dengan lip.toml seperti dijelaskan dalam dokumentasi.</string>
     <string name="pkg_guide_manifest_hint">Dialog ini hanya ringkasan singkat untuk pengembang. Nama field, entri wajib, contoh, dan aturan validasi ditentukan dalam dokumentasi resmi.</string>
     <string name="pkg_guide_variant_hint">Launcher hanya menampilkan paket jika versi terbaru dalam lip.toml-nya memiliki entri yang berjalan di klien pada platform perangkat ini: side = \"client\" dan platform = \"android-arm64\". Paket yang semua entri kliennya untuk platform lain (seperti \"win-x64\") tidak ditampilkan. Launcher menginstal varian bernama \"client\" terlebih dahulu, lalu varian default \"\", lalu varian lain sesuai urutan abjad.</string>
     <string name="pkg_guide_android_hint">Versi lama mengikuti aturan yang sama: suatu versi hanya dapat diinstal jika lip.toml-nya memiliki entri klien untuk platform perangkat ini. Entri untuk platform lain tidak dapat diinstal di sini.</string>

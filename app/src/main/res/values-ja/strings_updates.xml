@@ -149,7 +149,7 @@
     <string name="crumb_instance_settings">インスタンス設定</string>
     <string name="crumb_content">コンテンツ管理</string>
     <string name="crumb_mods">Mod</string>
-    <string name="crumb_levimc_mods">LeviMC Mod</string>
+    <string name="crumb_levimc_mods">OblivionMod</string>
     <string name="crumb_external_mods">外部Mod</string>
     <string name="crumb_settings">設定</string>
     <string name="crumb_about">このアプリについて</string>
@@ -232,8 +232,8 @@
     <string name="catalog_view">表示</string>
     <string name="catalog_order">順序</string>
     <string name="catalog_instance_tag">インスタンス: %1$s</string>
-    <string name="mods_empty_levimc">LeviMC Modはインストールされていません</string>
-    <string name="mods_empty_levimc_help">LeviMCからインストールしたModがここに表示されます。「Modを入手」からカタログを閲覧できます。</string>
+    <string name="mods_empty_levimc">OblivionMod Modはインストールされていません</string>
+    <string name="mods_empty_levimc_help">OblivionModからインストールしたModがここに表示されます。「Modを入手」からカタログを閲覧できます。</string>
     <string name="mods_empty_normal">外部Modはインストールされていません</string>
     <string name="mods_empty_normal_help">ファイルから追加したModがここに表示されます。「Modを追加」からインポートできます。</string>
     <string name="content_import_here">ここにインポート</string>

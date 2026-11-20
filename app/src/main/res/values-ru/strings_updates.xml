@@ -152,7 +152,7 @@
     <string name="crumb_instance_settings">Настройки экземпляра</string>
     <string name="crumb_content">Управление контентом</string>
     <string name="crumb_mods">Моды</string>
-    <string name="crumb_levimc_mods">Моды LeviMC</string>
+    <string name="crumb_levimc_mods">OblivionMod</string>
     <string name="crumb_external_mods">Внешние моды</string>
     <string name="crumb_settings">Настройки</string>
     <string name="crumb_about">О приложении</string>
@@ -235,8 +235,8 @@
     <string name="catalog_view">Открыть</string>
     <string name="catalog_order">Порядок</string>
     <string name="catalog_instance_tag">Экземпляр: %1$s</string>
-    <string name="mods_empty_levimc">Моды LeviMC не установлены</string>
-    <string name="mods_empty_levimc_help">Здесь отображаются моды, установленные из LeviMC. Откройте «Найти моды» для просмотра каталога.</string>
+    <string name="mods_empty_levimc">Моды OblivionMod не установлены</string>
+    <string name="mods_empty_levimc_help">Здесь отображаются моды, установленные из OblivionMod. Откройте «Найти моды» для просмотра каталога.</string>
     <string name="mods_empty_normal">Внешние моды не установлены</string>
     <string name="mods_empty_normal_help">Здесь отображаются моды, добавленные из файлов. Нажмите «Добавить мод» для импорта.</string>
     <string name="content_import_here">Импортировать сюда</string>

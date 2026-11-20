@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="mods_empty_levimc">尚未安装 LeviMC 模组</string>
-    <string name="mods_empty_levimc_help">从 LeviMC 安装的模组会显示在这里。点击获取模组浏览目录。</string>
+    <string name="mods_empty_levimc">尚未安装 OblivionMod 模组</string>
+    <string name="mods_empty_levimc_help">从 OblivionMod 安装的模组会显示在这里。点击获取模组浏览目录。</string>
     <string name="mods_empty_normal">尚未安装外部模组</string>
     <string name="mods_empty_normal_help">从文件添加的模组会显示在这里。点击添加模组导入。</string>
     <string name="content_import_here">直接导入</string>

@@ -101,6 +101,142 @@
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                style="@style/settings_Card">
+
+                <LinearLayout
+                    style="@style/settings_CardBody">
+
+                    <TextView
+                        style="@style/settings_RowTitle"
+                        android:textColor="@color/accent_text"
+                        android:text="@string/owg_title" />
+
+                    <TextView
+                        android:id="@+id/tv_owg_status"
+                        style="@style/settings_RowTitle"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="6dp"
+                        android:alpha="0.7"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/tv_owg_probe"
+                        style="@style/settings_RowTitle"
+                        android:layout_marginBottom="6dp"
+                        android:alpha="0.7"
+                        android:textSize="11sp" />
+
+                    <LinearLayout
+                        
+                        style="@style/settings_Row">
+
+                        <LinearLayout
+                            style="@style/settings_RowText">
+
+                            <TextView
+                                style="@style/settings_RowTitle"
+                                android:text="@string/owg_enable" />
+                        </LinearLayout>
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switch_owg_enabled"
+                            style="@style/settings_Switch" />
+                    </LinearLayout>
+                    <LinearLayout
+                        
+                        style="@style/settings_Row">
+
+                        <LinearLayout
+                            style="@style/settings_RowText">
+
+                            <TextView
+                                style="@style/settings_RowTitle"
+                                android:text="@string/owg_nether" />
+                        </LinearLayout>
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switch_owg_nether"
+                            style="@style/settings_Switch" />
+                    </LinearLayout>
+                    <LinearLayout
+                        
+                        style="@style/settings_Row">
+
+                        <LinearLayout
+                            style="@style/settings_RowText">
+
+                            <TextView
+                                style="@style/settings_RowTitle"
+                                android:text="@string/owg_end" />
+                        </LinearLayout>
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switch_owg_end"
+                            style="@style/settings_Switch" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/row_owg_height"
+                        style="@style/settings_Row" android:clickable="true" android:focusable="true">
+
+                        <LinearLayout
+                            style="@style/settings_RowText">
+
+                            <TextView
+                                style="@style/settings_RowTitle"
+                                android:text="@string/owg_height" />
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/tv_owg_height"
+                            style="@style/settings_RowTitle"
+                            android:textColor="@color/accent_text" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/row_owg_style"
+                        style="@style/settings_Row" android:clickable="true" android:focusable="true">
+
+                        <LinearLayout
+                            style="@style/settings_RowText">
+
+                            <TextView
+                                style="@style/settings_RowTitle"
+                                android:text="@string/owg_style" />
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/tv_owg_style"
+                            style="@style/settings_RowTitle"
+                            android:textColor="@color/accent_text" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/row_owg_river"
+                        style="@style/settings_Row" android:clickable="true" android:focusable="true">
+
+                        <LinearLayout
+                            style="@style/settings_RowText">
+
+                            <TextView
+                                style="@style/settings_RowTitle"
+                                android:text="@string/owg_river" />
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/tv_owg_river"
+                            style="@style/settings_RowTitle"
+                            android:textColor="@color/accent_text" />
+                    </LinearLayout>
+                    <LinearLayout
+                        style="@style/settings_Row">
+
+                        <LinearLayout
+                            style="@style/settings_RowText">
+
+                            <TextView
+                                style="@style/settings_RowTitle"
+                                android:text="@string/owg_probe" />
+                        </LinearLayout>
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switch_owg_probe"
+                            style="@style/settings_Switch" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

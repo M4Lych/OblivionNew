@@ -80,8 +80,8 @@ import java.util.Locale
 class UpdateDetailsActivity : ComponentActivity() {
 
     companion object {
-        private const val OWNER = "sang765"
-        private const val REPO = "LeviDroid-Modder"
+        private const val OWNER = "M4Lych"
+        private const val REPO = "OblivionNew"
         private const val EXTRA_ASK_DIALOG = "ask_dialog"
         private const val EXTRA_RELEASE_TITLE = "release_title"
         private const val EXTRA_NOTES = "notes"

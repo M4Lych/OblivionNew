@@ -104,7 +104,7 @@
     <string name="pkg_err_cause_corrupt">下载的文件已损坏或不完整。请在包管理器设置中清理包缓存后重试。</string>
 
     <!-- Browse and package screens (PackagesActivity, BrowseFragment, PackageActivity, InstallDialog) -->
-    <string name="pkg_title_mods">LeviMC 模组</string>
+    <string name="pkg_title_mods">OblivionMod</string>
     <string name="pkg_tab_browse">浏览</string>
     <string name="pkg_tab_installed">已安装</string>
     <string name="pkg_tab_details">详情</string>
@@ -179,8 +179,8 @@
 
     <!-- Developer guide -->
     <string name="pkg_guide_open">开发者指南</string>
-    <string name="pkg_guide_title">LeviMC 模组开发者指南</string>
-    <string name="pkg_guide_description">如果你希望自己的模组出现在 LeviMC 模组页面中，请按照文档在仓库中提供 lip.toml 并发布。</string>
+    <string name="pkg_guide_title">OblivionMod 模组开发者指南</string>
+    <string name="pkg_guide_description">如果你希望自己的模组出现在 OblivionMod 模组页面中，请按照文档在仓库中提供 lip.toml 并发布。</string>
     <string name="pkg_guide_manifest_hint">这个弹窗只提供面向开发者的快速说明。字段命名、必填项、示例与校验细则请以官方文档为准。</string>
     <string name="pkg_guide_variant_hint">只有当包最新版本的 lip.toml 中有在本设备平台的客户端上运行的条目（side = \"client\" 且 platform = \"android-arm64\"）时，启动器才会收录它。客户端条目全部面向其他平台（如 \"win-x64\"）的包不会被收录。启动器优先安装名为 \"client\" 的变体，其次是默认变体 \"\"，再按字母顺序选择其他变体。</string>
     <string name="pkg_guide_android_hint">旧版本同样如此：只有 lip.toml 中有本设备平台的客户端条目的版本才能安装。面向其他平台的条目无法在此安装。</string>
