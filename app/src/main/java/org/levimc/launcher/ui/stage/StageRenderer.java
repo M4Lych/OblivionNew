@@ -21,6 +21,7 @@ final class StageRenderer {
 
     private static final String VERTEX =
             "#version 300 es\n"
+                    + "precision highp float;\n"
                     + "layout(location=0) in vec3 aPos;\n"
                     + "layout(location=1) in vec3 aNormal;\n"
                     + "layout(location=2) in vec2 aUv;\n"
@@ -62,7 +63,7 @@ final class StageRenderer {
 
     private static final String FRAGMENT =
             "#version 300 es\n"
-                    + "precision mediump float;\n"
+                    + "precision highp float;\n"
                     + "in vec3 vN;\n"
                     + "in vec2 vUv;\n"
                     + "in vec3 vPos;\n"
@@ -87,15 +88,17 @@ final class StageRenderer {
                     + "  }\n"
                     + "  vec3 n = normalize(vN);\n"
                     + "  if (!gl_FrontFacing) n = -n;\n"
-                    + "  float ndl = dot(n, normalize(uLightDir)) * 0.5 + 0.5;\n"
-                    + "  float lit = smoothstep(0.40, 0.60, ndl);\n"
-                    + "  vec3 shade = uHasShade == 1 ? texture(uShade, vUv).rgb : base.rgb * vec3(0.72, 0.66, 0.84);\n"
-                    + "  vec3 col = mix(shade, base.rgb, lit);\n"
+                    + "  float ndl = max(dot(n, normalize(uLightDir)), 0.0);\n"
+                    + "  float wrappedLight = clamp((dot(n, normalize(uLightDir)) + 0.46) / 1.46, 0.0, 1.0);\n"
+                    + "  float keyLight = smoothstep(0.04, 0.92, wrappedLight);\n"
+                    + "  vec3 shade = uHasShade == 1 ? texture(uShade, vUv).rgb : base.rgb * vec3(0.82, 0.78, 0.88);\n"
+                    + "  vec3 col = mix(shade, base.rgb, 0.72 + 0.22 * keyLight);\n"
+                    + "  col *= 0.98 + 0.12 * ndl;\n"
                     + "  vec3 v = normalize(uCamPos - vPos);\n"
-                    + "  float rim = pow(1.0 - clamp(dot(n, v), 0.0, 1.0), 3.0);\n"
-                    + "  col += uRimColor * rim * 0.55;\n"
-                    + "  if (uHasEmissive == 1) col += texture(uEmissive, vUv).rgb * 0.6;\n"
-                    + "  oColor = vec4(col, 1.0);\n"
+                    + "  float rim = pow(1.0 - clamp(dot(n, v), 0.0, 1.0), 3.2);\n"
+                    + "  col += uRimColor * rim * 0.075;\n"
+                    + "  if (uHasEmissive == 1) col += texture(uEmissive, vUv).rgb * 0.15;\n"
+                    + "  oColor = vec4(clamp(col, 0.0, 1.0), 1.0);\n"
                     + "}\n";
 
     private final ObmModel model;
@@ -109,6 +112,16 @@ final class StageRenderer {
     private int smileIndex;
     private final Map<String, Integer> textures = new HashMap<>();
     private int whiteTexture;
+    private float maxAnisotropy = 1.0f;
+    // Render slightly above the TextureView resolution, then downsample. This
+    // improves silhouette quality without requiring larger source textures.
+    private static final float SUPER_SAMPLE_SCALE = 1.25f;
+    private int sceneFramebuffer;
+    private int sceneColorTexture;
+    private int sceneDepthBuffer;
+    private int sceneWidth;
+    private int sceneHeight;
+    private boolean sceneTargetUnavailable;
 
     private int uWorld;
     private int uViewProj;
@@ -186,6 +199,9 @@ final class StageRenderer {
                 GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_LINEAR);
                 GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_S, GLES30.GL_REPEAT);
                 GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_T, GLES30.GL_REPEAT);
+                if (maxAnisotropy > 1.0f) {
+                    GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, 0x84FE, maxAnisotropy);
+                }
                 bmp.recycle();
             }
         } catch (IOException e) {
@@ -196,6 +212,12 @@ final class StageRenderer {
     }
 
     void init() {
+        String extensions = GLES30.glGetString(GLES30.GL_EXTENSIONS);
+        if (extensions != null && extensions.contains("GL_EXT_texture_filter_anisotropic")) {
+            float[] limit = new float[1];
+            GLES30.glGetFloatv(0x84FF, limit, 0);
+            maxAnisotropy = Math.max(1.0f, Math.min(4.0f, limit[0]));
+        }
         int vs = compile(GLES30.GL_VERTEX_SHADER, VERTEX);
         int fs = compile(GLES30.GL_FRAGMENT_SHADER, FRAGMENT);
         program = GLES30.glCreateProgram();
@@ -345,8 +367,91 @@ final class StageRenderer {
         }
     }
 
+
+    private void releaseSceneTarget() {
+        if (sceneDepthBuffer != 0) {
+            GLES30.glDeleteRenderbuffers(1, new int[]{sceneDepthBuffer}, 0);
+            sceneDepthBuffer = 0;
+        }
+        if (sceneColorTexture != 0) {
+            GLES30.glDeleteTextures(1, new int[]{sceneColorTexture}, 0);
+            sceneColorTexture = 0;
+        }
+        if (sceneFramebuffer != 0) {
+            GLES30.glDeleteFramebuffers(1, new int[]{sceneFramebuffer}, 0);
+            sceneFramebuffer = 0;
+        }
+        sceneWidth = 0;
+        sceneHeight = 0;
+    }
+
+    private boolean ensureSceneTarget(int width, int height) {
+        if (sceneTargetUnavailable || width <= 0 || height <= 0) return false;
+        int targetWidth = Math.max(1, Math.round(width * SUPER_SAMPLE_SCALE));
+        int targetHeight = Math.max(1, Math.round(height * SUPER_SAMPLE_SCALE));
+        if (sceneFramebuffer != 0 && sceneWidth == targetWidth && sceneHeight == targetHeight) return true;
+
+        releaseSceneTarget();
+        int[] maxTextureSize = new int[1];
+        GLES30.glGetIntegerv(GLES30.GL_MAX_TEXTURE_SIZE, maxTextureSize, 0);
+        if (targetWidth > maxTextureSize[0] || targetHeight > maxTextureSize[0]) {
+            sceneTargetUnavailable = true;
+            Log.w(TAG, "supersampling unavailable: target exceeds GL_MAX_TEXTURE_SIZE=" + maxTextureSize[0]);
+            return false;
+        }
+
+        int[] ids = new int[1];
+        GLES30.glGenFramebuffers(1, ids, 0);
+        sceneFramebuffer = ids[0];
+        GLES30.glGenTextures(1, ids, 0);
+        sceneColorTexture = ids[0];
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, sceneColorTexture);
+        GLES30.glTexImage2D(GLES30.GL_TEXTURE_2D, 0, GLES30.GL_RGBA8,
+                targetWidth, targetHeight, 0, GLES30.GL_RGBA, GLES30.GL_UNSIGNED_BYTE, null);
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_LINEAR);
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_LINEAR);
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_S, GLES30.GL_CLAMP_TO_EDGE);
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_T, GLES30.GL_CLAMP_TO_EDGE);
+
+        GLES30.glGenRenderbuffers(1, ids, 0);
+        sceneDepthBuffer = ids[0];
+        GLES30.glBindRenderbuffer(GLES30.GL_RENDERBUFFER, sceneDepthBuffer);
+        GLES30.glRenderbufferStorage(GLES30.GL_RENDERBUFFER, GLES30.GL_DEPTH_COMPONENT16,
+                targetWidth, targetHeight);
+
+        GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, sceneFramebuffer);
+        GLES30.glFramebufferTexture2D(GLES30.GL_FRAMEBUFFER, GLES30.GL_COLOR_ATTACHMENT0,
+                GLES30.GL_TEXTURE_2D, sceneColorTexture, 0);
+        GLES30.glFramebufferRenderbuffer(GLES30.GL_FRAMEBUFFER, GLES30.GL_DEPTH_ATTACHMENT,
+                GLES30.GL_RENDERBUFFER, sceneDepthBuffer);
+        int status = GLES30.glCheckFramebufferStatus(GLES30.GL_FRAMEBUFFER);
+        GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, 0);
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, 0);
+        GLES30.glBindRenderbuffer(GLES30.GL_RENDERBUFFER, 0);
+
+        if (status != GLES30.GL_FRAMEBUFFER_COMPLETE) {
+            Log.w(TAG, "supersampling framebuffer incomplete: 0x" + Integer.toHexString(status)
+                    + "; using native surface resolution");
+            releaseSceneTarget();
+            sceneTargetUnavailable = true;
+            return false;
+        }
+        sceneWidth = targetWidth;
+        sceneHeight = targetHeight;
+        Log.i(TAG, "stage supersampling=" + sceneWidth + "x" + sceneHeight
+                + " -> " + width + "x" + height);
+        return true;
+    }
+
     void draw(StageAnimator animator, int width, int height) {
-        GLES30.glViewport(0, 0, width, height);
+        boolean supersampled = ensureSceneTarget(width, height);
+        if (supersampled) {
+            GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, sceneFramebuffer);
+            GLES30.glViewport(0, 0, sceneWidth, sceneHeight);
+        } else {
+            GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, 0);
+            GLES30.glViewport(0, 0, width, height);
+        }
         GLES30.glClearColor(0f, 0f, 0f, 0f);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
         GLES30.glEnable(GLES30.GL_DEPTH_TEST);
@@ -384,14 +489,14 @@ final class StageRenderer {
 
         GLES30.glUniform1f(uBlink, blinkIndex == 1 ? animator.blinkWeight : 0f);
         GLES30.glUniform1f(uSmile, smileIndex == 1 ? animator.smileWeight : 0f);
-        GLES30.glUniform3f(uLightDir, -0.35f, 0.55f, 0.75f);
+        GLES30.glUniform3f(uLightDir, 0.0f, 0.14f, 1.0f);
         GLES30.glUniform3f(uCamPos, 0f, pack.targetY, pack.distance);
-        GLES30.glUniform3f(uRimColor, 0.86f, 0.17f, 0.35f);
-        GLES30.glUniform3f(uOutlineColor, 0.10f, 0.03f, 0.06f);
+        GLES30.glUniform3f(uRimColor, 0.58f, 0.48f, 0.62f);
+        GLES30.glUniform3f(uOutlineColor, 0.22f, 0.13f, 0.18f);
 
         GLES30.glBindVertexArray(vao);
 
-        GLES30.glUniform1f(uOutline, 0.006f);
+        GLES30.glUniform1f(uOutline, 0.00055f);
         GLES30.glEnable(GLES30.GL_CULL_FACE);
         GLES30.glCullFace(GLES30.GL_FRONT);
         drawSubmeshes(true);
@@ -401,9 +506,18 @@ final class StageRenderer {
         drawSubmeshes(false);
 
         GLES30.glBindVertexArray(0);
+
+        if (supersampled) {
+            GLES30.glBindFramebuffer(GLES30.GL_READ_FRAMEBUFFER, sceneFramebuffer);
+            GLES30.glBindFramebuffer(GLES30.GL_DRAW_FRAMEBUFFER, 0);
+            GLES30.glBlitFramebuffer(0, 0, sceneWidth, sceneHeight,
+                    0, 0, width, height, GLES30.GL_COLOR_BUFFER_BIT, GLES30.GL_LINEAR);
+            GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, 0);
+        }
     }
 
     void release() {
+        releaseSceneTarget();
         if (program != 0) GLES30.glDeleteProgram(program);
         GLES30.glDeleteBuffers(buffers.length, buffers, 0);
         if (vao != 0) GLES30.glDeleteVertexArrays(1, new int[]{vao}, 0);

@@ -108,7 +108,7 @@ final class StageAnimator {
                 depth++;
                 p = model.nodes[p].parent;
             }
-            springAmp[s] = 1.3f * category;
+            springAmp[s] = 0.72f * category;
             springPhase[s] = depth * 0.55f + random.nextFloat() * 0.35f;
             springFreq[s] = 1.1f + random.nextFloat() * 0.35f;
         }
@@ -162,36 +162,36 @@ final class StageAnimator {
                 }
             }
         }
-        smileWeight = Math.max(0f, Math.min(1f, 0.22f + 0.1f * (float) Math.sin(time * 0.5f) + 0.8f * react));
-        bobY = 0.005f * (float) Math.sin(time * 1.2f);
-        if (reactTime >= 0f) bobY += 0.02f * (float) Math.exp(-reactTime * 3f) * Math.abs((float) Math.sin(reactTime * 9f));
-        bodyYaw = lookX * 7f * pack.lookAt + 0.45f * (float) Math.sin(time * 0.34f) * pack.sway;
+        smileWeight = 0f; // Keep the default resting mouth closed; avoid the source smile morph opening the mouth.
+        bobY = 0.0025f * (float) Math.sin(time * 1.0f);
+        if (reactTime >= 0f) bobY += 0.008f * (float) Math.exp(-reactTime * 3f) * Math.abs((float) Math.sin(reactTime * 9f));
+        bodyYaw = lookX * 5f * pack.lookAt + 0.18f * (float) Math.sin(time * 0.30f) * pack.sway;
 
         Arrays.fill(rotX, 0f);
         Arrays.fill(rotY, 0f);
         Arrays.fill(rotZ, 0f);
         float breath = (float) Math.sin(time * 6.2831853f * 0.21f) * pack.breath;
         if (hip >= 0) {
-            rotY[hip] += 0.35f * (float) Math.sin(time * 0.48f) * pack.sway;
-            rotZ[hip] += 0.18f * (float) Math.sin(time * 0.61f + 1.1f) * pack.sway;
+            rotY[hip] += 0.12f * (float) Math.sin(time * 0.42f) * pack.sway;
+            rotZ[hip] += 0.08f * (float) Math.sin(time * 0.52f + 1.1f) * pack.sway;
         }
         for (int idx : spine) rotX[idx] += 0.72f * breath;
         if (spine.length > 0) {
-            rotY[spine[0]] += 1.8f * (float) Math.sin(time * 0.55f) * pack.sway;
-            rotZ[spine[0]] += 0.9f * (float) Math.sin(time * 0.8f + 1f) * pack.sway;
+            rotY[spine[0]] += 0.65f * (float) Math.sin(time * 0.48f) * pack.sway;
+            rotZ[spine[0]] += 0.35f * (float) Math.sin(time * 0.66f + 1f) * pack.sway;
         }
         if (leftShoulder >= 0) {
-            rotX[leftShoulder] += 0.24f * breath;
-            rotZ[leftShoulder] += 0.42f * (float) Math.sin(time * 0.72f + 0.35f) * pack.sway;
+            rotX[leftShoulder] += 0.18f * breath;
+            rotZ[leftShoulder] += 0.18f * (float) Math.sin(time * 0.62f + 0.35f) * pack.sway;
         }
         if (rightShoulder >= 0) {
-            rotX[rightShoulder] += 0.24f * breath;
-            rotZ[rightShoulder] -= 0.42f * (float) Math.sin(time * 0.72f + 0.35f) * pack.sway;
+            rotX[rightShoulder] += 0.18f * breath;
+            rotZ[rightShoulder] -= 0.18f * (float) Math.sin(time * 0.62f + 0.35f) * pack.sway;
         }
-        float yaw = lookX * 22f * pack.lookAt;
-        float pitch = -lookY * 11f * pack.lookAt;
-        float idleHeadYaw = 1.25f * (float) Math.sin(time * 0.43f) * pack.sway;
-        float idleHeadPitch = 0.65f * (float) Math.sin(time * 0.61f + 0.8f) * pack.sway;
+        float yaw = lookX * 14f * pack.lookAt;
+        float pitch = -lookY * 7f * pack.lookAt;
+        float idleHeadYaw = 0.34f * (float) Math.sin(time * 0.34f) * pack.sway;
+        float idleHeadPitch = 0.16f * (float) Math.sin(time * 0.46f + 0.8f) * pack.sway;
         if (neck >= 0) {
             rotY[neck] += yaw * 0.4f + idleHeadYaw * 0.35f;
             rotX[neck] += pitch * 0.4f + idleHeadPitch * 0.35f;
@@ -199,7 +199,7 @@ final class StageAnimator {
         if (head >= 0) {
             rotY[head] += yaw * 0.6f + idleHeadYaw * 0.65f;
             rotX[head] += pitch * 0.6f + idleHeadPitch * 0.65f;
-            if (reactTime >= 0f) rotZ[head] += 7f * react * (float) Math.sin(reactTime * 5f);
+            if (reactTime >= 0f) rotZ[head] += 0.9f * react * (float) Math.sin(reactTime * 3.6f);
         }
 
         for (int i = 0; i < nodeCount; i++) {

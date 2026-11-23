@@ -220,8 +220,15 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
                 if (display == EGL14.EGL_NO_DISPLAY) return;
                 int[] version = new int[2];
                 if (!EGL14.eglInitialize(display, version, 0, version, 1)) return;
-                EGLConfig config = choose(display, 4);
-                if (config == null) config = choose(display, 0);
+                // StageRenderer supersamples into an offscreen RGBA8 framebuffer
+                // and resolves it to this window surface. Keep this surface single-sample
+                // so the GLES blit has matching sample counts on all ES 3 devices.
+                EGLConfig config = choose(display, 0);
+                if (config != null) {
+                    int[] samples = new int[1];
+                    EGL14.eglGetConfigAttrib(display, config, EGL14.EGL_SAMPLES, samples, 0);
+                    Log.i(TAG, "stage EGL samples=" + samples[0] + ", surface=" + width + "x" + height);
+                }
                 if (config == null) return;
                 eglContext = EGL14.eglCreateContext(display, config, EGL14.EGL_NO_CONTEXT,
                         new int[]{EGL14.EGL_CONTEXT_CLIENT_VERSION, 3, EGL14.EGL_NONE}, 0);
