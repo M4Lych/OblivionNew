@@ -179,7 +179,7 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <com.oblivion.client.ui.packages.TaskProgressView
+    <org.levimc.launcher.ui.packages.TaskProgressView
         android:id="@+id/pkg_loader_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

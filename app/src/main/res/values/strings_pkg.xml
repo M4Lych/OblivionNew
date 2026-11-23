@@ -182,8 +182,8 @@
 
     <!-- Developer guide -->
     <string name="pkg_guide_open">Developer Guide</string>
-    <string name="pkg_guide_title">OblivionMod Developer Guide</string>
-    <string name="pkg_guide_description">If you want your mod to appear on the OblivionMod page, publish it with a lip.toml as described in the documentation.</string>
+    <string name="pkg_guide_title">OblivionMod Mods Developer Guide</string>
+    <string name="pkg_guide_description">If you want your mod to appear on the OblivionMod Mods page, publish it with a lip.toml as described in the documentation.</string>
     <string name="pkg_guide_manifest_hint">This dialog is only a quick overview for developers. Field names, required entries, examples and validation rules are defined in the official documentation.</string>
     <string name="pkg_guide_variant_hint">The launcher lists a package only when the latest version in its lip.toml has an entry that runs on the client on this device\'s platform: side = \"client\" and platform = \"android-arm64\". A package whose client entries are all for other platforms (such as \"win-x64\") is not listed. The launcher installs the variant named \"client\" first, then the default variant \"\", then the others in alphabetical order.</string>
     <string name="pkg_guide_android_hint">Older versions follow the same rule: a version is installable only when its lip.toml has a client entry for this device\'s platform. Entries for other platforms cannot be installed here.</string>

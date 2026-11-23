@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(oblivionworld LANGUAGES C CXX)
+project(leviworld LANGUAGES C CXX)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(BUILD_SHARED_LIBS OFF)
 set(SNAPPY_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -22,13 +22,13 @@ set(LEVELDB_ZSTD ON CACHE BOOL "" FORCE)
 set(LEVELDB_ZLIB ON CACHE BOOL "" FORCE)
 add_subdirectory(vendor/leveldb EXCLUDE_FROM_ALL)
 file(GLOB_RECURSE NBT_SOURCES CONFIGURE_DEPENDS vendor/nbt/src/nbt/*.cpp)
-add_library(oblivionworld SHARED
+add_library(leviworld SHARED
     WorldJni.cpp
     ${NBT_SOURCES}
     vendor/binarystream/src/binarystream/BinaryStream.cpp
     vendor/binarystream/src/binarystream/ReadOnlyBinaryStream.cpp)
-target_include_directories(oblivionworld PRIVATE vendor/nbt/include vendor/nbt/src vendor/binarystream/include)
-target_compile_features(oblivionworld PRIVATE cxx_std_23)
-target_compile_options(oblivionworld PRIVATE -fexceptions -frtti -fvisibility=hidden -fvisibility-inlines-hidden)
-target_link_libraries(oblivionworld PRIVATE leveldb z)
-target_link_options(oblivionworld PRIVATE -Wl,--exclude-libs,ALL -Wl,-Bsymbolic -Wl,-z,max-page-size=16384)
+target_include_directories(leviworld PRIVATE vendor/nbt/include vendor/nbt/src vendor/binarystream/include)
+target_compile_features(leviworld PRIVATE cxx_std_23)
+target_compile_options(leviworld PRIVATE -fexceptions -frtti -fvisibility=hidden -fvisibility-inlines-hidden)
+target_link_libraries(leviworld PRIVATE leveldb z)
+target_link_options(leviworld PRIVATE -Wl,--exclude-libs,ALL -Wl,-Bsymbolic -Wl,-z,max-page-size=16384)

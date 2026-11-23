@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="stage_title">OblivionMod · 3D Model Stage</string>
+    <string name="stage_enable">Show 3D model on home</string>
+    <string name="stage_model">Model</string>
+    <string name="stage_fps">Frame rate</string>
+    <string name="stage_glass">Glass cards over the model</string>
+    <string name="stage_toggle_cards">Show or hide the cards</string>
+    <string name="stage_hint">Touch the model to make it look at you or react. Put model folders in %1$s</string>
+    <string name="stage_fps_value">%1$d fps</string>
+    <string name="stage_none">No model found</string>
+</resources>

@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Shared launcher UI styles, aligned with Oblivion for Windows (HeroUI + launcher overrides).
+<!-- Shared launcher UI styles, aligned with LeviLauncher for Windows (HeroUI + launcher overrides).
      Touch sizes: buttons at least 40dp tall, icon buttons 40dp, segmented tabs 40dp. -->
 <resources>
 
     <!-- Cards -->
-    <style name="Widget.Oblivion.Card" parent="Widget.MaterialComponents.CardView">
+    <style name="Widget.Levi.Card" parent="Widget.MaterialComponents.CardView">
         <item name="cardBackgroundColor">@color/ui_card_surface</item>
-        <item name="cardCornerRadius">8dp</item>
+        <item name="cardCornerRadius">12dp</item>
         <item name="cardElevation">0dp</item>
         <item name="strokeColor">@color/ui_card_stroke</item>
         <item name="strokeWidth">1dp</item>
         <item name="contentPadding">0dp</item>
     </style>
 
-    <style name="Widget.Oblivion.Card.Inner">
+    <style name="Widget.Levi.Card.Inner">
         <item name="cardBackgroundColor">@color/surface</item>
-        <item name="cardCornerRadius">12dp</item>
+        <item name="cardCornerRadius">10dp</item>
         <item name="strokeColor">@color/ui_inner_card_stroke</item>
         <item name="strokeWidth">1dp</item>
     </style>
 
     <!-- Text -->
-    <style name="TextAppearance.Oblivion.PageTitle" parent="">
+    <style name="TextAppearance.Levi.PageTitle" parent="">
         <item name="android:fontFamily">@font/misans</item>
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
@@ -30,40 +30,40 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
-    <style name="TextAppearance.Oblivion.PageSubtitle" parent="">
+    <style name="TextAppearance.Levi.PageSubtitle" parent="">
         <item name="android:fontFamily">@font/misans</item>
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
-    <style name="TextAppearance.Oblivion.SectionTitle" parent="">
+    <style name="TextAppearance.Levi.SectionTitle" parent="">
         <item name="android:fontFamily">@font/misans</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
-    <style name="TextAppearance.Oblivion.Body" parent="">
+    <style name="TextAppearance.Levi.Body" parent="">
         <item name="android:fontFamily">@font/misans</item>
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
-    <style name="TextAppearance.Oblivion.Caption" parent="">
+    <style name="TextAppearance.Levi.Caption" parent="">
         <item name="android:fontFamily">@font/misans</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
     <!-- Uppercase-free small label above a select (Windows label). -->
-    <style name="TextAppearance.Oblivion.FieldLabel" parent="">
+    <style name="TextAppearance.Levi.FieldLabel" parent="">
         <item name="android:fontFamily">@font/misans</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
     <!-- Buttons (Windows: every button is a pill; primary = brand fill, secondary = default fill). -->
-    <style name="Widget.Oblivion.Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+    <style name="Widget.Levi.Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:fontFamily">@font/misans</item>
         <item name="android:textSize">13sp</item>
         <item name="android:textStyle">bold</item>
@@ -77,27 +77,27 @@
         <item name="android:paddingEnd">16dp</item>
         <item name="android:paddingTop">0dp</item>
         <item name="android:paddingBottom">0dp</item>
-        <item name="cornerRadius">8dp</item>
+        <item name="cornerRadius">20dp</item>
         <item name="iconPadding">6dp</item>
         <item name="iconSize">18dp</item>
         <item name="iconGravity">textStart</item>
         <item name="elevation">0dp</item>
     </style>
 
-    <style name="Widget.Oblivion.Button.Primary">
+    <style name="Widget.Levi.Button.Primary">
         <item name="backgroundTint">@color/primary</item>
         <item name="android:textColor">@color/on_primary</item>
         <item name="iconTint">@color/on_primary</item>
     </style>
 
-    <style name="Widget.Oblivion.Button.Secondary">
+    <style name="Widget.Levi.Button.Secondary">
         <item name="backgroundTint">@color/ui_default</item>
         <item name="android:textColor">@color/text_primary</item>
         <item name="iconTint">@color/text_primary</item>
         <item name="rippleColor">#1F808080</item>
     </style>
 
-    <style name="Widget.Oblivion.Button.Outline">
+    <style name="Widget.Levi.Button.Outline">
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="strokeColor">@color/primary</item>
         <item name="strokeWidth">1dp</item>
@@ -105,13 +105,13 @@
         <item name="iconTint">@color/accent_text</item>
     </style>
 
-    <style name="Widget.Oblivion.Button.Danger">
+    <style name="Widget.Levi.Button.Danger">
         <item name="backgroundTint">@color/ui_danger_soft</item>
         <item name="android:textColor">@color/ui_danger</item>
         <item name="iconTint">@color/ui_danger</item>
     </style>
 
-    <style name="Widget.Oblivion.Button.Ghost">
+    <style name="Widget.Levi.Button.Ghost">
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="android:textColor">@color/text_primary</item>
         <item name="iconTint">@color/text_primary</item>
@@ -119,7 +119,7 @@
     </style>
 
     <!-- Square icon-only button, 40dp (Windows small icon button, enlarged for touch). -->
-    <style name="Widget.Oblivion.Button.Icon" parent="Widget.Oblivion.Button.Secondary">
+    <style name="Widget.Levi.Button.Icon" parent="Widget.Levi.Button.Secondary">
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:minWidth">40dp</item>
@@ -134,7 +134,7 @@
     </style>
 
     <!-- Inputs -->
-    <style name="Widget.Oblivion.Input" parent="">
+    <style name="Widget.Levi.Input" parent="">
         <item name="android:background">@drawable/bg_ui_input</item>
         <item name="android:minHeight">40dp</item>
         <item name="android:paddingStart">12dp</item>
@@ -149,7 +149,7 @@
     </style>
 
     <!-- Tags -->
-    <style name="Widget.Oblivion.Tag" parent="">
+    <style name="Widget.Levi.Tag" parent="">
         <item name="android:background">@drawable/bg_ui_tag</item>
         <item name="android:fontFamily">@font/misans</item>
         <item name="android:textSize">11sp</item>
@@ -162,42 +162,42 @@
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="Widget.Oblivion.Tag.Accent">
+    <style name="Widget.Levi.Tag.Accent">
         <item name="android:background">@drawable/bg_ui_tag_accent</item>
         <item name="android:textColor">@color/accent_text</item>
     </style>
 
     <!-- Info strip pieces -->
-    <style name="TextAppearance.Oblivion.StripLabel" parent="">
+    <style name="TextAppearance.Levi.StripLabel" parent="">
         <item name="android:fontFamily">@font/misans</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
-    <style name="Widget.Oblivion.StripValue" parent="Widget.Oblivion.Tag">
+    <style name="Widget.Levi.StripValue" parent="Widget.Levi.Tag">
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <!-- Switch -->
-    <style name="Widget.Oblivion.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+    <style name="Widget.Levi.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
         <item name="android:minHeight">48dp</item>
     </style>
 
     <!-- Navigation: icon + label tab of the top navigation bar (Windows GlobalNavbar item). -->
-    <style name="Widget.Oblivion.NavbarItem" parent="">
+    <style name="Widget.Levi.NavbarItem" parent="">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:paddingTop">0dp</item>
         <item name="android:paddingBottom">0dp</item>
-        <item name="android:paddingStart">@dimen/oblivion_navbar_item_padding</item>
-        <item name="android:paddingEnd">@dimen/oblivion_navbar_item_padding</item>
-        <item name="android:drawablePadding">6dp</item>
+        <item name="android:paddingStart">@dimen/levi_navbar_item_padding</item>
+        <item name="android:paddingEnd">@dimen/levi_navbar_item_padding</item>
+        <item name="android:drawablePadding">4dp</item>
         <item name="android:drawableTint">@color/text_primary</item>
         <item name="android:fontFamily">@font/misans</item>
-        <item name="android:textSize">@dimen/oblivion_navbar_text_size</item>
+        <item name="android:textSize">@dimen/levi_navbar_text_size</item>
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>

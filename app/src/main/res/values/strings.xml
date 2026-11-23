@@ -1,19 +1,26 @@
-<!-- Oblivion default resources. The launcher interface is English-only. -->
+<!-- NOTE: Keep this file aligned with the English default (values/strings.xml):
+     same resource keys and order, comments, sections, XML structure, and formatting
+     (including indentation, spaces, and blank lines).
+
+     Translations must remain grammatically and linguistically correct for the target
+     language. Locale-specific plural forms may differ when required by the language.
+     Do not change placeholders or resource attributes. -->
 
 <resources>
     <!-- Common -->
-    <string name="app_name">Oblivion</string>
-    <string name="minecraft">Minecraft</string>
+    <string name="app_name" translatable="false">Oblivion</string>
+    <string name="minecraft" translatable="false">Minecraft</string>
     <string name="launch">Launch</string>
     <string name="beta_badge">Beta</string>
     <string name="debug_badge">Debug</string>
     <string name="cursor">Cursor</string>
-    <string name="bedrock_edition">OFFICIAL BEDROCK CLIENT</string>
-    <string name="current_instance">Minecraft Version</string>
+    <string name="bedrock_edition">Bedrock Edition</string>
+    <string name="bedrock_edition_bugrock">Bugrock Edition</string>
+    <string name="current_instance">Current Instance</string>
 
     <!-- Mods -->
     <string name="mods_title">Mods (%d)</string>
-    <string name="mods_section_title">OblivionMod</string>
+    <string name="mods_section_title">Mods</string>
     <string name="external_mods_label">External Mods</string>
     <string name="inbuilt_mods_label">Inbuilt Mods</string>
     <string name="manage_mods">Manage Mods</string>
@@ -24,14 +31,14 @@
 
     <!-- About -->
     <string name="about_title">☕ About</string>
-    <string name="copyright">© 2026 Oblivion Project. Not affiliated with Mojang or Microsoft.</string>
+    <string name="copyright">©2024–2026 LeviMC. All rights reserved.</string>
     <string name="font_license">This app uses the Misans font.</string>
-    <string name="about_footer_github">Source code and third-party notices are documented in the project README.</string>
+    <string name="about_footer_github" translatable="false">GitHub: https://github.com/M4Lych/OblivionNew</string>
     <string name="quick_actions_title">Quick Actions</string>
     <string name="content_mgmt_section_title">Content Management</string>
     <string name="misc_section_title">Miscellaneous</string>
     <string name="view_all">View All →</string>
-    <string name="content_management_subtitle">Manage worlds, resource packs, behavior packs and skin packs</string>
+    <string name="content_management_subtitle">Manage worlds, resource packs and behavior packs</string>
     <string name="import_apk_subtitle">Install Minecraft from APK or APKS file</string>
     <string name="ms_add_account">Add Account</string>
     <string name="ms_add_account_subtitle">Sign in with Microsoft</string>
@@ -140,16 +147,36 @@
     <string name="delete_account_confirm">Are you sure you want to delete this account?</string>
 
 
-    <string name="new_version_found">New version found: %1$s</string>
-    <string name="update_question">Do you want to download and install the latest version?</string>
-    <string name="download_update">Download Update</string>
-    <string name="ignore_this_version">Ignore this version</string>
-    <string name="update_progress">Download progress: %1$d%%</string>
+    <string name="update_dialog_title">New version of %1$s found. Update now?</string>
+    <string name="update_now">Update</string>
+    <string name="update_detail_title">A new version of the launcher is available!</string>
+    <string name="update_detail_version">Version: %1$s</string>
+    <string name="update_apk_size">APK size: %1$s</string>
     <string name="update_failed">Download failed: %1$s</string>
+    <string name="update_check_failed">Update check failed: %1$s</string>
     <string name="install_failed">Unable to install update: %1$s</string>
     <string name="already_latest_version">Already latest version (%1$s)</string>
-    <string name="version_ignored">This version has been ignored</string>
     <string name="downloading_update">Downloading update…</string>
+    <string name="install_method_title">Install method</string>
+    <string name="install_method_button">Update install method: %1$s</string>
+    <string name="install_method_system">System</string>
+    <string name="install_method_shizuku">Shizuku</string>
+    <string name="install_method_root">Root</string>
+    <string name="update_installing_message">Installing, the app will close to finish the update.</string>
+    <string name="shizuku_failed_title">Shizuku install failed</string>
+    <string name="shizuku_not_running">Shizuku is not running. Start Shizuku, then try again.</string>
+    <string name="shizuku_failed">Make sure the app has Shizuku access and USB install is enabled.</string>
+    <string name="enable_usb_install">Enable USB install</string>
+    <string name="root_failed_title">Root install failed</string>
+    <string name="root_failed_message">Could not install with root access. Check your superuser manager and try again.</string>
+    <string name="update_installed_restart">Update installed, reopen the app to finish.</string>
+    <string name="update_download_progress">%1$d%% · %2$s / %3$s</string>
+    <string name="update_check_in_progress">An update check is already running</string>
+    <string name="update_install_title">Installing Update</string>
+    <string name="update_install_subtitle">Hang tight while we set up the new version</string>
+    <string name="update_install_installing">Installing the update…</string>
+    <string name="update_install_still_working">Still working, keep the app open…</string>
+    <string name="update_install_almost">Almost there…</string>
 
     <string name="repair_libs_in_progress">Repairing game library files…</string>
     <string name="repair_completed">Repair Completed</string>
@@ -170,12 +197,14 @@
     <string name="theme_title">Theme Mode</string>
     <string name="theme_follow_system">Follow System</string>
     <string name="theme_light">Light Mode</string>
-    <string name="theme_dark">Dark Mode</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_amoled">AMOLED</string>
+    <string name="theme_amoled_desc">AMOLED Dark uses a pure black background to save battery on screens that support it.</string>
 
     <string name="error_no_browser">No browser available</string>
     <!-- License & Security -->
     <string name="eula_title">Oblivion License Agreement</string>
-    <string name="eula_message"><b>Welcome to Oblivion</b>\n\nBy using this software you agree to:\n\n• This is an <b>unofficial</b> Minecraft client\n• You must own a <b>licensed</b> copy of Minecraft\n• Any form of piracy or cheating is prohibited\n• Mods/resource packs are used at your own risk\n• Not affiliated with Mojang/Microsoft\n\nContinued use constitutes agreement</string>
+    <string name="eula_message"><b>Welcome to Oblivion</b>\n\nBy using this software you agree to:\n\n• This is an <b>unofficial</b> Minecraft launcher\n• You must own a <b>licensed</b> copy of Minecraft\n• Any form of piracy or cheating is prohibited\n• Mods/resource packs are used at your own risk\n• Not affiliated with Mojang/Microsoft\n\nContinued use constitutes agreement</string>
     <string name="eula_agree">Accept</string>
     <string name="eula_exit">Decline</string>
 
@@ -197,14 +226,14 @@
     <string name="mod_import_refused_by_packages">Cannot import into mods/%1$s: %2$s. Update or remove it with the package manager instead.</string>
     <string name="error_versions">Error Versions</string>
 
-    <string name="dialog_title_delete_mod">Delete Mod</string>
-    <string name="dialog_message_delete_mod">Are you sure you want to delete this mod?</string>
+    <string name="dialog_title_delete_mod">Uninstall Mod</string>
+    <string name="dialog_message_delete_mod">Are you sure you want to uninstall this mod?</string>
 
     <string name="version_isolation">Version Isolation</string>
     <string name="launch_vertically">Launch Vertically</string>
     <string name="launch_vertically_desc">Force the game to launch in portrait mode</string>
     <!-- Instance Management -->
-    <string name="instance_settings_title">OblivionMod</string>
+    <string name="instance_settings_title">Instance Settings</string>
     <string name="instance_tab_general">General</string>
     <string name="instance_tab_launch_options">Launch Options</string>
     <string name="instance_tab_management">Management</string>
@@ -231,8 +260,14 @@
     <string name="instance_delete_warning">This action cannot be undone.</string>
     <string name="instance_delete_confirm_title">Delete Instance</string>
     <string name="instance_delete_confirm_msg">Are you sure you want to delete this instance? All data including worlds will be permanently removed.</string>
+    <string name="instance_clear_cache_title">Clear Instance Cache</string>
+    <string name="instance_clear_cache_desc">Deletes the game cache for this instance to fix cache-related issues, such as \"You need to authenticate to Microsoft services\". The cache is rebuilt on the next launch.</string>
+    <string name="instance_clear_cache_button">Clear Cache</string>
+    <string name="instance_clear_cache_confirm_title">Clear Cache</string>
+    <string name="instance_clear_cache_confirm_msg">Clear the game cache for this instance? Worlds, settings, and installed content are not affected. Exit Minecraft first if it is running.</string>
+    <string name="toast_instance_cache_cleared">Instance cache cleared</string>
     <string name="instance_backup_title">Backup Instance</string>
-    <string name="instance_backup_desc">Create a full backup of this instance in Download/Oblivion/Backups.</string>
+    <string name="instance_backup_desc">Create a full backup of this instance in Download/LeviLauncher Modder/Backups.</string>
     <string name="instance_backup_button">Backup Instance</string>
     <string name="instance_backup_confirm_message">Create a full backup of this instance now? Exit Minecraft first if it is running to avoid changing files during backup.</string>
     <string name="instance_backup_in_progress">Backing up instance…</string>
@@ -310,7 +345,15 @@
     <string name="transfer_to">Transfer to:</string>
     <string name="transfer_success">Transfer completed successfully</string>
     <string name="transfer_failed">Transfer failed</string>
+    <string name="transfer_profile_button">Transfer data</string>
+    <string name="transfer_profile_title">Transfer Between Versions</string>
+    <string name="transfer_pick_source">Source version:</string>
+    <string name="transfer_pick_target">Destination version:</string>
+    <string name="transfer_copy">Copy</string>
+    <string name="transfer_move">Move</string>
+    <string name="transfer_summary">%1$d items transferred, %2$d skipped (already exist)</string>
     <string name="transfer_same_location">Content is already in this location</string>
+    <string name="transfer_progress_preparing">Preparing…</string>
     <string name="import_content">Import</string>
     <string name="import_content_title">Import Content</string>
     <string name="import_content_message">Select .mcworld, .mcpack, or .mcaddon file to import</string>
@@ -357,6 +400,24 @@
     <string name="edit_world">Edit World</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
+    <string name="ai_crash_title">AI crash analysis</string>
+    <string name="settings_tab_ai">AI</string>
+    <string name="ai_crash_summary_empty">Not configured — tap to set provider, API key and model</string>
+    <string name="ai_crash_summary_configured">Model: %1$s</string>
+    <string name="ai_hint_base_url">Base URL (e.g. https://api.openai.com/v1)</string>
+    <string name="ai_hint_api_key">API key (optional)</string>
+    <string name="ai_tap_to_pick">Tap to load model list</string>
+    <string name="ai_tap_provider">Tap to select provider</string>
+    <string name="ai_select_provider">Select provider</string>
+    <string name="ai_loading_models">Fetching model list…</string>
+    <string name="ai_search_models">Search model</string>
+    <string name="ai_select_model">Select model</string>
+    <string name="ai_no_models">Provider returned no models</string>
+    <string name="ai_analyze">Analyze with AI</string>
+    <string name="ai_analyzing">The AI is reading your log, hang tight…</string>
+    <string name="ai_result_title">AI analysis</string>
+    <string name="ai_not_configured">Set up AI crash analysis in Settings first</string>
+    <string name="ai_failed">AI analysis failed: %1$s</string>
     <string name="reset">Reset</string>
     <string name="saved_to_gallery">Saved to gallery</string>
     <string name="level_dat_not_found">level.dat not found</string>
@@ -397,12 +458,59 @@
         <item quantity="other">%1$d layers • bottom → top</item>
     </plurals>
 
+    <!-- Create New World -->
+    <string name="create_new_world">Create New World</string>
+    <string name="create_new_world_subtitle">Generate a world for the selected instance</string>
+    <string name="section_general">General</string>
+    <string name="section_advanced">Advanced</string>
+    <string name="section_cheats">Cheats</string>
+    <string name="section_behavior_packs">Behavior Packs</string>
+    <string name="section_resource_packs">Resource Packs</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="hardcore">Hardcore</string>
+    <string name="hardcore_hint">Hard difficulty, one life only</string>
+    <string name="seed">Seed</string>
+    <string name="seed_hint">Leave blank for a random seed</string>
+    <string name="flat_world">Flat World</string>
+    <string name="cheats">Cheats</string>
+    <string name="cheats_hint">Enables commands such as /gamemode</string>
+    <string name="command_blocks">Command Blocks</string>
+    <string name="education_features">Education Features</string>
+    <string name="start_with_map">Starting Map</string>
+    <string name="bonus_chest">Bonus Chest</string>
+    <string name="show_coordinates">Show Coordinates</string>
+    <string name="show_days_played">Show Days Played</string>
+    <string name="recipe_unlocking">Recipe Unlocking</string>
+    <string name="fire_spreads">Fire Spreads</string>
+    <string name="tnt_explodes">TNT Explodes</string>
+    <string name="mob_loot">Mob Loot</string>
+    <string name="natural_regeneration">Natural Regeneration</string>
+    <string name="tile_drops">Tile Drops</string>
+    <string name="mob_spawning">Mob Spawning</string>
+    <string name="mob_griefing">Mob Griefing</string>
+    <string name="entities_drop_loot">Entities Drop Loot</string>
+    <string name="weather_cycle">Weather Cycle</string>
+    <string name="keep_inventory">Keep Inventory</string>
+    <string name="immediate_respawn">Immediate Respawn</string>
+    <string name="respawn_blocks_explode">Respawn Blocks Explode</string>
+    <string name="required_sleeping_players">Required Sleeping Players</string>
+    <string name="respawn_radius">Respawn Radius</string>
+    <string name="simulation_distance">Simulation Distance</string>
+    <string name="chunks_count">%1$d chunks</string>
+    <string name="achievements_disabled_note">Achievements can’t be earned with these settings</string>
+    <string name="achievements_enabled_note">Achievements can be earned in this world</string>
+    <string name="no_packs_installed">No packs installed</string>
+    <string name="mode_survival">Survival</string>
+    <string name="mode_creative">Creative</string>
+    <string name="mode_adventure">Adventure</string>
+    <string name="diff_peaceful">Peaceful</string>
+    <string name="diff_easy">Easy</string>
+    <string name="diff_normal">Normal</string>
+    <string name="diff_hard">Hard</string>
+
     <!-- Play Store Validation -->
-    <string name="minecraft_playstore_required_title">Play Store Version Required</string>
-    <string name="minecraft_playstore_required_message">Oblivion requires the official Minecraft Bedrock app installed from Google Play on this device. Install the Play Store version, then return to Oblivion.</string>
-    <string name="buy_minecraft">Get Minecraft</string>
     <string name="minecraft_not_installed_title">Minecraft Not Installed</string>
-    <string name="minecraft_not_installed_message">Minecraft is not installed on this device. Install the official version from Google Play to use Oblivion.</string>
+    <string name="minecraft_not_installed_message">Minecraft isn’t installed on your device. Install Minecraft from Google Play or another source you trust to use this launcher.</string>
     <string name="install_minecraft">Install Minecraft</string>
     <string name="genuine_badge_label">License not verified</string>
     <string name="invalid_license_detected_toast">Non-genuine Minecraft detected. Ensure Minecraft is from Google Play Store</string>
@@ -411,6 +519,8 @@
     <string name="total_mods">Total Mods:</string>
     <string name="enabled_mods">Enabled:</string>
     <string name="add_mod">Add Mod</string>
+    <string name="add_mod_from_device">Import from device</string>
+    <string name="add_mod_from_device_desc">Pick a .so or .levipack file already on this device</string>
     <string name="external_mods">External Mods</string>
     <string name="external_mods_subtitle">Community mods for Minecraft %1$s</string>
     <string name="external_mods_no_version">Select a Minecraft version before installing mods</string>
@@ -448,9 +558,110 @@
     <string name="external_mods_installed_button">Installed</string>
     <string name="external_mods_incompatible">Incompatible</string>
 
+    <string name="github_import_dialog_title">Import from GitHub</string>
+    <string name="github_import_desc">Download the latest release from a GitHub repository</string>
+    <string name="github_import_hint" translatable="false">github.com/user/repo, user/repo or user repo</string>
+
+    <string name="mediafire_import_dialog_title">Import from MediaFire</string>
+    <string name="mediafire_import_desc">Download a mod from a MediaFire link</string>
+    <string name="mediafire_import_hint" translatable="false">mediafire.com/file/xxx/name.zip/file</string>
+    <string name="mediafire_import_invalid_link">Not a MediaFire link</string>
+    <string name="mediafire_import_file_unavailable">The file is unavailable. It may have been deleted or blocked.</string>
+    <string name="mediafire_import_failed">MediaFire request failed. Check the link and try again.</string>
+    <string name="mediafire_import_download_failed">Download failed</string>
+    <string name="mediafire_import_success">Imported from MediaFire</string>
+
+    <string name="xbox_friends">Xbox Friends</string>
+    <string name="xbox_friends_tab_friends">Friends</string>
+    <string name="xbox_friends_tab_requests">Requests</string>
+    <string name="xbox_friends_add">Add friend</string>
+    <string name="xbox_friends_refresh">Refresh</string>
+    <string name="xbox_friends_online">Online</string>
+    <string name="xbox_friends_online_title">Online • %1$s</string>
+    <string name="xbox_friends_offline">Offline</string>
+    <string name="xbox_friends_last_online">Last online %1$s ago</string>
+    <string name="xbox_friends_last_online_moments">a few seconds</string>
+    <plurals name="xbox_friends_last_online_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="xbox_friends_last_online_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="xbox_friends_last_online_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="xbox_friends_last_online_months">
+        <item quantity="one">%d month</item>
+        <item quantity="other">%d months</item>
+    </plurals>
+    <plurals name="xbox_friends_last_online_years">
+        <item quantity="one">%d year</item>
+        <item quantity="other">%d years</item>
+    </plurals>
+    <string name="xbox_friends_incoming">Incoming</string>
+    <string name="xbox_friends_outgoing">Sent</string>
+    <string name="xbox_friends_outgoing_section">Outgoing requests</string>
+    <string name="xbox_friends_cancel_request">Cancel request</string>
+    <string name="xbox_friends_request_cancelled">Cancelled request to %1$s</string>
+    <string name="xbox_friends_accept">Accept</string>
+    <string name="xbox_friends_decline">Decline</string>
+    <string name="xbox_friends_empty_friends">No friends yet</string>
+    <string name="xbox_friends_empty_requests">No pending requests</string>
+    <string name="xbox_friends_empty_online">No friends online right now</string>
+    <string name="xbox_friends_empty_offline">All your friends are online right now</string>
+    <string name="xbox_friends_search">Search</string>
+    <string name="xbox_friends_search_hint">Gamertag</string>
+    <string name="xbox_friends_search_prompt">Looking for someone new? Type a gamertag</string>
+    <string name="xbox_friends_search_local_hint">Search your friends</string>
+    <string name="xbox_friends_search_results">Search results</string>
+    <string name="xbox_friends_search_empty">No matching gamertags found</string>
+    <string name="xbox_friends_add_confirm">Send a friend request to %1$s?</string>
+    <string name="xbox_friends_added">Friend request sent to %1$s</string>
+    <string name="xbox_friends_remove_title">Remove friend</string>
+    <string name="xbox_friends_view_profile">View profile</string>
+    <string name="xbox_friends_remove">Remove</string>
+    <string name="xbox_friends_remove_confirm">Remove %1$s from your friends list?</string>
+    <string name="xbox_friends_removed">%1$s removed from your friends list</string>
+    <string name="xbox_friends_request_accepted">You are now friends with %1$s</string>
+    <string name="xbox_friends_request_declined">Request declined</string>
+    <string name="xbox_friends_sign_in_first">Sign in to a Microsoft account first</string>
+    <string name="xbox_friends_auth_error">Xbox Live session expired. Try again or sign in again from Accounts.</string>
+    <string name="xbox_friends_rate_limited">Xbox Live is busy. Try again in a moment.</string>
+    <string name="xbox_friends_failed">Could not reach Xbox Live. Try again later.</string>
+
+    <string name="xbox_profile_bio">Bio</string>
+    <string name="xbox_profile_no_bio">No bio yet</string>
+    <string name="xbox_profile_location">Location: %1$s</string>
+    <string name="xbox_profile_following">Following</string>
+    <string name="xbox_profile_followers">Followers</string>
+    <string name="xbox_profile_follows_you">Follows you</string>
+    <string name="xbox_profile_unfollow">Unfollow</string>
+    <string name="xbox_profile_error">Could not load this profile.</string>
+    <string name="xbox_profile_empty_list">Nothing to show here</string>
+    <string name="xbox_profile_filter_hint">Filter people</string>
+    <string name="transfer_settings">Settings (options.txt)</string>
+    <string name="github_import_action">Import</string>
+    <string name="github_import_choose_asset">Choose file</string>
+    <string name="github_import_invalid_repo">Repository not recognized</string>
+    <string name="github_import_no_releases">This repository has no published releases</string>
+    <string name="github_import_no_assets">The latest release has no .so or .levipack files</string>
+    <string name="github_import_rate_limited">GitHub request limit reached. Try again later.</string>
+    <string name="github_import_failed">GitHub request failed. Check the connection and try again.</string>
+    <string name="github_import_download_failed">Download failed</string>
+    <string name="github_import_success">Imported from GitHub</string>
+    <string name="github_import_compat_warning">This mod is designed for Minecraft %1$s but you selected %2$s. Install anyway?</string>
+    <string name="github_updates_title">Mod updates available</string>
+    <string name="github_updates_message">New versions on GitHub:\n%1$s</string>
+    <string name="github_updates_install_all">Update all</string>
+    <string name="github_updates_later">Later</string>
+    <string name="mod_version_update_chip">Version %1$s ⬆ %2$s</string>
+
     <!-- Mod Detail -->
     <string name="mod_detail_title">Mod Details</string>
-    <string name="delete_mod">Delete Mod</string>
+    <string name="delete_mod">Uninstall Mod</string>
     <string name="error_loading_mod">Error loading mod details</string>
     <string name="mod_enabled">Mod enabled</string>
     <string name="mod_disabled">Mod disabled</string>
@@ -467,12 +678,17 @@
     <string name="mod_entry_label">Entry File</string>
     <string name="mod_id_label">Mod ID</string>
     <string name="mod_config_files_label">Config Files</string>
+    <string name="mod_file_label">File</string>
+    <string name="mod_compat_warning">⚠ Designed for %1$s</string>
+    <string name="total_mods_size">Size:</string>
     <string name="mod_unknown_author">Unknown author</string>
     <string name="mod_unknown_version">Unknown version</string>
     <string name="mod_all_versions">All supported versions</string>
     <string name="mod_no_config_files">No editable config</string>
     <string name="mod_config_badge">CONFIG</string>
     <string name="mod_config_badge_with_count">CONFIG · %d</string>
+    <string name="mod_source_local">LOCAL</string>
+    <string name="mod_source_github">GITHUB</string>
     <string name="mod_config_title_format">%s Config</string>
     <string name="mod_config_not_found">No editable config found</string>
     <string name="mod_config_load_failed">Failed to load config: %s</string>
@@ -522,6 +738,8 @@
     <string name="minecraft_loading_entering_game">Entering Minecraft</string>
     <string name="minecraft_loading_failed">Launch failed</string>
     <string name="minecraft_loading_return">Back to Launcher</string>
+    <string name="minecraft_loading_copy_log">Copy log</string>
+    <string name="minecraft_loading_log_copied">Launch log copied</string>
     <string name="launcher_restart_title">Back to Launcher</string>
     <string name="launcher_restart_subtitle">Just a moment while we bring you back</string>
     <string name="launcher_restart_status">Almost there…</string>
@@ -583,6 +801,21 @@
     <string name="ms_account_subtitle_format">User ID: %1$s • Updated: %2$s</string>
     <string name="xbox_avatar">Xbox avatar</string>
     <string name="launcher_managed_mc_login">Sign in to Minecraft with Oblivion</string>
+    <string name="storage_root">Storage location</string>
+    <string name="storage_root_dialog_message">Android/media is scanned by the system media scanner, which can slow the game down. Android/data and internal storage are not scanned. Data stored in internal storage is deleted when the app is uninstalled.</string>
+    <string name="storage_root_mode_media">Media folder (default)</string>
+    <string name="storage_root_mode_app_external">App folder (Android/data)</string>
+    <string name="storage_root_mode_internal">Internal storage (/data/data)</string>
+    <string name="storage_root_migrate_title">Move existing data?</string>
+    <string name="storage_root_migrate_message">Your game data can be moved to the new location. Large installs may take a few minutes — leave the launcher alone until it finishes.</string>
+    <string name="storage_root_move_and_switch">Move data and switch</string>
+    <string name="storage_root_switch_only">Switch without moving</string>
+    <string name="storage_root_switch_anyway">Switch anyway</string>
+    <string name="storage_root_conflict_message">The new location already has data. Switching will use that data, and your current data will stay where it is.</string>
+    <string name="storage_root_migrating">Moving data, hang tight…</string>
+    <string name="storage_root_move_failed">Couldn\'t move the data. Storage location is unchanged.</string>
+    <string name="storage_root_switched">Storage location updated</string>
+    <string name="storage_root_game_running">Close the game before changing the storage location</string>
     <string name="dialog_title_login_required">Sign-in required</string>
     <string name="dialog_message_login_required">Launcher-managed login is enabled, but no account is signed in. Go to Accounts to sign in.</string>
     <string name="go_to_accounts">Accounts</string>
@@ -591,15 +824,26 @@
     <string name="ms_feature_disabled_title">Feature Disabled</string>
     <string name="ms_feature_disabled_desc">Please enable \'Sign in to Minecraft with Oblivion\' in Settings to manage Microsoft accounts.</string>
     <string name="ms_activated">Activated</string>
+    <string name="ms_test_account">Check</string>
+    <string name="ms_test_account_running">Checking account session…</string>
+    <string name="ms_test_account_ok_title">Session Active</string>
+    <string name="ms_test_account_ok_msg">The account %1$s is working normally.</string>
+    <string name="ms_test_account_failed_title">Account Check Failed</string>
+    <string name="ms_test_account_fix_hint">Remove and sign in again with this account to fix it.</string>
+    <string name="ms_token_summary_msa">Microsoft account</string>
+    <string name="ms_token_summary_xbox_live">Xbox Live</string>
+    <string name="ms_token_summary_bedrock">Minecraft (Bedrock)</string>
+    <string name="ms_token_summary_valid">%1$s token valid until %2$s</string>
+    <string name="ms_token_summary_expired">%1$s token expired (since %2$s)</string>
 
     <!-- Popup labels -->
     <string name="label_current_account">Current Account</string>
     <string name="label_other_accounts">Other Accounts</string>
     <!-- Crash & Diagnostics -->
-    <string name="crash_title">Application crashed</string>
-    <string name="crash_upload">Crash report upload</string>
     <string name="discord_rich_presence">Discord Rich Presence</string>
     <string name="discord_rich_presence_desc">Show launcher activity, Minecraft version, and elapsed time on Discord</string>
+    <string name="crash_title">Application crashed</string>
+    <string name="crash_upload">Crash report upload</string>
     <string name="crash_details_title">Crash details</string>
     <string name="crash_back_to_main">Back to Home</string>
     <string name="crash_share_log">Share Log</string>
@@ -615,13 +859,16 @@
     <string name="dialog_title_exit_app">Exit App</string>
     <string name="dialog_message_exit_app">Are you sure you want to exit?</string>
     <string name="dialog_positive_exit">Exit</string>
+    <string name="farewell_thanks">Thanks for coming</string>
     <string name="show_logcat_overlay">Logcat overlay</string>
-
-
-
-
-
-
+    <string name="app_level_logging">App-Level Logging</string>
+    <string name="app_level_logging_desc">Capture launcher and game logs inside the process — active in-game, installed after mods finish loading to keep mod launches safe</string>
+    <string name="foreground_service">Foreground service</string>
+    <string name="foreground_service_desc">Keep Minecraft running when you switch apps by preventing Bedrock from suspending the active session and keeping the process, CPU, and Wi-Fi active.</string>
+    <string name="foreground_service_warning">Note: May make your phone heat up faster and increase battery usage.</string>
+    <string name="foreground_service_channel">Minecraft background protection</string>
+    <string name="foreground_service_notification_title">Minecraft is being kept active</string>
+    <string name="foreground_service_notification_text">Minecraft background mode is active. CPU and network access are being kept available for the current session.</string>
     <string name="logcat_live">Logcat: <b>live</b></string>
     <string name="logcat_paused">Logcat: paused</string>
     <!-- Logcat Overlay i18n -->
@@ -632,6 +879,10 @@
     <string name="logcat_autoscroll">Auto-scroll</string>
     <string name="logcat_pause">Pause</string>
     <string name="logcat_clear">Clear</string>
+    <string name="logcat_export">Export logs</string>
+    <string name="logcat_export_empty">Nothing to export yet</string>
+    <string name="logcat_export_failed">Export failed, oops!</string>
+    <string name="logcat_export_done">Log exported successfully</string>
     <string name="logcat_close">Close</string>
     <string name="logcat_corner_bottom_left">Resize: bottom-left</string>
     <string name="logcat_corner_bottom_right">Resize: bottom-right</string>
@@ -876,16 +1127,22 @@
     <string name="vanilla_prefix">Vanilla %s</string>
 
     <string name="about_page_title">About</string>
-    <string name="about_subtitle">Oblivion — Minecraft Bedrock Client for Android</string>
+    <string name="about_subtitle">Oblivion — A Modern Minecraft Bedrock Launcher</string>
     <string name="about_authors_title">👥 Authors &amp; Maintainers</string>
-    <string name="about_author_name">Oblivion Team</string>
+    <string name="about_author_name">DreamGuXiang</string>
     <string name="about_author_badge">Author</string>
-    <string name="about_author_role">Project maintainers</string>
+    <string name="about_author_role">LeviLauncher Modder Authors</string>
+    <string name="about_modder_name">sang765</string>
+    <string name="about_modder_badge">Modder</string>
+    <string name="about_modder_role">Modder Version by sang765</string>
+    <string name="about_modder_github">GitHub · sang765</string>
+    <string name="about_contributors_title">👥 Contributors</string>
+    <string name="about_contributor_commits">%d commits</string>
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Source Code &amp; Open Source</string>
-    <string name="about_github_repo">Source Repository</string>
-    <string name="about_github_org">Oblivion Project</string>
+    <string name="about_github_repo">GitHub · OblivionNew</string>
+    <string name="about_github_org">M4Lych</string>
     <string name="about_license_note">See LICENSE in the repository for license details.</string>
     <string name="about_contribute_title">Contribute</string>
     <string name="about_contribute_desc">Contributions via Issues or Pull Requests are welcome to improve Oblivion.</string>
@@ -893,21 +1150,27 @@
     <string name="about_star_fork">Star / Fork</string>
 
     <string-array name="launcher_tips">
-        <item>Launch requires the official Google Play version of Minecraft and an active Microsoft/Xbox account.</item>
-        <item>Oblivion runs Minecraft inside its own client activity; it does not redirect you to the Minecraft app.</item>
-        <item>Oblivion uses the Minecraft version installed from Google Play on your device.</item>
-        <item>Your worlds and packs stay on your device unless you export them.</item>
-        <item>Use OblivionMod to browse and manage compatible packages.</item>
-        <item>Import resource packs, behavior packs, skin packs, or worlds from your device.</item>
-        <item>Export a world or pack with Android’s document picker.</item>
+        <item>Settings lets you adjust theme, color, background, and other appearance options to match your setup.</item>
+        <item>Oblivion is open source. Use GitHub issues to report launcher problems or suggest improvements.</item>
+        <item>Use the version dropdown to switch the current instance quickly.</item>
+        <item>Do people actually read these?</item>
+        <item>You can drag mods to reorder their load priority.</item>
+        <item>Try Version Isolation!</item>
+        <item>Use Quick Launch to connect directly to a server without opening the game first.</item>
         <item>You can import .mcworld, .mcpack, and .mcaddon files from the Content Management page.</item>
-        <item>Sign in with the Microsoft/Xbox account that owns Minecraft before launching.</item>
-        <item>The content manager supports worlds, resource packs, behavior packs, and skin packs.</item>
-        <item>Imported content is copied into Oblivion’s game data area for the in-client runtime.</item>
+        <item>Manage multiple Xbox accounts inside the launcher and switch between them seamlessly.</item>
+        <item>CurseForge lets you browse and download community content directly.</item>
+        <item>Import mods to extend or enhance Minecraft features and performance.</item>
+        <item>Animated GIFs work as launcher wallpapers too.</item>
+        <item>Change an instance’s icon from its settings.</item>
+        <item>Star modules in the mod menu to find them in Favorites.</item>
+        <item>Drag the mod-menu title to move it, or its bottom-right corner to resize it.</item>
+        <item>Use Compatible only in External Mods to filter for your Minecraft version.</item>
+        <item>Back up your world before editing its NBT data.</item>
     </string-array>
     <!-- Personalization -->
     <string name="theme_color_title">Theme Color</string>
-    <string name="theme_color_desc">The primary accent color of the application</string>
+    <string name="theme_color_desc">The primary accent color of the application. Until you pick one, it is derived from your wallpaper.</string>
     <string name="preset_colors">PRESET COLORS</string>
     <string name="more_colors">MORE COLORS</string>
     <string name="bg_image_title">Background Image</string>
@@ -934,6 +1197,29 @@
     <string name="sort">Sort</string>
     <string name="website">Website</string>
     <string name="description">Description</string>
+    <string name="gallery">Gallery</string>
+    <string name="no_screenshots">No screenshots</string>
+    <string name="link_copied">Link copied</string>
+    <string name="page_counter">%1$d/%2$d</string>
+    <string name="screenshot_video_title">Video %1$d</string>
+    <string name="stat_downloads_format">%1$s downloads</string>
+    <string name="stat_likes_format">%1$s likes</string>
+    <string name="stat_updated_format">Updated %1$s</string>
+    <string name="cf_filters">Filters</string>
+    <string name="cf_filter_count">Filters (%1$d)</string>
+    <string name="cf_browse_by">Browse by</string>
+    <string name="cf_categories">Categories</string>
+    <string name="cf_game_versions">Game Version</string>
+    <string name="cf_categories_unavailable">Categories are loading, close and reopen the filters in a moment</string>
+    <string name="cf_show_all">Show all</string>
+    <string name="cf_show_less">Show less</string>
+    <string name="cf_view_results">View Results</string>
+    <string name="cf_clear_all">Clear All</string>
+    <string name="cf_browse_addons">Addons</string>
+    <string name="cf_browse_maps">Maps</string>
+    <string name="cf_browse_texture_packs">Texture Packs</string>
+    <string name="cf_browse_scripts">Scripts</string>
+    <string name="cf_browse_skins">Skins</string>
     <string name="category">Category</string>
     <string name="maintainer">Maintainer</string>
     <string name="youtube">YouTube</string>
@@ -972,6 +1258,11 @@
     <string name="mod_load_order_placeholder">Load order: 1</string>
     <string name="custom_color_hex_rgb">Custom Color (HEX/RGB)</string>
     <string name="custom_color_hint">#RRGGBB or R,G,B</string>
+    <string name="wallpaper_color_from_wallpaper">Use wallpaper color</string>
+    <string name="wallpaper_color_applied">Accent color taken from the wallpaper</string>
+    <string name="wallpaper_color_failed">Couldn\'t get the color from the wallpaper</string>
+    <string name="wallpaper_color_failed_title">Wallpaper color unavailable</string>
+    <string name="wallpaper_color_failed_storage_message">On Android 11 and below, reading the wallpaper needs Storage access. Grant the permission and try again.</string>
     <string name="screenshot_name_placeholder">Screenshot Name</string>
     <string name="screenshot_date_placeholder">Date: 2024-01-01 12:00:00</string>
 
@@ -1045,8 +1336,17 @@
     <string name="mod_config_hotbar_slot_opacity">Hotbar slot %1$d opacity</string>
     <!-- Changelog & News -->
     <string name="changelog_title">What’s new</string>
+    <string name="changelog_translate">Translate</string>
+    <string name="changelog_translating">Translating…</string>
+    <string name="changelog_show_original">Show original</string>
+    <string name="changelog_translate_failed">Translation failed</string>
     <string name="changelog_version">Oblivion %1$s</string>
     <string name="changelog_continue">Continue</string>
+    <string name="changelog_close">Close</string>
+    <string name="abi_warning_title">Warning!</string>
+    <string name="abi_warning_message">You are using an arm64-v8a device. Running the armeabi-v7a build of %1$s may be unstable. Do you want to get the arm64-v8a build of %1$s instead?</string>
+    <string name="abi_warning_download">Download arm64-v8a build</string>
+    <string name="abi_warning_stay">I\'m not scared</string>
     <string name="news_title">Launcher news</string>
     <string name="news_subtitle">Updates, announcements, and important notices from the Oblivion team.</string>
     <string name="news_enable_notifications">Enable notifications</string>
@@ -1104,15 +1404,80 @@
     <string name="bg_media_importing">Importing background…</string>
     <string name="bg_media_import_failed">Could not load this background. Choose a supported photo or GIF.</string>
     <string name="bg_media_blur_unavailable">Android 12+</string>
+    <string name="bg_animation_title">Animated background</string>
+    <string name="bg_animation_desc">Procedural effects drawn behind the UI in your accent color. Replaces the background image while active.</string>
+    <string name="bg_animation_none">None</string>
+    <string name="bg_animation_matrix">Matrix</string>
+    <string name="bg_animation_donut">Donut</string>
+    <string name="bg_animation_fireworks">Fireworks</string>
+    <string name="bg_animation_wave">Wave</string>
+    <string name="bg_animation_warp">Warp</string>
+    <string name="bg_animation_ripple">Ripple</string>
+    <string name="bg_animation_bubbles">Bubbles</string>
+    <string name="bg_animation_fireflies">Fireflies</string>
+    <string name="bg_animation_aurora">Aurora</string>
+    <string name="bg_animation_grid">Synthwave</string>
+    <string name="bg_animation_comet">Comet</string>
+    <string name="anim_option_speed">Speed</string>
+    <string name="anim_option_density">Density</string>
+    <string name="anim_option_size">Size</string>
+    <string name="anim_option_layers">Layers</string>
+    <string name="anim_option_rings">Rings</string>
+    <string name="anim_option_amount">Amount</string>
+    <string name="bg_animation_rain">Rain</string>
+    <string name="anim_rain_clouds">Show clouds</string>
+    <string name="anim_rain_cloud_type">Cloud type</string>
+    <string name="anim_rain_cloud_sway">Swaying</string>
+    <string name="anim_rain_cloud_blow">Wind-blown</string>
+    <string name="anim_rain_wind">Wind strength</string>
+    <string name="anim_rain_wind_dir">Wind direction</string>
+    <string name="anim_rain_dir_left">Left</string>
+    <string name="anim_rain_dir_right">Right</string>
+    <string name="anim_rain_density">Rain density</string>
+    <string name="anim_rain_lightning">Lightning</string>
+    <string name="anim_rain_rate">Lightning chance</string>
     <string name="screenshot_saved">Screenshot saved</string>
-    <string name="backup_select_downloads">Select the Downloads folder to save backups in Downloads/Oblivion/Backups.</string>
+    <string name="backup_select_downloads">Select the Downloads folder to save backups in Downloads/LeviLauncher Modder/Backups.</string>
+    <string name="game_crash_title">Uh oh!</string>
+    <string name="game_crash_message">It looks like your game just crashed. Take a look at what happened below.</string>
+    <string name="game_crash_log_unavailable">The crash log could not be read.</string>
+    <string name="game_crash_close">Close</string>
+    <string name="game_crash_open_log">Open crash log</string>
+    <string name="game_crash_share_log">Share crash log</string>
+    <string name="crash_logs_title">Crash logs</string>
+    <string name="crash_logs_empty">No crash logs yet</string>
+    <string name="mod_impact_title">Possible mod impact</string>
+    <string name="mod_impact_message">After analyzing the crash log, we think this crash was most likely caused by one of the mods you have installed. Please give it a check.</string>
+    <string name="mod_impact_flagged_label">Flagged mods:</string>
+    <string name="mod_impact_check_later">I\'ll check later</string>
+    <string name="mod_impact_disable_flagged">Disable flagged mods</string>
+    <string name="mod_impact_relaunch">Restart the game</string>
+    <string name="mod_impact_disabled_toast">Flagged mods disabled</string>
+    <string name="tag_patch">Minecraft Patch</string>
+    <string name="patch_warning_title">Warning before playing</string>
+    <string name="patch_warning_message">Minecraft Patch builds usually come with fixes and patches already applied, so running mods on top of them can be less stable than on a normal Minecraft build — or even crash the game. Think twice before combining Minecraft Patch with your Oblivion mods.</string>
+    <string name="patch_warning_dont_show">Do not show this warning again</string>
+    <string name="patch_warning_ack">Got it</string>
+    <string name="nav_bar_position_title">Navigation bar position</string>
+    <string name="nav_position_top">Top</string>
+    <string name="nav_position_bottom">Bottom</string>
+    <string name="nav_position_left">Left</string>
+    <string name="nav_position_right">Right</string>
 
-    <string name="oblivion_subtitle">OFFICIAL BEDROCK CLIENT</string>
-    <string name="oblivion_mod_title">OblivionMod</string>
-    <string name="home_open_modpacks">Open</string>
-    <string name="home_modpack_description">Browse and manage OblivionMod packages.</string>
-    <string name="official_minecraft_required_title">Official Minecraft Required</string>
-    <string name="official_minecraft_required_message">Oblivion requires a genuine Minecraft: Bedrock Edition license installed from Google Play on this device. Install Minecraft from Google Play, then return to Oblivion. Oblivion uses the official game runtime and does not include or distribute Minecraft.</string>
-    <string name="official_minecraft_required_short">Official Minecraft not detected</string>
-
+    <string name="discord_rpc">Discord Rich Presence</string>
+    <string name="discord_rpc_desc">Show your launcher and game activity on your Discord profile.</string>
+    <string name="discord_account">Discord account</string>
+    <string name="discord_log_in">Log in to Discord</string>
+    <string name="discord_log_out">Log out (%1$s)</string>
+    <string name="rpc_launcher_home">Browsing the launcher</string>
+    <string name="rpc_instances">Managing instances</string>
+    <string name="rpc_content">Browsing instance content</string>
+    <string name="rpc_curseforge">Browsing CurseForge</string>
+    <string name="rpc_curseforge_project">Viewing CurseForge project</string>
+    <string name="rpc_friends">Browsing Xbox friends</string>
+    <string name="rpc_profile">Viewing Xbox profile</string>
+    <string name="rpc_playing_instance">Playing %1$s</string>
+    <string name="rpc_playing_on">Playing on %1$s</string>
+    <string name="rpc_realm">a Realm</string>
+    <string name="rpc_view_xbox_profile">View Xbox profile</string>
 </resources>

@@ -12,7 +12,7 @@
     <string name="crumb_content">Content management</string>
     <string name="crumb_mods">Mods</string>
     <string name="crumb_curseforge">CurseForge</string>
-    <string name="crumb_oblivion_mods">OblivionMod</string>
+    <string name="crumb_levimc_mods">OblivionMod</string>
     <string name="crumb_external_mods">External mods</string>
     <string name="crumb_settings">Settings</string>
     <string name="crumb_about">About</string>

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "2026-11-20-oblivion-welcome",
+      "title": "Welcome to Oblivion",
+      "summary": "Oblivion now has its own look, news feed and OblivionMod page. Follow this feed for updates about the client and the mods built for it.",
+      "publishedAt": "2026-11-20T09:00:00Z",
+      "category": "Announcement",
+      "url": "https://github.com/M4Lych/OblivionNew",
+      "important": true,
+      "notify": false
+    },
+    {
+      "id": "2026-11-20-oblivionmod-worldgen-preview",
+      "title": "OblivionMod: Better World Generation is in development",
+      "summary": "Smoother terrain, wider rivers, better caves and oceans, with Nether and End support planned. The first preview will ship as an OblivionMod.",
+      "publishedAt": "2026-11-20T08:00:00Z",
+      "category": "Roadmap",
+      "important": false,
+      "notify": false
+    }
+  ]
+}

@@ -119,7 +119,7 @@ struct Bridge {
     jclass node, list, map;
     jmethodID ctor, getType, getName, getValue, getListType, listCtor, listAdd, listSize, listGet, mapCtor, mapPut;
     explicit Bridge(JNIEnv* env) : e(env) {
-        node=e->FindClass("com/oblivion/client/core/content/nbt/NbtTag");
+        node=e->FindClass("org/levimc/launcher/core/content/nbt/NbtTag");
         list=e->FindClass("java/util/ArrayList"); map=e->FindClass("java/util/LinkedHashMap");
         ctor=e->GetMethodID(node,"<init>","(BLjava/lang/String;Ljava/lang/Object;B)V");
         getType=e->GetMethodID(node,"getType","()B"); getName=e->GetMethodID(node,"getName","()Ljava/lang/String;");
@@ -261,7 +261,7 @@ void status(const leveldb::Status& s) { if(!s.ok())throw std::runtime_error(s.To
 }
 
 extern "C" JNIEXPORT jobject JNICALL
-Java_com_oblivion_client_core_content_nbt_NativeNbt_decode(JNIEnv* e,jclass,jbyteArray input,jint offset,jint format) {
+Java_org_levimc_launcher_core_content_nbt_NativeNbt_decode(JNIEnv* e,jclass,jbyteArray input,jint offset,jint format) {
     try {
         auto data=bytes(e,input); if(offset<0||size_t(offset)>=data.size())throw std::runtime_error("Invalid NBT offset");
         bool compressed=offset==0&&data.size()>2&&uint8_t(data[0])==0x1f&&uint8_t(data[1])==0x8b;
@@ -276,13 +276,13 @@ Java_com_oblivion_client_core_content_nbt_NativeNbt_decode(JNIEnv* e,jclass,jbyt
         nbt::io::BytesDataInput stream(content.substr(0,used),false,format!=2);
         auto type=nbt::Tag::Type(stream.getByte()); auto name=stream.getString();
         auto tag=nbt::Tag::newTag(type); tag->load(stream); Bridge b(e); auto root=b.to(*tag,name);
-        auto cls=e->FindClass("com/oblivion/client/core/content/nbt/NbtDocument");
-        auto result=e->NewObject(cls,e->GetMethodID(cls,"<init>","(Lcom/oblivion/client/core/content/nbt/NbtTag;IIIZ)V"),root,version,jint(used+prefix),format,jboolean(compressed));
+        auto cls=e->FindClass("org/levimc/launcher/core/content/nbt/NbtDocument");
+        auto result=e->NewObject(cls,e->GetMethodID(cls,"<init>","(Lorg/levimc/launcher/core/content/nbt/NbtTag;IIIZ)V"),root,version,jint(used+prefix),format,jboolean(compressed));
         e->DeleteLocalRef(cls); e->DeleteLocalRef(root); check(e); return result;
     }catch(const JavaError&){}catch(const std::exception& ex){fail(e,ex);} return nullptr;
 }
 extern "C" JNIEXPORT jbyteArray JNICALL
-Java_com_oblivion_client_core_content_nbt_NativeNbt_encode(JNIEnv* e,jclass,jobject root,jint version,jint format,jboolean compressed) {
+Java_org_levimc_launcher_core_content_nbt_NativeNbt_encode(JNIEnv* e,jclass,jobject root,jint version,jint format,jboolean compressed) {
     try {
         Bridge b(e); auto tag=b.from(root); auto n=static_cast<jstring>(e->CallObjectMethod(root,b.getName)); check(e); auto name=utf8(e,n); e->DeleteLocalRef(n);
         if(name.size()>65535)throw std::runtime_error("NBT name is too long");
@@ -298,11 +298,11 @@ Java_com_oblivion_client_core_content_nbt_NativeNbt_encode(JNIEnv* e,jclass,jobj
     }catch(const JavaError&){}catch(const std::exception& ex){fail(e,ex);} return nullptr;
 }
 extern "C" JNIEXPORT jstring JNICALL
-Java_com_oblivion_client_core_content_nbt_NativeNbt_toSnbt(JNIEnv* e,jclass,jobject node) {
+Java_org_levimc_launcher_core_content_nbt_NativeNbt_toSnbt(JNIEnv* e,jclass,jobject node) {
     try { Bridge b(e); return string(e,b.from(node)->toSnbt()); }catch(const JavaError&){}catch(const std::exception& ex){fail(e,ex);} return nullptr;
 }
 extern "C" JNIEXPORT jobject JNICALL
-Java_com_oblivion_client_core_content_nbt_NativeNbt_fromSnbt(JNIEnv* e,jclass,jstring input) {
+Java_org_levimc_launcher_core_content_nbt_NativeNbt_fromSnbt(JNIEnv* e,jclass,jstring input) {
     try {
         auto s=utf8(e,input); if(s.size()>MaxBytes)throw std::runtime_error("SNBT exceeds 64 MiB");
         int depth=0; bool quoted=false,escape=false; char quote=0;
@@ -316,7 +316,7 @@ Java_com_oblivion_client_core_content_nbt_NativeNbt_fromSnbt(JNIEnv* e,jclass,js
     }catch(const JavaError&){}catch(const std::exception& ex){fail(e,ex);} return nullptr;
 }
 extern "C" JNIEXPORT jlong JNICALL
-Java_com_oblivion_client_core_content_leveldb_WorldDatabase_openNative(JNIEnv* e,jclass,jstring path) {
+Java_org_levimc_launcher_core_content_leveldb_WorldDatabase_openNative(JNIEnv* e,jclass,jstring path) {
     try {
         auto d=std::make_unique<Database>();d->cache.reset(leveldb::NewLRUCache(8*1024*1024));
         leveldb::Options options;options.create_if_missing=false;options.paranoid_checks=true;options.block_cache=d->cache.get();
@@ -326,9 +326,9 @@ Java_com_oblivion_client_core_content_leveldb_WorldDatabase_openNative(JNIEnv* e
     }catch(const JavaError&){}catch(const std::exception& ex){fail(e,ex);} return 0;
 }
 extern "C" JNIEXPORT void JNICALL
-Java_com_oblivion_client_core_content_leveldb_WorldDatabase_closeNative(JNIEnv*,jclass,jlong handle) { std::lock_guard lock(dbMutex);databases.erase(handle); }
+Java_org_levimc_launcher_core_content_leveldb_WorldDatabase_closeNative(JNIEnv*,jclass,jlong handle) { std::lock_guard lock(dbMutex);databases.erase(handle); }
 extern "C" JNIEXPORT jbyteArray JNICALL
-Java_com_oblivion_client_core_content_leveldb_WorldDatabase_getNative(JNIEnv* e,jclass,jlong handle,jbyteArray key) {
+Java_org_levimc_launcher_core_content_leveldb_WorldDatabase_getNative(JNIEnv* e,jclass,jlong handle,jbyteArray key) {
     try {
         auto k=bytes(e,key);std::lock_guard lock(dbMutex);auto& d=database(handle);std::string value;
         leveldb::ReadOptions r;r.verify_checksums=true;r.fill_cache=true;auto s=d.db->Get(r,k,&value);
@@ -336,7 +336,7 @@ Java_com_oblivion_client_core_content_leveldb_WorldDatabase_getNative(JNIEnv* e,
     }catch(const JavaError&){}catch(const std::exception& ex){fail(e,ex);} return nullptr;
 }
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_oblivion_client_core_content_leveldb_WorldDatabase_scanNative(JNIEnv* e,jclass,jlong handle,jbyteArray prefix,jbyteArray after,jint limit,jstring contains) {
+Java_org_levimc_launcher_core_content_leveldb_WorldDatabase_scanNative(JNIEnv* e,jclass,jlong handle,jbyteArray prefix,jbyteArray after,jint limit,jstring contains) {
     try {
         auto p=bytes(e,prefix),a=bytes(e,after),filter=utf8(e,contains);limit=std::clamp(limit,1,512);
         std::lock_guard lock(dbMutex);auto& d=database(handle);leveldb::ReadOptions r;r.verify_checksums=true;r.fill_cache=false;
@@ -353,7 +353,7 @@ Java_com_oblivion_client_core_content_leveldb_WorldDatabase_scanNative(JNIEnv* e
     }catch(const JavaError&){}catch(const std::exception& ex){fail(e,ex);} return nullptr;
 }
 extern "C" JNIEXPORT void JNICALL
-Java_com_oblivion_client_core_content_leveldb_WorldDatabase_writeNative(JNIEnv* e,jclass,jlong handle,jobjectArray keys,jobjectArray values) {
+Java_org_levimc_launcher_core_content_leveldb_WorldDatabase_writeNative(JNIEnv* e,jclass,jlong handle,jobjectArray keys,jobjectArray values) {
     try {
         if(e->GetArrayLength(keys)!=e->GetArrayLength(values))throw std::runtime_error("Invalid database batch");
         leveldb::WriteBatch batch;size_t total=0;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="stage_title">OblivionMod · Panggung Model 3D</string>
+    <string name="stage_enable">Tampilkan model 3D di beranda</string>
+    <string name="stage_model">Model</string>
+    <string name="stage_fps">Frame rate</string>
+    <string name="stage_glass">Kartu kaca di atas model</string>
+    <string name="stage_toggle_cards">Tampilkan atau sembunyikan kartu</string>
+    <string name="stage_hint">Sentuh model agar menoleh atau bereaksi. Taruh folder model di %1$s</string>
+    <string name="stage_fps_value">%1$d fps</string>
+    <string name="stage_none">Model tidak ditemukan</string>
+</resources>

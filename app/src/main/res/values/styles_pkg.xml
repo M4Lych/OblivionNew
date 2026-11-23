@@ -55,7 +55,7 @@
         <item name="android:textSize">12sp</item>
     </style>
     <!-- Windows select trigger (catalog pages): grey field, value, chevron; opens CatalogSelect's sheet. -->
-    <style name="CatalogSelect" parent="Widget.Oblivion.Input">
+    <style name="CatalogSelect" parent="Widget.Levi.Input">
         <item name="android:layout_height">44dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:drawableEnd">@drawable/ic_ui_expand_more</item>
@@ -64,7 +64,7 @@
         <item name="android:focusable">true</item>
     </style>
 
-    <style name="CatalogFieldLabel" parent="TextAppearance.Oblivion.FieldLabel">
+    <style name="CatalogFieldLabel" parent="TextAppearance.Levi.FieldLabel">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">4dp</item>

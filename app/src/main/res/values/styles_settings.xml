@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <style name="settings_Card" parent="Widget.Oblivion.Card">
+    <style name="settings_Card" parent="Widget.Levi.Card">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -31,21 +31,21 @@
         <item name="android:minWidth">0dp</item>
         <item name="android:orientation">vertical</item>
     </style>
-    <style name="settings_RowTitle" parent="TextAppearance.Oblivion.Body">
+    <style name="settings_RowTitle" parent="TextAppearance.Levi.Body">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:includeFontPadding">false</item>
     </style>
-    <style name="settings_RowDesc" parent="TextAppearance.Oblivion.Caption">
+    <style name="settings_RowDesc" parent="TextAppearance.Levi.Caption">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">2dp</item>
         <item name="android:textSize">12sp</item>
         <item name="android:includeFontPadding">false</item>
     </style>
-    <style name="settings_Label" parent="TextAppearance.Oblivion.Body">
+    <style name="settings_Label" parent="TextAppearance.Levi.Body">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">12sp</item>
@@ -56,7 +56,7 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/divider</item>
     </style>
-    <style name="settings_Switch" parent="Widget.Oblivion.Switch">
+    <style name="settings_Switch" parent="Widget.Levi.Switch">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

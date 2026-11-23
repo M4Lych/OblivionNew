@@ -1,0 +1,107 @@
+{
+  "id": "default",
+  "name": "Daitaku Helios",
+  "format": "obm1",
+  "mesh": "model.obm",
+  "materials": [
+    {
+      "name": "mtl_bdy1065_20",
+      "diffuse": "textures/tex_bdy1065_20_diff.png",
+      "shade": "textures/tex_bdy1065_20_shad_c.png",
+      "emissive": "textures/tex_bdy1065_20_emi.png",
+      "alpha": false,
+      "outline": true
+    },
+    {
+      "name": "mtl_bdy1065_20.001",
+      "diffuse": "textures/tex_bdy1065_20_diff.png",
+      "shade": "textures/tex_bdy1065_20_shad_c.png",
+      "emissive": "textures/tex_bdy1065_20_emi.png",
+      "alpha": false,
+      "outline": true
+    },
+    {
+      "name": "mtl_chr1065_20_face",
+      "diffuse": "textures/tex_chr1065_20_face_diff.png",
+      "shade": "textures/tex_chr1065_20_face_shad_c.png",
+      "emissive": null,
+      "alpha": false,
+      "outline": true
+    },
+    {
+      "name": "mtl_chr1065_20_face.001",
+      "diffuse": "textures/tex_chr1065_20_face_diff.png",
+      "shade": "textures/tex_chr1065_20_face_shad_c.png",
+      "emissive": null,
+      "alpha": false,
+      "outline": true
+    },
+    {
+      "name": "mtl_chr1065_20_eye",
+      "diffuse": "textures/tex_chr1065_20_eye0.png",
+      "shade": "textures/tex_chr1065_20_face_shad_c.png",
+      "emissive": null,
+      "alpha": false,
+      "outline": false
+    },
+    {
+      "name": "mtl_chr1065_20_hair",
+      "diffuse": "textures/tex_chr1065_20_hair_diff.png",
+      "shade": "textures/tex_chr1065_20_face_shad_c.png",
+      "emissive": null,
+      "alpha": false,
+      "outline": true
+    },
+    {
+      "name": "mtl_chr1065_20_hair_Alpha0",
+      "diffuse": "textures/tex_chr1065_20_hair_diff.png",
+      "shade": "textures/tex_chr1065_20_face_shad_c.png",
+      "emissive": null,
+      "alpha": true,
+      "outline": false
+    },
+    {
+      "name": "mtl_chr1065_20_mayu",
+      "diffuse": "textures/tex_chr1065_20_face_diff.png",
+      "shade": "textures/tex_chr1065_20_face_shad_c.png",
+      "emissive": null,
+      "alpha": false,
+      "outline": false
+    },
+    {
+      "name": "mtl_tail0001_00",
+      "diffuse": "textures/tex_tail0001_00_1065_diff.png",
+      "shade": null,
+      "emissive": null,
+      "alpha": false,
+      "outline": true
+    }
+  ],
+  "camera": {
+    "fov": 28.0,
+    "targetY": 1.05,
+    "distance": 4.2,
+    "offsetX": 0.0
+  },
+  "animation": {
+    "breath": 1.0,
+    "sway": 1.0,
+    "springs": 1.0,
+    "blink": true,
+    "lookAt": 1.0
+  },
+  "bones": {
+    "hip": "Hip",
+    "spine": [
+      "Spine",
+      "Chest"
+    ],
+    "neck": "Neck",
+    "head": "Head",
+    "springPrefix": "Sp_"
+  },
+  "morphs": {
+    "blink": "blink",
+    "smile": "smile"
+  }
+}

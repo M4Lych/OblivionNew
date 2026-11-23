@@ -38,7 +38,7 @@
 
             <TextView
                 android:id="@+id/card_type_tag"
-                style="@style/Widget.Oblivion.Tag.Accent"
+                style="@style/Widget.Levi.Tag.Accent"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:layout_marginStart="10dp"
@@ -52,7 +52,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/card_settings_icon"
-            style="@style/Widget.Oblivion.Button.Icon"
+            style="@style/Widget.Levi.Button.Icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="8dp"

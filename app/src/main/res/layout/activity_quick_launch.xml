@@ -18,7 +18,7 @@
 
         <!-- Header: title and subtitle on the page background (v1.6.1); the card wrapper is invisible. -->
         <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Oblivion.Card"
+            style="@style/Widget.Levi.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -39,21 +39,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/quick_launch_title"
-                    android:textAppearance="@style/TextAppearance.Oblivion.PageTitle" />
+                    android:textAppearance="@style/TextAppearance.Levi.PageTitle" />
 
                 <TextView
                     android:id="@+id/subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/quick_launch_subtitle"
-                    android:textAppearance="@style/TextAppearance.Oblivion.PageSubtitle"
+                    android:textAppearance="@style/TextAppearance.Levi.PageSubtitle"
                     android:textSize="14sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Actions: standalone cards (v1.6.1), no outer list card. -->
         <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Oblivion.Card"
+            style="@style/Widget.Levi.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

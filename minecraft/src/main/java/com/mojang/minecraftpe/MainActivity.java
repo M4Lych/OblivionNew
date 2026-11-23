@@ -53,6 +53,7 @@ import com.mojang.android.StringValue;
 import com.mojang.minecraftpe.platforms.Platform;
 import com.microsoft.xbox.idp.interop.Interop;
 
+import org.conscrypt.BuildConfig;
 import org.fmod.FMOD;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -81,6 +82,10 @@ public class MainActivity extends GameActivity implements View.OnKeyListener, Fi
     private static boolean mHasStoragePermission ;
     private static boolean mHasReadMediaImagesPermission;
     public static MainActivity mInstance;
+    private boolean mLeviKeepRunningInBackground = false;
+    private boolean mLeviSuppressedGameActivityPause = false;
+    private boolean mLeviSuppressedGameActivityStop = false;
+    private boolean mLeviSuppressedGameActivityFocusLoss = false;
     Class SystemProperties;
     private ClipboardManager clipboardManager;
     Method getPropMethod;
@@ -101,6 +106,7 @@ public class MainActivity extends GameActivity implements View.OnKeyListener, Fi
     public int virtualKeyboardHeight = 0;
 
     int keyboardHeight = 0;
+    private final GameSurfaceSize reportedSurfaceSize = new GameSurfaceSize();
     private boolean _fromOnCreate = false;
     private boolean mCursorLocked = false;
     private boolean mIsSoftKeyboardVisible = false;
@@ -428,6 +434,16 @@ public class MainActivity extends GameActivity implements View.OnKeyListener, Fi
         return new CrashManager();
     }
 
+    private void reportSurfaceSize(int width, int height) {
+        if (!reportedSurfaceSize.changed(width, height, keyboardHeight)) return;
+        try {
+            nativeResize(width, height);
+        } catch (RuntimeException | LinkageError failure) {
+            reportedSurfaceSize.reset();
+            throw failure;
+        }
+    }
+
     public void initializeCrashManager() {
     }
 
@@ -475,7 +491,7 @@ public class MainActivity extends GameActivity implements View.OnKeyListener, Fi
         findViewById(android.R.id.content).getRootView().addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                nativeResize(right - left, bottom - top);
+                reportSurfaceSize(right - left, bottom - top);
             }
         });
 
@@ -488,7 +504,7 @@ public class MainActivity extends GameActivity implements View.OnKeyListener, Fi
                 keyboardHeight = (view.getHeight() - rect.height());
 
                 try {
-                    nativeResize(view.getWidth(), view.getHeight());
+                    reportSurfaceSize(view.getWidth(), view.getHeight());
                 } catch (UnsatisfiedLinkError ignored) {
                 }
             }
@@ -1343,12 +1359,12 @@ public class MainActivity extends GameActivity implements View.OnKeyListener, Fi
     }
 
     public String getAccessToken() {
-        return PreferenceManager.getDefaultSharedPreferences(this).getString("accessToken", "");
+        return PreferenceManager.getDefaultSharedPreferences(this).getString("accessToken", BuildConfig.FLAVOR);
     }
 
 
     public String getClientId() {
-        return PreferenceManager.getDefaultSharedPreferences(this).getString("clientId", "");
+        return PreferenceManager.getDefaultSharedPreferences(this).getString("clientId", BuildConfig.FLAVOR);
     }
 
 
@@ -1602,6 +1618,7 @@ public class MainActivity extends GameActivity implements View.OnKeyListener, Fi
     @Override
     protected void onResume() {
         super.onResume();
+        reportedSurfaceSize.reset();
         NotificationListenerService.initialize(
                 getApplicationContext(),
                 getIntent().getStringExtra("MINECRAFT_FIREBASE_APP_ID"),
@@ -1616,9 +1633,91 @@ public class MainActivity extends GameActivity implements View.OnKeyListener, Fi
         );
     }
 
+    public void setLeviKeepRunningInBackground(boolean enabled) {
+        mLeviKeepRunningInBackground = enabled;
+        com.microsoft.xal.androidjava.PresenceManager.setLeviKeepRunningInBackground(enabled);
+        if (!enabled) {
+            mLeviSuppressedGameActivityPause = false;
+            mLeviSuppressedGameActivityStop = false;
+            mLeviSuppressedGameActivityFocusLoss = false;
+        }
+    }
+
+    public boolean isLeviKeepRunningInBackground() {
+        return mLeviKeepRunningInBackground;
+    }
+
+    @Override
+    protected void onPauseNative(long handle) {
+        if (mLeviKeepRunningInBackground && !isFinishing()) {
+            mLeviSuppressedGameActivityPause = true;
+            Log.d("LeviBackground", "Suppressed GameActivity native pause");
+            return;
+        }
+        super.onPauseNative(handle);
+    }
+
+    @Override
+    protected void onResumeNative(long handle) {
+        if (mLeviSuppressedGameActivityPause) {
+            mLeviSuppressedGameActivityPause = false;
+            Log.d("LeviBackground", "Suppressed paired GameActivity native resume");
+            return;
+        }
+        super.onResumeNative(handle);
+    }
+
+    @Override
+    protected void onStopNative(long handle) {
+        if (mLeviKeepRunningInBackground && !isFinishing()) {
+            mLeviSuppressedGameActivityStop = true;
+            Log.d("LeviBackground", "Suppressed GameActivity native stop");
+            return;
+        }
+        super.onStopNative(handle);
+    }
+
+    @Override
+    protected void onStartNative(long handle) {
+        if (mLeviSuppressedGameActivityStop) {
+            mLeviSuppressedGameActivityStop = false;
+            Log.d("LeviBackground", "Suppressed paired GameActivity native start");
+            return;
+        }
+        super.onStartNative(handle);
+    }
+
+    @Override
+    protected void onWindowFocusChangedNative(long handle, boolean focused) {
+        if (mLeviKeepRunningInBackground) {
+            if (!focused) {
+                mLeviSuppressedGameActivityFocusLoss = true;
+                Log.d("LeviBackground", "Suppressed GameActivity native focus loss");
+                return;
+            }
+            if (mLeviSuppressedGameActivityFocusLoss) {
+                mLeviSuppressedGameActivityFocusLoss = false;
+                Log.d("LeviBackground", "Suppressed paired GameActivity native focus gain");
+                return;
+            }
+        }
+        super.onWindowFocusChangedNative(handle, focused);
+    }
+
+    @Override
+    protected void onTrimMemoryNative(long handle, int level) {
+        if (mLeviKeepRunningInBackground && level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+            Log.d("LeviBackground", "Suppressed UI-hidden trim callback");
+            return;
+        }
+        super.onTrimMemoryNative(handle, level);
+    }
+
     @Override
     public void onPause() {
-        nativeSuspend();
+        if (!mLeviKeepRunningInBackground || isFinishing()) {
+            nativeSuspend();
+        }
         super.onPause();
         if (isFinishing()) {
             nativeShutdown();
@@ -1627,7 +1726,9 @@ public class MainActivity extends GameActivity implements View.OnKeyListener, Fi
 
     @Override
     protected void onStop() {
-        nativeStopThis();
+        if (!mLeviKeepRunningInBackground || isFinishing()) {
+            nativeStopThis();
+        }
         super.onStop();
 
         for (ActivityListener activityListener : this.mActivityListeners) {
@@ -1761,7 +1862,7 @@ public class MainActivity extends GameActivity implements View.OnKeyListener, Fi
     }
 
     public String createUUID() {
-        return UUID.randomUUID().toString().replace("-", "");
+        return UUID.randomUUID().toString().replaceAll("-", BuildConfig.FLAVOR);
     }
 
 

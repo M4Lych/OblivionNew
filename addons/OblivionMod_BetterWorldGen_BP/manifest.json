@@ -1,0 +1,29 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "OblivionMod Better World Generation",
+    "description": "Smoother land terrain: reduces the height variation of overworld land biomes.",
+    "uuid": "a3bcb8e3-9628-5b49-a2f3-a7eb407a46dc",
+    "version": [
+      0,
+      1,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      70
+    ]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "973f07fc-1430-51f1-8482-4701f1f04d36",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    }
+  ]
+}

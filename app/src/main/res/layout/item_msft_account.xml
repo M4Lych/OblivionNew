@@ -36,7 +36,7 @@
 
             <TextView
                 android:id="@+id/active_badge"
-                style="@style/Widget.Oblivion.Tag.Accent"
+                style="@style/Widget.Levi.Tag.Accent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -53,12 +53,12 @@
             android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.Oblivion.Caption" />
+            android:textAppearance="@style/TextAppearance.Levi.Caption" />
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_use"
-        style="@style/Widget.Oblivion.Button.Primary"
+        style="@style/Widget.Levi.Button.Primary"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_marginStart="8dp"
@@ -68,6 +68,22 @@
         android:paddingEnd="12dp"
         android:text="@string/ms_set_active"
         android:textSize="12sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_test"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginStart="4dp"
+        android:text="@string/ms_test_account"
+        android:textSize="12sp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:fontFamily="@font/misans" />
 
     <ImageButton
         android:id="@+id/btn_delete"

@@ -9,7 +9,7 @@
     android:padding="16dp">
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.Oblivion.Card"
+        style="@style/Widget.Levi.Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -23,7 +23,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/google_login_back"
-                style="@style/Widget.Oblivion.Button.Icon"
+                style="@style/Widget.Levi.Button.Icon"
                 android:contentDescription="@string/back"
                 app:icon="@drawable/ic_ui_arrow_back" />
 
@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/game_download_google_sign_in"
-                    android:textAppearance="@style/TextAppearance.Oblivion.SectionTitle" />
+                    android:textAppearance="@style/TextAppearance.Levi.SectionTitle" />
 
                 <TextView
                     android:id="@+id/google_login_status"
@@ -48,13 +48,13 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/game_download_google_sign_in_hint"
-                    android:textAppearance="@style/TextAppearance.Oblivion.Caption" />
+                    android:textAppearance="@style/TextAppearance.Levi.Caption" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.Oblivion.Card"
+        style="@style/Widget.Levi.Card"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="@string/game_download_google_signing_in"
-                    android:textAppearance="@style/TextAppearance.Oblivion.Body"
+                    android:textAppearance="@style/TextAppearance.Levi.Body"
                     android:textColor="@color/text_secondary" />
             </LinearLayout>
         </FrameLayout>

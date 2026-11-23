@@ -56,13 +56,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textAppearance="@style/TextAppearance.Oblivion.Caption"
+                android:textAppearance="@style/TextAppearance.Levi.Caption"
                 android:textSize="13sp" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/launch_button"
-            style="@style/Widget.Oblivion.Button.Outline"
+            style="@style/Widget.Levi.Button.Outline"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="@string/launch"

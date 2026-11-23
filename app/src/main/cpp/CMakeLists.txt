@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(oblivion LANGUAGES CXX)
+project(levi LANGUAGES CXX)
 
 set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING "Build type" FORCE)
 set(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libraries" FORCE)
@@ -12,3 +12,5 @@ endif()
 add_subdirectory(preloader)
 add_subdirectory(libHttpClient/Build/libHttpClient.Android)
 add_subdirectory(worldtools)
+add_subdirectory(loghook)
+add_subdirectory(oblivion_worldgen)

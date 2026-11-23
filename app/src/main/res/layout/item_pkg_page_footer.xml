@@ -11,7 +11,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/pkg_page_prev"
-        style="@style/Widget.Oblivion.Button.Icon"
+        style="@style/Widget.Levi.Button.Icon"
         android:contentDescription="@string/pkg_page_prev"
         app:backgroundTint="@android:color/transparent"
         app:icon="@drawable/ic_ui_arrow_back" />
@@ -28,7 +28,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/pkg_page_next"
-        style="@style/Widget.Oblivion.Button.Icon"
+        style="@style/Widget.Levi.Button.Icon"
         android:contentDescription="@string/pkg_page_next"
         app:backgroundTint="@android:color/transparent"
         app:icon="@drawable/ic_ui_arrow_forward" />

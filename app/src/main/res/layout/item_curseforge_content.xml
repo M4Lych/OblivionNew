@@ -45,9 +45,22 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/mod_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/misans"
+                android:maxLines="1"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                tools:text="Armor, Tools, and Weapons · Survival" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -57,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textAppearance="@style/TextAppearance.Oblivion.SectionTitle"
+                    android:textAppearance="@style/TextAppearance.Levi.SectionTitle"
                     android:textSize="14sp"
                     tools:text="Furnicraft Addon" />
 
@@ -69,7 +82,7 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textAppearance="@style/TextAppearance.Oblivion.Caption"
+                    android:textAppearance="@style/TextAppearance.Levi.Caption"
                     android:textSize="11sp"
                     tools:text="| by RobertGamer69" />
             </LinearLayout>
@@ -81,7 +94,7 @@
                 android:layout_marginTop="3dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textAppearance="@style/TextAppearance.Oblivion.Body"
+                android:textAppearance="@style/TextAppearance.Levi.Body"
                 android:textColor="@color/text_secondary"
                 android:textSize="12sp"
                 tools:text="Beautiful furniture and decorations for your Minecraft worlds" />
@@ -95,7 +108,7 @@
 
                 <TextView
                     android:id="@+id/mod_tag_category"
-                    style="@style/Widget.Oblivion.Tag"
+                    style="@style/Widget.Levi.Tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
@@ -106,7 +119,7 @@
 
                 <TextView
                     android:id="@+id/mod_tag_downloads"
-                    style="@style/Widget.Oblivion.Tag"
+                    style="@style/Widget.Levi.Tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
@@ -115,7 +128,7 @@
 
                 <TextView
                     android:id="@+id/mod_metadata"
-                    style="@style/Widget.Oblivion.Tag"
+                    style="@style/Widget.Levi.Tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
@@ -125,7 +138,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/mod_view"
-            style="@style/Widget.Oblivion.Button.Outline"
+            style="@style/Widget.Levi.Button.Outline"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:minWidth="72dp"

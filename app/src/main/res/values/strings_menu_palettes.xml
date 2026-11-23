@@ -1,0 +1,14 @@
+<resources>
+    <string name="mm_color_mode">Appearance mode</string>
+    <string name="mm_color_mode_hint">Choose Dark, Light, or follow your device.</string>
+    <string name="mm_palette_full_hint">Choose colors for the whole menu.</string>
+    <string name="mm_palette_graphite">Mujica</string>
+    <string name="mm_palette_midnight">Mask</string>
+    <string name="mm_palette_ocean">Oblivion</string>
+    <string name="mm_palette_forest">Crucifix</string>
+    <string name="mm_palette_amethyst">Requiem</string>
+    <string name="mm_palette_rose">Silver</string>
+    <string name="mm_palette_ember">Vesper</string>
+    <string name="mm_palette_sandstone">Gilded</string>
+    <string name="mm_palette_monokai">Ashen</string>
+</resources>

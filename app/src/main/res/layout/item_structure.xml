@@ -37,7 +37,7 @@
         android:layout_height="36dp"
         android:text="@string/extract"
         android:textSize="12sp"
-        android:backgroundTint="#4CAF50"
+        android:backgroundTint="#C9A24B"
         android:textColor="@android:color/white" />
 
 </LinearLayout>
