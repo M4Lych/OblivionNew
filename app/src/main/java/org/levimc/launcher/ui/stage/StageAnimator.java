@@ -17,8 +17,11 @@ final class StageAnimator {
     private final float[] rotY;
     private final float[] rotZ;
     private final int[] spine;
+    private final int hip;
     private final int neck;
     private final int head;
+    private final int leftShoulder;
+    private final int rightShoulder;
     private final int[] springs;
     private final float[] springAmp;
     private final float[] springPhase;
@@ -64,10 +67,16 @@ final class StageAnimator {
             if (idx != null) spineTmp[spineCount++] = idx;
         }
         spine = Arrays.copyOf(spineTmp, spineCount);
+        Integer hipIndex = byName.get(pack.hipBone);
         Integer n = byName.get(pack.neckBone);
         Integer h = byName.get(pack.headBone);
+        Integer shoulderL = byName.get("Shoulder_L");
+        Integer shoulderR = byName.get("Shoulder_R");
+        hip = hipIndex == null ? -1 : hipIndex;
         neck = n == null ? -1 : n;
         head = h == null ? -1 : h;
+        leftShoulder = shoulderL == null ? -1 : shoulderL;
+        rightShoulder = shoulderR == null ? -1 : shoulderR;
         springSlot = new int[nodeCount];
         Arrays.fill(springSlot, -1);
         int[] list = new int[nodeCount];
@@ -154,28 +163,42 @@ final class StageAnimator {
             }
         }
         smileWeight = Math.max(0f, Math.min(1f, 0.22f + 0.1f * (float) Math.sin(time * 0.5f) + 0.8f * react));
-        bobY = 0.003f * (float) Math.sin(time * 1.2f);
+        bobY = 0.005f * (float) Math.sin(time * 1.2f);
         if (reactTime >= 0f) bobY += 0.02f * (float) Math.exp(-reactTime * 3f) * Math.abs((float) Math.sin(reactTime * 9f));
-        bodyYaw = lookX * 7f * pack.lookAt;
+        bodyYaw = lookX * 7f * pack.lookAt + 0.45f * (float) Math.sin(time * 0.34f) * pack.sway;
 
         Arrays.fill(rotX, 0f);
         Arrays.fill(rotY, 0f);
         Arrays.fill(rotZ, 0f);
         float breath = (float) Math.sin(time * 6.2831853f * 0.21f) * pack.breath;
-        for (int idx : spine) rotX[idx] += 0.55f * breath;
+        if (hip >= 0) {
+            rotY[hip] += 0.35f * (float) Math.sin(time * 0.48f) * pack.sway;
+            rotZ[hip] += 0.18f * (float) Math.sin(time * 0.61f + 1.1f) * pack.sway;
+        }
+        for (int idx : spine) rotX[idx] += 0.72f * breath;
         if (spine.length > 0) {
             rotY[spine[0]] += 1.8f * (float) Math.sin(time * 0.55f) * pack.sway;
             rotZ[spine[0]] += 0.9f * (float) Math.sin(time * 0.8f + 1f) * pack.sway;
         }
+        if (leftShoulder >= 0) {
+            rotX[leftShoulder] += 0.24f * breath;
+            rotZ[leftShoulder] += 0.42f * (float) Math.sin(time * 0.72f + 0.35f) * pack.sway;
+        }
+        if (rightShoulder >= 0) {
+            rotX[rightShoulder] += 0.24f * breath;
+            rotZ[rightShoulder] -= 0.42f * (float) Math.sin(time * 0.72f + 0.35f) * pack.sway;
+        }
         float yaw = lookX * 22f * pack.lookAt;
         float pitch = -lookY * 11f * pack.lookAt;
+        float idleHeadYaw = 1.25f * (float) Math.sin(time * 0.43f) * pack.sway;
+        float idleHeadPitch = 0.65f * (float) Math.sin(time * 0.61f + 0.8f) * pack.sway;
         if (neck >= 0) {
-            rotY[neck] += yaw * 0.4f;
-            rotX[neck] += pitch * 0.4f;
+            rotY[neck] += yaw * 0.4f + idleHeadYaw * 0.35f;
+            rotX[neck] += pitch * 0.4f + idleHeadPitch * 0.35f;
         }
         if (head >= 0) {
-            rotY[head] += yaw * 0.6f;
-            rotX[head] += pitch * 0.6f;
+            rotY[head] += yaw * 0.6f + idleHeadYaw * 0.65f;
+            rotX[head] += pitch * 0.6f + idleHeadPitch * 0.65f;
             if (reactTime >= 0f) rotZ[head] += 7f * react * (float) Math.sin(reactTime * 5f);
         }
 
@@ -185,8 +208,9 @@ final class StageAnimator {
             int slot = springSlot[i];
             if (slot >= 0 && pack.springs > 0f) {
                 float amp = springAmp[slot] * pack.springs;
-                float ax = amp * (float) Math.sin(time * springFreq[slot] + springPhase[slot]);
-                float az = amp * (float) Math.cos(time * springFreq[slot] * 0.83f + springPhase[slot] * 1.3f);
+                float lookInfluence = lookX * 0.12f;
+                float ax = amp * (float) Math.sin(time * springFreq[slot] + springPhase[slot] + lookInfluence);
+                float az = amp * (float) Math.cos(time * springFreq[slot] * 0.83f + springPhase[slot] * 1.3f - lookInfluence);
                 Matrix.setIdentityM(tmpRot, 0);
                 Matrix.rotateM(tmpRot, 0, ax, 1f, 0f, 0f);
                 Matrix.rotateM(tmpRot, 0, az, 0f, 0f, 1f);

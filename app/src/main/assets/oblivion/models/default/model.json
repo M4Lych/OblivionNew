@@ -1,6 +1,6 @@
 {
   "id": "default",
-  "name": "Daitaku Helios",
+  "name": "Daitaku Helios — Ballroom Joyful Jamboree",
   "format": "obm1",
   "mesh": "model.obm",
   "materials": [
@@ -79,14 +79,14 @@
   ],
   "camera": {
     "fov": 28.0,
-    "targetY": 1.05,
-    "distance": 4.2,
-    "offsetX": 0.0
+    "targetY": 1.34,
+    "distance": 2.15,
+    "offsetX": 0.16
   },
   "animation": {
     "breath": 1.0,
     "sway": 1.0,
-    "springs": 1.0,
+    "springs": 1.15,
     "blink": true,
     "lookAt": 1.0
   },

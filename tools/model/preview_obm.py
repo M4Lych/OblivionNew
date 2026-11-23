@@ -89,6 +89,7 @@ def render(model_dir, out_png, deltas=None, morph_w=None, yaw=0.0, size=(540, 90
     W, H = size
     aspect = W / H
     px = wp[:, 0] / (dist - wp[:, 2]) * f / aspect
+    px += float(cam.get("offsetX", 0.0))
     py = (wp[:, 1] - cam["targetY"]) / (dist - wp[:, 2]) * f
     sx = (px * 0.5 + 0.5) * W
     sy = (1 - (py * 0.5 + 0.5)) * H

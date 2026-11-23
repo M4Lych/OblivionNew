@@ -8,7 +8,7 @@ The home screen renders a skinned, animated 3D character behind the dashboard ca
 - Settings > Basic > OblivionMod Model Stage: show or hide the stage, choose the model, 30 or 60 fps, glass (translucent) cards.
 
 ## Animation
-Procedural, driven by the rig: breathing on the spine, slow body sway, spring-bone wave on hair, skirt, tail, ears, ribbons and sleeves, random blinking and a gentle smile through morph targets, head and neck following the pointer. Arms are lowered from the T pose when the model is converted.
+Procedural, driven by the rig: breathing on the spine, a subtle hip/body weight shift, gentle head and neck idle motion, a small shoulder sway, and spring-bone follow-through on hair, skirt, tail, ears, ribbons and sleeves. Random blinking and a gentle smile use the model morph targets. Head and neck continue to follow touch/hover input; tapping triggers a short reaction. Arms are lowered from the T pose when the model is converted.
 
 ## Adding or replacing a model (OblivionMod)
 Put a folder in `Android/data/<app package>/files/oblivion/models/<id>/` (or the app's internal `files/oblivion/models/<id>/`). A folder with the same id as a built-in model replaces it.
@@ -21,6 +21,10 @@ Put a folder in `Android/data/<app package>/files/oblivion/models/<id>/` (or the
 ```
 
 `model.json` fields: `id`, `name`, `mesh`, `materials[]` (`name`, `diffuse`, `shade`, `emissive`, `alpha`, `outline`; texture paths are relative to the folder), `camera` (`fov`, `targetY`, `distance`, `offsetX` where offsetX shifts the model sideways in screen space), `animation` (`breath`, `sway`, `springs`, `lookAt`, `blink`), `bones` (`hip`, `spine[]`, `neck`, `head`, `springPrefix`), `morphs` (`blink`, `smile` keys inside the OBM file).
+
+## Current built-in model preview
+
+`model_stage_ballroom_closeup.png` shows the updated Daitaku Helios Ballroom camera framing. The preview renderer uses the same `offsetX` setting as the Android stage.
 
 ## Converting a model
 ```
