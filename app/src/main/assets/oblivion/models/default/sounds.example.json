@@ -1,0 +1,11 @@
+{
+  "volume": 0.72,
+  "sounds": {
+    "tap": "sounds/tap.ogg",
+    "smile": "sounds/smile.ogg",
+    "happy": "sounds/happy.ogg",
+    "shy": "sounds/shy.ogg",
+    "curious": "sounds/curious.ogg",
+    "playful": "sounds/playful.ogg"
+  }
+}

@@ -1,6 +1,8 @@
 package org.levimc.launcher.ui.stage;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.PowerManager;
 import android.graphics.SurfaceTexture;
 import android.opengl.EGL14;
 import android.opengl.EGLConfig;
@@ -347,6 +349,7 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
             EGLContext eglContext = EGL14.EGL_NO_CONTEXT;
             EGLSurface eglSurface = EGL14.EGL_NO_SURFACE;
             StageRenderer renderer = null;
+            StageAudio audio = null;
             try {
                 if (display == EGL14.EGL_NO_DISPLAY) return;
                 int[] version = new int[2];
@@ -371,6 +374,7 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
                 if (!running) return;
                 ModelPack pack = ModelPack.open(context, packId);
                 if (!running) return;
+                audio = StageAudio.createIfConfigured(context, pack);
                 ObmModel model = ObmModel.parse(ObmModel.readAll(pack.source.open(pack.meshFile)));
                 if (!running) return;
                 renderer = new StageRenderer(model, pack);
@@ -382,7 +386,11 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
                 if (pendingReact) anim.react();
                 animator = anim;
 
+                PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
                 long last = System.nanoTime();
+                long nextThermalCheck = 0L;
+                int effectiveFps = Math.max(1, Math.min(30, frameRate));
+                int lastThermalStatus = -1;
                 while (running) {
                     int frameWidth = width;
                     int frameHeight = height;
@@ -392,16 +400,58 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
                         continue;
                     }
                     long frameStart = System.nanoTime();
+                    if (frameStart >= nextThermalCheck) {
+                        nextThermalCheck = frameStart + 2_000_000_000L;
+                        int thermalStatus = 0;
+                        if (Build.VERSION.SDK_INT >= 29 && powerManager != null) {
+                            try {
+                                thermalStatus = powerManager.getCurrentThermalStatus();
+                            } catch (Throwable ignored) {
+                            }
+                        }
+                        float qualityScale;
+                        if (thermalStatus >= 4) {
+                            // Critical thermal state: leave the last composed frame
+                            // on screen and idle the renderer until the device cools.
+                            effectiveFps = 1;
+                            qualityScale = 1.0f;
+                        } else if (thermalStatus >= 3) {
+                            effectiveFps = Math.min(frameRate, 15);
+                            qualityScale = 1.05f;
+                        } else if (thermalStatus >= 2) {
+                            effectiveFps = Math.min(frameRate, 24);
+                            qualityScale = 1.18f;
+                        } else if (thermalStatus >= 1) {
+                            effectiveFps = Math.min(frameRate, 27);
+                            qualityScale = 1.32f;
+                        } else {
+                            effectiveFps = Math.max(1, Math.min(30, frameRate));
+                            qualityScale = 1.40f;
+                        }
+                        renderer.setQualityScale(qualityScale);
+                        if (thermalStatus != lastThermalStatus) {
+                            Log.i(TAG, "stage thermal status=" + thermalStatus + ", fps=" + effectiveFps
+                                    + ", supersampling=" + qualityScale);
+                            lastThermalStatus = thermalStatus;
+                        }
+                    }
+                    if (lastThermalStatus >= 4) {
+                        Thread.sleep(1000L);
+                        last = System.nanoTime();
+                        continue;
+                    }
                     float dt = Math.min(0.05f, Math.max(0.001f, (frameStart - last) / 1.0e9f));
                     last = frameStart;
                     anim.update(dt);
+                    String soundEvent = anim.consumeSoundEvent();
+                    if (audio != null) audio.play(soundEvent);
                     renderer.draw(anim, frameWidth, frameHeight);
                     if (!EGL14.eglSwapBuffers(display, eglSurface)) break;
 
                     // Always yield, including on slow frames. The old loop could
                     // run continuously when rendering exceeded its target period,
                     // increasing CPU/GPU load exactly when the device struggled.
-                    long framePeriodNs = 1_000_000_000L / Math.max(1, Math.min(30, frameRate));
+                    long framePeriodNs = 1_000_000_000L / Math.max(1, Math.min(30, effectiveFps));
                     long remainingNs = framePeriodNs - (System.nanoTime() - frameStart);
                     if (remainingNs > 0L) {
                         long sleepMs = remainingNs / 1_000_000L;
@@ -417,6 +467,10 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
                 Log.w(TAG, "stage renderer stopped: " + t);
             } finally {
                 animator = null;
+                try {
+                    if (audio != null) audio.release();
+                } catch (Throwable ignored) {
+                }
                 try {
                     if (renderer != null) renderer.release();
                 } catch (Throwable ignored) {

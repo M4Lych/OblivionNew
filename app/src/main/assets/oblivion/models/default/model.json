@@ -78,15 +78,15 @@
     }
   ],
   "camera": {
-    "fov": 17.8,
-    "targetY": 1.58,
-    "distance": 2.0,
-    "offsetX": 0.12
+    "fov": 16.9,
+    "targetY": 1.64,
+    "distance": 1.96,
+    "offsetX": 0.07
   },
   "animation": {
     "breath": 0.7,
     "sway": 0.36,
-    "springs": 0.72,
+    "springs": 1.0,
     "blink": true,
     "lookAt": 0.62
   },
@@ -103,5 +103,13 @@
   "morphs": {
     "blink": "blink",
     "smile": "smile"
+  },
+  "expressions": {
+    "restSmile": 0.12,
+    "softSmile": 0.24,
+    "happySmile": 0.43,
+    "shySmile": 0.2,
+    "curiousSmile": 0.14,
+    "playfulSmile": 0.34
   }
 }

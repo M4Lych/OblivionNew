@@ -89,15 +89,16 @@ final class StageRenderer {
                     + "  vec3 n = normalize(vN);\n"
                     + "  if (!gl_FrontFacing) n = -n;\n"
                     + "  float ndl = max(dot(n, normalize(uLightDir)), 0.0);\n"
-                    + "  float wrappedLight = clamp((dot(n, normalize(uLightDir)) + 0.46) / 1.46, 0.0, 1.0);\n"
-                    + "  float keyLight = smoothstep(0.04, 0.92, wrappedLight);\n"
-                    + "  vec3 shade = uHasShade == 1 ? texture(uShade, vUv).rgb : base.rgb * vec3(0.82, 0.78, 0.88);\n"
-                    + "  vec3 col = mix(shade, base.rgb, 0.72 + 0.22 * keyLight);\n"
-                    + "  col *= 0.98 + 0.12 * ndl;\n"
+                    + "  float wrappedLight = clamp((dot(n, normalize(uLightDir)) + 0.34) / 1.34, 0.0, 1.0);\n"
+                    + "  float keyLight = smoothstep(0.035, 0.90, wrappedLight);\n"
+                    + "  vec3 shade = uHasShade == 1 ? texture(uShade, vUv).rgb : base.rgb * vec3(0.78, 0.74, 0.84);\n"
+                    + "  float shadeWeight = mix(0.34, 0.13, keyLight);\n"
+                    + "  vec3 col = mix(base.rgb, shade, shadeWeight);\n"
+                    + "  col *= 0.91 + 0.15 * keyLight + 0.025 * ndl;\n"
                     + "  vec3 v = normalize(uCamPos - vPos);\n"
-                    + "  float rim = pow(1.0 - clamp(dot(n, v), 0.0, 1.0), 3.2);\n"
-                    + "  col += uRimColor * rim * 0.075;\n"
-                    + "  if (uHasEmissive == 1) col += texture(uEmissive, vUv).rgb * 0.15;\n"
+                    + "  float rim = pow(1.0 - clamp(dot(n, v), 0.0, 1.0), 3.4);\n"
+                    + "  col += uRimColor * rim * 0.042;\n"
+                    + "  if (uHasEmissive == 1) col += texture(uEmissive, vUv).rgb * 0.10;\n"
                     + "  oColor = vec4(clamp(col, 0.0, 1.0), 1.0);\n"
                     + "}\n";
 
@@ -113,9 +114,11 @@ final class StageRenderer {
     private final Map<String, Integer> textures = new HashMap<>();
     private int whiteTexture;
     private float maxAnisotropy = 1.0f;
-    // Render slightly above the TextureView resolution, then downsample. This
-    // improves silhouette quality without requiring larger source textures.
-    private static final float SUPER_SAMPLE_SCALE = 1.25f;
+    // Render above native TextureView resolution, then downsample. The scale
+    // is adapted to the current thermal state and capped by a pixel budget.
+    private static final float MAX_SUPER_SAMPLE_SCALE = 1.40f;
+    private static final float MAX_SUPER_SAMPLE_PIXELS = 2_700_000f;
+    private volatile float qualityScale = 1.40f;
     private int sceneFramebuffer;
     private int sceneColorTexture;
     private int sceneDepthBuffer;
@@ -151,6 +154,10 @@ final class StageRenderer {
     StageRenderer(ObmModel model, ModelPack pack) {
         this.model = model;
         this.pack = pack;
+    }
+
+    void setQualityScale(float scale) {
+        qualityScale = Math.max(1.0f, Math.min(MAX_SUPER_SAMPLE_SCALE, scale));
     }
 
     private static int compile(int type, String source) {
@@ -387,8 +394,13 @@ final class StageRenderer {
 
     private boolean ensureSceneTarget(int width, int height) {
         if (sceneTargetUnavailable || width <= 0 || height <= 0) return false;
-        int targetWidth = Math.max(1, Math.round(width * SUPER_SAMPLE_SCALE));
-        int targetHeight = Math.max(1, Math.round(height * SUPER_SAMPLE_SCALE));
+        float scale = Math.max(1.0f, Math.min(MAX_SUPER_SAMPLE_SCALE, qualityScale));
+        float requestedPixels = width * (float) height * scale * scale;
+        if (requestedPixels > MAX_SUPER_SAMPLE_PIXELS) {
+            scale = Math.max(1.0f, (float) Math.sqrt(MAX_SUPER_SAMPLE_PIXELS / (width * (float) height)));
+        }
+        int targetWidth = Math.max(1, Math.round(width * scale));
+        int targetHeight = Math.max(1, Math.round(height * scale));
         if (sceneFramebuffer != 0 && sceneWidth == targetWidth && sceneHeight == targetHeight) return true;
 
         releaseSceneTarget();
@@ -439,7 +451,7 @@ final class StageRenderer {
         sceneWidth = targetWidth;
         sceneHeight = targetHeight;
         Log.i(TAG, "stage supersampling=" + sceneWidth + "x" + sceneHeight
-                + " -> " + width + "x" + height);
+                + " -> " + width + "x" + height + " (scale=" + scale + ")");
         return true;
     }
 
@@ -489,14 +501,15 @@ final class StageRenderer {
 
         GLES30.glUniform1f(uBlink, blinkIndex == 1 ? animator.blinkWeight : 0f);
         GLES30.glUniform1f(uSmile, smileIndex == 1 ? animator.smileWeight : 0f);
-        GLES30.glUniform3f(uLightDir, 0.0f, 0.14f, 1.0f);
+        // The key light follows the camera: +Z is always the screen-facing side.
+        GLES30.glUniform3f(uLightDir, 0.0f, 0.12f, 1.0f);
         GLES30.glUniform3f(uCamPos, 0f, pack.targetY, pack.distance);
         GLES30.glUniform3f(uRimColor, 0.58f, 0.48f, 0.62f);
         GLES30.glUniform3f(uOutlineColor, 0.22f, 0.13f, 0.18f);
 
         GLES30.glBindVertexArray(vao);
 
-        GLES30.glUniform1f(uOutline, 0.00055f);
+        GLES30.glUniform1f(uOutline, 0.00042f);
         GLES30.glEnable(GLES30.GL_CULL_FACE);
         GLES30.glCullFace(GLES30.GL_FRONT);
         drawSubmeshes(true);

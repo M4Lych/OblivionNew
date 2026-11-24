@@ -56,6 +56,12 @@ public final class ModelPack {
     float sway = 1f;
     float springs = 1f;
     float lookAt = 1f;
+    float restSmile = 0.12f;
+    float softSmile = 0.24f;
+    float happySmile = 0.43f;
+    float shySmile = 0.20f;
+    float curiousSmile = 0.14f;
+    float playfulSmile = 0.34f;
     boolean blink = true;
     String hipBone = "Hip";
     String neckBone = "Neck";
@@ -144,6 +150,15 @@ public final class ModelPack {
             p.lookAt = (float) an.optDouble("lookAt", 1.0);
             p.blink = an.optBoolean("blink", true);
         }
+        JSONObject expressions = j.optJSONObject("expressions");
+        if (expressions != null) {
+            p.restSmile = clamp((float) expressions.optDouble("restSmile", p.restSmile), 0f, 0.55f);
+            p.softSmile = clamp((float) expressions.optDouble("softSmile", p.softSmile), 0f, 0.55f);
+            p.happySmile = clamp((float) expressions.optDouble("happySmile", p.happySmile), 0f, 0.55f);
+            p.shySmile = clamp((float) expressions.optDouble("shySmile", p.shySmile), 0f, 0.55f);
+            p.curiousSmile = clamp((float) expressions.optDouble("curiousSmile", p.curiousSmile), 0f, 0.55f);
+            p.playfulSmile = clamp((float) expressions.optDouble("playfulSmile", p.playfulSmile), 0f, 0.55f);
+        }
         JSONObject bones = j.optJSONObject("bones");
         if (bones != null) {
             p.hipBone = bones.optString("hip", p.hipBone);
@@ -162,6 +177,10 @@ public final class ModelPack {
             p.smileMorph = morphs.optString("smile", p.smileMorph);
         }
         return p;
+    }
+
+    private static float clamp(float value, float min, float max) {
+        return Math.max(min, Math.min(max, value));
     }
 
     public static List<Info> discover(Context context) {
