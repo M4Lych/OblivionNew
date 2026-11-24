@@ -2015,7 +2015,77 @@ public class SettingsActivity extends BaseActivity {
             org.levimc.launcher.ui.stage.StagePrefs.setFps(this, org.levimc.launcher.ui.stage.StagePrefs.fps(this) >= 30 ? 24 : 30);
             refreshStageValues();
         });
+        android.view.View reset = findViewById(R.id.btn_stage_settings_reset);
+        if (reset != null) {
+            reset.setOnClickListener(v -> {
+                org.levimc.launcher.ui.stage.StagePrefs.resetModel(this,
+                        org.levimc.launcher.ui.stage.StagePrefs.packId(this));
+                refreshStageValues();
+            });
+        }
         refreshStageValues();
+    }
+
+    private interface StageFloatSetter {
+        void set(String modelId, float value);
+    }
+
+    private void bindStageSlider(int seekId, int valueId, String modelId,
+                                 float min, float max, int steps, float current,
+                                 StageFloatSetter setter) {
+        android.widget.SeekBar seek = findViewById(seekId);
+        android.widget.TextView valueView = findViewById(valueId);
+        if (seek == null || valueView == null) return;
+        seek.setMax(steps);
+        int initialProgress = Math.round((current - min) / (max - min) * steps);
+        seek.setProgress(Math.max(0, Math.min(steps, initialProgress)));
+        valueView.setText(String.format(java.util.Locale.getDefault(), "%.2f", current));
+        seek.setOnSeekBarChangeListener(new android.widget.SeekBar.OnSeekBarChangeListener() {
+            private float selected = current;
+
+            @Override
+            public void onProgressChanged(android.widget.SeekBar bar, int progress, boolean fromUser) {
+                if (!fromUser) return;
+                selected = min + (max - min) * progress / (float) steps;
+                valueView.setText(String.format(java.util.Locale.getDefault(), "%.2f", selected));
+            }
+
+            @Override
+            public void onStartTrackingTouch(android.widget.SeekBar bar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(android.widget.SeekBar bar) {
+                setter.set(modelId, selected);
+            }
+        });
+    }
+
+    private void refreshStageCameraSettings() {
+        String modelId = org.levimc.launcher.ui.stage.StagePrefs.packId(this);
+        org.levimc.launcher.ui.stage.StagePrefs.Settings s =
+                org.levimc.launcher.ui.stage.StagePrefs.settings(this, modelId);
+        bindStageSlider(R.id.seek_stage_camera_x, R.id.tv_stage_camera_x_value, modelId,
+                -0.60f, 0.60f, 120, s.cameraX,
+                (id, value) -> org.levimc.launcher.ui.stage.StagePrefs.setCameraX(this, id, value));
+        bindStageSlider(R.id.seek_stage_camera_y, R.id.tv_stage_camera_y_value, modelId,
+                0.80f, 2.60f, 180, s.cameraY,
+                (id, value) -> org.levimc.launcher.ui.stage.StagePrefs.setCameraY(this, id, value));
+        bindStageSlider(R.id.seek_stage_camera_distance, R.id.tv_stage_camera_distance_value, modelId,
+                1.20f, 4.20f, 100, s.cameraDistance,
+                (id, value) -> org.levimc.launcher.ui.stage.StagePrefs.setCameraDistance(this, id, value));
+        bindStageSlider(R.id.seek_stage_camera_fov, R.id.tv_stage_camera_fov_value, modelId,
+                10.0f, 32.0f, 220, s.cameraFov,
+                (id, value) -> org.levimc.launcher.ui.stage.StagePrefs.setCameraFov(this, id, value));
+        bindStageSlider(R.id.seek_stage_physics_gravity, R.id.tv_stage_physics_gravity_value, modelId,
+                0.0f, 2.5f, 250, s.gravityScale,
+                (id, value) -> org.levimc.launcher.ui.stage.StagePrefs.setGravityScale(this, id, value));
+        bindStageSlider(R.id.seek_stage_physics_stiffness, R.id.tv_stage_physics_stiffness_value, modelId,
+                5.0f, 50.0f, 450, s.stiffness,
+                (id, value) -> org.levimc.launcher.ui.stage.StagePrefs.setSpringStiffness(this, id, value));
+        bindStageSlider(R.id.seek_stage_physics_damping, R.id.tv_stage_physics_damping_value, modelId,
+                1.0f, 20.0f, 190, s.damping,
+                (id, value) -> org.levimc.launcher.ui.stage.StagePrefs.setSpringDamping(this, id, value));
     }
 
     private void refreshStageValues() {
@@ -2029,5 +2099,6 @@ public class SettingsActivity extends BaseActivity {
             if (info.id.equals(current)) label = info.name;
         }
         model.setText(label == null ? getString(R.string.stage_none) : label);
+        refreshStageCameraSettings();
     }
 }

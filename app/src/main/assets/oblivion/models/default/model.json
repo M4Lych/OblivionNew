@@ -90,6 +90,11 @@
     "blink": true,
     "lookAt": 0.62
   },
+  "physics": {
+    "gravityScale": 1.0,
+    "stiffness": 27.0,
+    "damping": 8.8
+  },
   "bones": {
     "hip": "Hip",
     "spine": [

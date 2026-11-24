@@ -6,6 +6,10 @@
     "happy": "sounds/happy.ogg",
     "shy": "sounds/shy.ogg",
     "curious": "sounds/curious.ogg",
-    "playful": "sounds/playful.ogg"
+    "playful": "sounds/playful.ogg",
+    "wave": "sounds/wave.ogg",
+    "peace": "sounds/peace.ogg",
+    "cheer": "sounds/cheer.ogg",
+    "heart": "sounds/heart.ogg"
   }
 }

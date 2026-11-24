@@ -55,6 +55,9 @@ public final class ModelPack {
     float breath = 1f;
     float sway = 1f;
     float springs = 1f;
+    float gravityScale = 1f;
+    float springStiffness = 27f;
+    float springDamping = 8.8f;
     float lookAt = 1f;
     float restSmile = 0.12f;
     float softSmile = 0.24f;
@@ -149,6 +152,12 @@ public final class ModelPack {
             p.springs = (float) an.optDouble("springs", 1.0);
             p.lookAt = (float) an.optDouble("lookAt", 1.0);
             p.blink = an.optBoolean("blink", true);
+        }
+        JSONObject physics = j.optJSONObject("physics");
+        if (physics != null) {
+            p.gravityScale = clamp((float) physics.optDouble("gravityScale", p.gravityScale), 0f, 2.5f);
+            p.springStiffness = clamp((float) physics.optDouble("stiffness", p.springStiffness), 5f, 50f);
+            p.springDamping = clamp((float) physics.optDouble("damping", p.springDamping), 1f, 20f);
         }
         JSONObject expressions = j.optJSONObject("expressions");
         if (expressions != null) {

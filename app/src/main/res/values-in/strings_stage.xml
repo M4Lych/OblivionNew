@@ -9,4 +9,22 @@
     <string name="stage_hint">Geser ke kiri atau kanan untuk memutar model; ketuk untuk bereaksi. Taruh folder model di %1$s</string>
     <string name="stage_fps_value">%1$d fps</string>
     <string name="stage_none">Model tidak ditemukan</string>
+    <string name="stage_camera_customization_hint">Perubahan disimpan untuk setiap model dan diterapkan saat kamu kembali ke Beranda.</string>
+    <string name="stage_camera_customization">Kustomisasi kamera dan fisika karakter</string>
+    <string name="stage_camera_x">Posisi horizontal (X)</string>
+    <string name="stage_camera_y">Posisi vertikal (Y)</string>
+    <string name="stage_camera_distance">Jarak kamera</string>
+    <string name="stage_camera_fov">Bidang pandang kamera</string>
+    <string name="stage_physics_gravity">Kekuatan gravitasi</string>
+    <string name="stage_physics_stiffness">Kekakuan physics</string>
+    <string name="stage_physics_damping">Redaman physics</string>
+    <string name="stage_settings_reset">Reset kustomisasi model</string>
+    <string name="stage_emote_button">POSE</string>
+    <string name="stage_emote_title">Pilih pose</string>
+    <string-array name="stage_emote_choices">
+        <item>Melambai</item>
+        <item>Dua jari (peace)</item>
+        <item>Semangat</item>
+        <item>Pose hati</item>
+    </string-array>
 </resources>

@@ -20,9 +20,11 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
     private SurfaceTexture surface;
     private int surfaceWidth;
     private int surfaceHeight;
-    private RenderThread thread;
+    private volatile RenderThread thread;
     private String packId = "default";
     private int fps = 30;
+    private int configRevision;
+    private volatile int pendingEmote = -1;
     private float downX;
     private float downY;
     private float lastX;
@@ -38,9 +40,11 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
 
     public void configure(String id, int frameRate) {
         boolean restart;
+        int nextRevision = StagePrefs.revision(getContext(), id);
         synchronized (this) {
-            restart = !id.equals(packId);
+            restart = !id.equals(packId) || configRevision != nextRevision;
             packId = id;
+            configRevision = nextRevision;
             // The stage is intentionally capped at 30 FPS. A 24 FPS mode is
             // available for lower-power devices; avoid an unrestricted 60 FPS
             // GLES loop on phones with limited thermal headroom.
@@ -91,6 +95,10 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
         }
         thread = new RenderThread(this, getContext().getApplicationContext(), surface, packId, fps);
         thread.setSize(surfaceWidth, surfaceHeight);
+        if (pendingEmote >= 0) {
+            thread.playEmote(pendingEmote);
+            pendingEmote = -1;
+        }
         thread.start();
         Log.i(TAG, "stage renderer started at " + fps + " FPS");
     }
@@ -254,6 +262,13 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
         return true;
     }
 
+    public void playEmote(int emoteId) {
+        int safeId = Math.max(0, Math.min(3, emoteId));
+        RenderThread t = thread;
+        if (t != null && t.isAlive()) t.playEmote(safeId);
+        else pendingEmote = safeId;
+    }
+
     @Override
     public boolean onGenericMotionEvent(MotionEvent e) {
         RenderThread t = thread;
@@ -278,6 +293,7 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
         private volatile float pendingX;
         private volatile float pendingY;
         private volatile boolean pendingReact;
+        private volatile int pendingEmote = -1;
 
         private final StageView owner;
 
@@ -312,9 +328,16 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
         }
 
         void react() {
-            pendingReact = true;
             StageAnimator a = animator;
             if (a != null) a.react();
+            else pendingReact = true;
+        }
+
+        void playEmote(int emoteId) {
+            int safeId = Math.max(0, Math.min(3, emoteId));
+            StageAnimator a = animator;
+            if (a != null) a.playEmote(safeId);
+            else pendingEmote = safeId;
         }
 
         void finish() {
@@ -373,6 +396,7 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
 
                 if (!running) return;
                 ModelPack pack = ModelPack.open(context, packId);
+                StagePrefs.apply(context, pack);
                 if (!running) return;
                 audio = StageAudio.createIfConfigured(context, pack);
                 ObmModel model = ObmModel.parse(ObmModel.readAll(pack.source.open(pack.meshFile)));
@@ -382,9 +406,15 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
                 renderer.init();
                 if (!running) return;
                 StageAnimator anim = new StageAnimator(model, pack);
-                anim.setLook(pendingX, pendingY);
-                if (pendingReact) anim.react();
                 animator = anim;
+                anim.setLook(pendingX, pendingY);
+                if (pendingReact) {
+                    pendingReact = false;
+                    anim.react();
+                }
+                int requestedEmote = pendingEmote;
+                pendingEmote = -1;
+                if (requestedEmote >= 0) anim.playEmote(requestedEmote);
 
                 PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
                 long last = System.nanoTime();

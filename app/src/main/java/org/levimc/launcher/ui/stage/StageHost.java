@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 
 import androidx.core.graphics.ColorUtils;
 
@@ -20,6 +24,7 @@ public final class StageHost {
     private final StageView stage;
     private View content;
     private ImageView toggle;
+    private TextView poseButton;
     private boolean cardsHidden;
     private boolean activityResumed;
 
@@ -52,7 +57,37 @@ public final class StageHost {
         lp.gravity = Gravity.BOTTOM | Gravity.END;
         lp.setMargins(0, 0, Math.round(14 * d), Math.round(14 * d));
         holder.addView(toggle, lp);
+
+        poseButton = new TextView(context);
+        poseButton.setText(context.getString(R.string.stage_emote_button));
+        poseButton.setTextColor(Color.WHITE);
+        poseButton.setTextSize(12f);
+        poseButton.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        poseButton.setGravity(Gravity.CENTER);
+        poseButton.setPadding(Math.round(14 * d), 0, Math.round(14 * d), 0);
+        GradientDrawable poseBackground = new GradientDrawable();
+        poseBackground.setColor(0xE60A090C);
+        poseBackground.setCornerRadius(Math.round(20 * d));
+        poseBackground.setStroke(Math.max(1, Math.round(1 * d)), 0x887A3150);
+        poseButton.setBackground(poseBackground);
+        poseButton.setElevation(8f * d);
+        poseButton.setContentDescription(context.getString(R.string.stage_emote_title));
+        poseButton.setOnClickListener(v -> showEmotePicker());
+        FrameLayout.LayoutParams poseLp = new FrameLayout.LayoutParams(
+                Math.round(76 * d), Math.round(40 * d));
+        poseLp.gravity = Gravity.BOTTOM | Gravity.END;
+        poseLp.setMargins(0, 0, Math.round(62 * d), Math.round(14 * d));
+        holder.addView(poseButton, poseLp);
         refresh();
+    }
+
+    private void showEmotePicker() {
+        final String[] labels = context.getResources().getStringArray(R.array.stage_emote_choices);
+        new android.app.AlertDialog.Builder(context)
+                .setTitle(R.string.stage_emote_title)
+                .setItems(labels, (dialog, which) -> stage.playEmote(which))
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     private void setCardsHidden(boolean hidden) {
@@ -82,6 +117,7 @@ public final class StageHost {
         stage.setVisibility(enabled ? View.VISIBLE : View.GONE);
         stage.setHostActive(activityResumed);
         if (toggle != null) toggle.setVisibility(enabled ? View.VISIBLE : View.GONE);
+        if (poseButton != null) poseButton.setVisibility(enabled ? View.VISIBLE : View.GONE);
         if (!enabled && cardsHidden) setCardsHidden(false);
         if (content != null) applyGlass(content, enabled && StagePrefs.isGlass(context));
     }

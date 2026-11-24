@@ -30,6 +30,16 @@ final class StageAnimator {
     private final int head;
     private final int leftShoulder;
     private final int rightShoulder;
+    private final int leftArm;
+    private final int rightArm;
+    private final int leftElbow;
+    private final int rightElbow;
+    private final int leftWrist;
+    private final int rightWrist;
+    private final int leftRingFinger;
+    private final int rightRingFinger;
+    private final int leftPinkyFinger;
+    private final int rightPinkyFinger;
     private final int[] springs;
     private final int[] springSlot;
     private final float[] springAxisX;
@@ -59,6 +69,10 @@ final class StageAnimator {
     private float nextBlink = 2.4f;
     private float reactTime = -1f;
     private volatile boolean reactRequested;
+    private volatile int pendingEmote = -1;
+    private int activeEmote = -1;
+    private float emoteTime;
+    private float emoteDuration;
     private int expression = EXPR_NEUTRAL;
     private float expressionTime;
     private float expressionDuration;
@@ -100,11 +114,31 @@ final class StageAnimator {
         Integer headIndex = byName.get(pack.headBone);
         Integer shoulderL = byName.get("Shoulder_L");
         Integer shoulderR = byName.get("Shoulder_R");
+        Integer armL = byName.get("Arm_L");
+        Integer armR = byName.get("Arm_R");
+        Integer elbowL = byName.get("Elbow_L");
+        Integer elbowR = byName.get("Elbow_R");
+        Integer wristL = byName.get("Wrist_L");
+        Integer wristR = byName.get("Wrist_R");
+        Integer ringL = byName.get("Ring_01_L");
+        Integer ringR = byName.get("Ring_01_R");
+        Integer pinkyL = byName.get("Pinky_01_L");
+        Integer pinkyR = byName.get("Pinky_01_R");
         hip = hipIndex == null ? -1 : hipIndex;
         neck = neckIndex == null ? -1 : neckIndex;
         head = headIndex == null ? -1 : headIndex;
         leftShoulder = shoulderL == null ? -1 : shoulderL;
         rightShoulder = shoulderR == null ? -1 : shoulderR;
+        leftArm = armL == null ? -1 : armL;
+        rightArm = armR == null ? -1 : armR;
+        leftElbow = elbowL == null ? -1 : elbowL;
+        rightElbow = elbowR == null ? -1 : elbowR;
+        leftWrist = wristL == null ? -1 : wristL;
+        rightWrist = wristR == null ? -1 : wristR;
+        leftRingFinger = ringL == null ? -1 : ringL;
+        rightRingFinger = ringR == null ? -1 : ringR;
+        leftPinkyFinger = pinkyL == null ? -1 : pinkyL;
+        rightPinkyFinger = pinkyR == null ? -1 : pinkyR;
 
         springSlot = new int[nodeCount];
         Arrays.fill(springSlot, -1);
@@ -229,7 +263,7 @@ final class StageAnimator {
                 parent = model.nodes[parent].parent;
             }
             springRestAngle[s] = gravityDegrees * (0.42f + 0.58f * horizontalAmount)
-                    * (1f + chainDepth) * pack.springs;
+                    * (1f + chainDepth) * pack.springs * pack.gravityScale;
             springInertia[s] = inertia * category * pack.springs;
             springAmplitude[s] = amplitude * category * pack.springs;
             springPhase[s] = random.nextFloat() * 6.2831853f;
@@ -251,6 +285,22 @@ final class StageAnimator {
         reactRequested = true;
     }
 
+    /** Queue a one-shot skeletal pose. It eases in, holds briefly, then returns to idle. */
+    void playEmote(int emoteId) {
+        pendingEmote = clampInt(emoteId, 0, 3);
+    }
+
+    private void beginEmote(int emoteId) {
+        activeEmote = emoteId;
+        emoteTime = 0f;
+        emoteDuration = emoteId == 3 ? 2.35f : 2.10f;
+        triggerBlink(1f);
+        if (emoteId == 0) startExpression(EXPR_HAPPY, emoteDuration, "wave");
+        else if (emoteId == 1) startExpression(EXPR_PLAYFUL, emoteDuration, "peace");
+        else if (emoteId == 2) startExpression(EXPR_HAPPY, emoteDuration, "cheer");
+        else startExpression(EXPR_SOFT_SMILE, emoteDuration, "heart");
+    }
+
     String consumeSoundEvent() {
         String event = pendingSoundEvent;
         pendingSoundEvent = null;
@@ -268,6 +318,15 @@ final class StageAnimator {
     void update(float dt) {
         dt = clamp(dt, 0.001f, 0.05f);
         time += dt;
+        int requestedEmote = pendingEmote;
+        if (requestedEmote >= 0) {
+            pendingEmote = -1;
+            beginEmote(requestedEmote);
+        }
+        if (activeEmote >= 0) {
+            emoteTime += dt;
+            if (emoteTime >= emoteDuration) activeEmote = -1;
+        }
         float follow = 1f - (float) Math.exp(-dt * 6.0f);
         lookX += (targetX - lookX) * follow;
         lookY += (targetY - lookY) * follow;
@@ -401,6 +460,8 @@ final class StageAnimator {
             rotZ[rightShoulder] -= 0.18f * (float) Math.sin(time * 0.62f + 0.35f) * pack.sway;
         }
 
+        applyEmotePose();
+
         float lookYaw = lookX * 14f * pack.lookAt;
         float lookPitch = -lookY * 7f * pack.lookAt;
         float idleHeadYaw = 0.38f * (float) Math.sin(time * 0.34f) * pack.sway;
@@ -427,8 +488,8 @@ final class StageAnimator {
                         * springAmplitude[slot];
                 float rotationLag = clamp(-bodyAngularVelocity * springInertia[slot], -17f, 17f);
                 float targetAngle = springRestAngle[slot] + categoryWave + rotationLag;
-                float stiffness = 27f;
-                float damping = 8.8f;
+                float stiffness = clamp(pack.springStiffness, 5f, 50f);
+                float damping = clamp(pack.springDamping, 1f, 20f);
                 // Small fixed substeps keep the spring stable at 24/30 FPS and
                 // make it visibly lag, overshoot and settle after quick turns.
                 float remaining = dt;
@@ -472,6 +533,72 @@ final class StageAnimator {
                 Matrix.multiplyMM(skin, node.skin * 16, tmpB, 0, node.inverseBind, 0);
             }
         }
+    }
+
+    private void applyEmotePose() {
+        if (activeEmote < 0) return;
+        float fadeIn = smoothstep(0f, 0.22f, emoteTime);
+        float fadeOut = 1f - smoothstep(emoteDuration - 0.34f, emoteDuration, emoteTime);
+        float amount = clamp(fadeIn * fadeOut, 0f, 1f);
+        if (amount <= 0f) return;
+
+        // These presets target the humanoid shoulder/elbow/wrist joints. Models
+        // without a given joint simply skip that part of the pose.
+        switch (activeEmote) {
+            case 0: // Wave: one arm raised with a small wrist wave.
+                addRotationZ(rightShoulder, -82f * amount);
+                addRotationZ(rightArm, -12f * amount);
+                addRotationZ(rightElbow, 34f * amount);
+                if (rightWrist >= 0) {
+                    rotY[rightWrist] += (10f + 16f * (float) Math.sin(emoteTime * 10.5f)) * amount;
+                    rotX[rightWrist] += -7f * amount;
+                }
+                break;
+            case 1: // Double peace: both hands rise beside the face, with ring/pinky fingers softly curled.
+                addRotationZ(leftShoulder, 78f * amount);
+                addRotationZ(leftArm, 7f * amount);
+                addRotationZ(leftElbow, -48f * amount);
+                addRotationZ(rightShoulder, -78f * amount);
+                addRotationZ(rightArm, -7f * amount);
+                addRotationZ(rightElbow, 48f * amount);
+                if (leftWrist >= 0) rotY[leftWrist] -= 14f * amount;
+                if (rightWrist >= 0) rotY[rightWrist] += 14f * amount;
+                addRotationZ(leftRingFinger, 24f * amount);
+                addRotationZ(leftPinkyFinger, 34f * amount);
+                addRotationZ(rightRingFinger, -24f * amount);
+                addRotationZ(rightPinkyFinger, -34f * amount);
+                break;
+            case 2: // Cheer: both arms raised, elbows softly bent.
+                addRotationZ(leftShoulder, 112f * amount);
+                addRotationZ(leftArm, 10f * amount);
+                addRotationZ(leftElbow, -26f * amount);
+                addRotationZ(rightShoulder, -112f * amount);
+                addRotationZ(rightArm, -10f * amount);
+                addRotationZ(rightElbow, 26f * amount);
+                if (leftWrist >= 0) rotX[leftWrist] += -8f * amount;
+                if (rightWrist >= 0) rotX[rightWrist] += 8f * amount;
+                break;
+            case 3: // Heart: arms bend inward toward the chest.
+                addRotationZ(leftShoulder, 46f * amount);
+                addRotationZ(leftArm, -8f * amount);
+                addRotationZ(leftElbow, -68f * amount);
+                addRotationZ(rightShoulder, -46f * amount);
+                addRotationZ(rightArm, 8f * amount);
+                addRotationZ(rightElbow, 68f * amount);
+                if (leftWrist >= 0) rotX[leftWrist] += 13f * amount;
+                if (rightWrist >= 0) rotX[rightWrist] -= 13f * amount;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void addRotationZ(int node, float degrees) {
+        if (node >= 0) rotZ[node] += degrees;
+    }
+
+    private static int clampInt(int value, int min, int max) {
+        return Math.max(min, Math.min(max, value));
     }
 
     private void startExpression(int next, float duration, String event) {
