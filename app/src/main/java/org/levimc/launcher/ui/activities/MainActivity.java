@@ -425,7 +425,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (stageHost != null) stageHost.refresh();
+        if (stageHost != null) {
+            stageHost.setActivityResumed(true);
+            stageHost.refresh();
+        }
         tipsVisible = true;
         if (tipRotator != null) {
             tipHandler.removeCallbacks(tipRotator);
@@ -454,6 +457,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onPause() {
+        // Stop the 3D render thread and release its EGL context while the
+        // launcher is not foregrounded. TextureView can retain its surface
+        // across Activity pauses, so visibility callbacks alone are insufficient.
+        if (stageHost != null) stageHost.setActivityResumed(false);
         tipsVisible = false;
         if (tipRotator != null) tipHandler.removeCallbacks(tipRotator);
         if (binding != null && binding.tipText != null) {
@@ -461,6 +468,13 @@ public class MainActivity extends BaseActivity {
             binding.tipText.setAlpha(1f);
         }
         super.onPause();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        if (stageHost != null) stageHost.close();
+        super.onDestroy();
     }
 
     @SuppressLint({"ClickableViewAccessibility", "UnsafeIntentLaunch"})

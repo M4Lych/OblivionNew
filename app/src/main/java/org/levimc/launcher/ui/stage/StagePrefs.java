@@ -30,11 +30,13 @@ public final class StagePrefs {
     }
 
     public static int fps(Context context) {
-        return prefs(context).getInt("fps", 30) >= 60 ? 60 : 30;
+        // Older versions allowed 60 FPS; migrate that setting to the safer
+        // 30 FPS ceiling. 24 FPS remains available as a low-power option.
+        return prefs(context).getInt("fps", 30) < 30 ? 24 : 30;
     }
 
     public static void setFps(Context context, int fps) {
-        prefs(context).edit().putInt("fps", fps >= 60 ? 60 : 30).apply();
+        prefs(context).edit().putInt("fps", fps >= 30 ? 30 : 24).apply();
     }
 
     public static boolean isGlass(Context context) {

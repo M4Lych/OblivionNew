@@ -21,6 +21,7 @@ public final class StageHost {
     private View content;
     private ImageView toggle;
     private boolean cardsHidden;
+    private boolean activityResumed;
 
     private StageHost(Context context, FrameLayout holder) {
         this.context = context;
@@ -65,10 +66,21 @@ public final class StageHost {
         }
     }
 
+    public void setActivityResumed(boolean resumed) {
+        activityResumed = resumed;
+        stage.setHostActive(resumed);
+    }
+
+    public void close() {
+        activityResumed = false;
+        stage.shutdown();
+    }
+
     public void refresh() {
         boolean enabled = StagePrefs.isEnabled(context);
         stage.configure(StagePrefs.packId(context), StagePrefs.fps(context));
         stage.setVisibility(enabled ? View.VISIBLE : View.GONE);
+        stage.setHostActive(activityResumed);
         if (toggle != null) toggle.setVisibility(enabled ? View.VISIBLE : View.GONE);
         if (!enabled && cardsHidden) setCardsHidden(false);
         if (content != null) applyGlass(content, enabled && StagePrefs.isGlass(context));

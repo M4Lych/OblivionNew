@@ -2012,7 +2012,7 @@ public class SettingsActivity extends BaseActivity {
             refreshStageValues();
         });
         fpsRow.setOnClickListener(v -> {
-            org.levimc.launcher.ui.stage.StagePrefs.setFps(this, org.levimc.launcher.ui.stage.StagePrefs.fps(this) >= 60 ? 30 : 60);
+            org.levimc.launcher.ui.stage.StagePrefs.setFps(this, org.levimc.launcher.ui.stage.StagePrefs.fps(this) >= 30 ? 24 : 30);
             refreshStageValues();
         });
         refreshStageValues();

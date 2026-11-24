@@ -23,9 +23,15 @@ final class StageAnimator {
     private final int leftShoulder;
     private final int rightShoulder;
     private final int[] springs;
-    private final float[] springAmp;
-    private final float[] springPhase;
-    private final float[] springFreq;
+    private final float[] springCategory;
+    private final float[] springGravityX;
+    private final float[] springGravityZ;
+    private final float[] springAngleX;
+    private final float[] springAngleY;
+    private final float[] springAngleZ;
+    private final float[] springVelocityX;
+    private final float[] springVelocityY;
+    private final float[] springVelocityZ;
     private final int[] springSlot;
     private final float[] tmpLocal = new float[16];
     private final float[] tmpRot = new float[16];
@@ -38,6 +44,8 @@ final class StageAnimator {
     private float lookY;
     private volatile float targetX;
     private volatile float targetY;
+    private volatile float rotationTarget;
+    private float bodyAngularVelocity;
     private float blinkTime = -1f;
     private float nextBlink = 2.2f;
     private float reactTime = -1f;
@@ -90,33 +98,49 @@ final class StageAnimator {
             }
         }
         springs = Arrays.copyOf(list, count);
-        springAmp = new float[count];
-        springPhase = new float[count];
-        springFreq = new float[count];
+        springCategory = new float[count];
+        springGravityX = new float[count];
+        springGravityZ = new float[count];
+        springAngleX = new float[count];
+        springAngleY = new float[count];
+        springAngleZ = new float[count];
+        springVelocityX = new float[count];
+        springVelocityY = new float[count];
+        springVelocityZ = new float[count];
         for (int s = 0; s < count; s++) {
             int i = springs[s];
             String lower = model.nodes[i].name.toLowerCase();
             float category = 0.8f;
-            if (lower.contains("tail")) category = 1.6f;
-            else if (lower.contains("hair")) category = 1.2f;
-            else if (lower.contains("skirt")) category = 0.9f;
-            else if (lower.contains("ear")) category = 0.45f;
-            else if (lower.contains("ribbon") || lower.contains("scarf")) category = 1.1f;
+            if (lower.contains("tail")) category = 1.55f;
+            else if (lower.contains("hair")) category = 1.15f;
+            else if (lower.contains("skirt")) category = 0.82f;
+            else if (lower.contains("ear")) category = 0.48f;
+            else if (lower.contains("ribbon") || lower.contains("scarf")) category = 1.05f;
             int depth = 0;
-            int p = model.nodes[i].parent;
-            while (p >= 0 && springSlot[p] >= 0 && depth < 12) {
+            int parent = model.nodes[i].parent;
+            while (parent >= 0 && springSlot[parent] >= 0 && depth < 12) {
                 depth++;
-                p = model.nodes[p].parent;
+                parent = model.nodes[parent].parent;
             }
-            springAmp[s] = 0.72f * category;
-            springPhase[s] = depth * 0.55f + random.nextFloat() * 0.35f;
-            springFreq[s] = 1.1f + random.nextFloat() * 0.35f;
+            // A very small gravity bias makes hanging parts settle naturally.
+            // Alternate the Z bias by bone so left/right strands do not move as
+            // one rigid sheet. Runtime inertia is added when the body is rotated.
+            float side = (s & 1) == 0 ? 1f : -1f;
+            springCategory[s] = category * (1f + Math.min(depth, 5) * 0.06f);
+            springGravityX[s] = lower.contains("tail") ? 0.38f : (lower.contains("hair") ? 0.22f : 0.10f);
+            springGravityZ[s] = side * (lower.contains("hair") ? 0.14f : 0.08f) * category;
         }
     }
 
     void setLook(float x, float y) {
         targetX = x;
         targetY = y;
+    }
+
+    void rotateBy(float degrees) {
+        synchronized (this) {
+            rotationTarget = Math.max(-72f, Math.min(72f, rotationTarget + degrees));
+        }
     }
 
     void react() {
@@ -132,6 +156,7 @@ final class StageAnimator {
     }
 
     void update(float dt) {
+        dt = Math.max(0.001f, Math.min(0.05f, dt));
         time += dt;
         float follow = Math.min(1f, dt * 5f);
         lookX += (targetX - lookX) * follow;
@@ -165,7 +190,12 @@ final class StageAnimator {
         smileWeight = 0f; // Keep the default resting mouth closed; avoid the source smile morph opening the mouth.
         bobY = 0.0025f * (float) Math.sin(time * 1.0f);
         if (reactTime >= 0f) bobY += 0.008f * (float) Math.exp(-reactTime * 3f) * Math.abs((float) Math.sin(reactTime * 9f));
-        bodyYaw = lookX * 5f * pack.lookAt + 0.18f * (float) Math.sin(time * 0.30f) * pack.sway;
+        float desiredBodyYaw = rotationTarget + lookX * 5f * pack.lookAt
+                + 0.12f * (float) Math.sin(time * 0.30f) * pack.sway;
+        float previousBodyYaw = bodyYaw;
+        float bodyFollow = 1f - (float) Math.exp(-dt * 8.5f);
+        bodyYaw += (desiredBodyYaw - bodyYaw) * bodyFollow;
+        bodyAngularVelocity = (bodyYaw - previousBodyYaw) / dt;
 
         Arrays.fill(rotX, 0f);
         Arrays.fill(rotY, 0f);
@@ -207,13 +237,34 @@ final class StageAnimator {
             System.arraycopy(node.local, 0, tmpLocal, 0, 16);
             int slot = springSlot[i];
             if (slot >= 0 && pack.springs > 0f) {
-                float amp = springAmp[slot] * pack.springs;
-                float lookInfluence = lookX * 0.12f;
-                float ax = amp * (float) Math.sin(time * springFreq[slot] + springPhase[slot] + lookInfluence);
-                float az = amp * (float) Math.cos(time * springFreq[slot] * 0.83f + springPhase[slot] * 1.3f - lookInfluence);
+                float category = springCategory[slot] * pack.springs;
+                float targetX = springGravityX[slot] * category;
+                // Rotational inertia: loose hair/accessories lag opposite to a
+                // quick body turn, then settle with a damped spring response.
+                float targetY = clamp(-bodyAngularVelocity * 0.020f * category, -7.0f, 7.0f);
+                float targetZ = springGravityZ[slot] * pack.springs
+                        + clamp(-bodyAngularVelocity * 0.008f * category, -3.0f, 3.0f);
+                float stiffness = 23.0f;
+                float damping = 8.2f;
+
+                springVelocityX[slot] += ((targetX - springAngleX[slot]) * stiffness
+                        - springVelocityX[slot] * damping) * dt;
+                springVelocityY[slot] += ((targetY - springAngleY[slot]) * stiffness
+                        - springVelocityY[slot] * damping) * dt;
+                springVelocityZ[slot] += ((targetZ - springAngleZ[slot]) * stiffness
+                        - springVelocityZ[slot] * damping) * dt;
+
+                springVelocityX[slot] = clamp(springVelocityX[slot], -35f, 35f);
+                springVelocityY[slot] = clamp(springVelocityY[slot], -55f, 55f);
+                springVelocityZ[slot] = clamp(springVelocityZ[slot], -35f, 35f);
+                springAngleX[slot] = clamp(springAngleX[slot] + springVelocityX[slot] * dt, -5f, 5f);
+                springAngleY[slot] = clamp(springAngleY[slot] + springVelocityY[slot] * dt, -8f, 8f);
+                springAngleZ[slot] = clamp(springAngleZ[slot] + springVelocityZ[slot] * dt, -5f, 5f);
+
                 Matrix.setIdentityM(tmpRot, 0);
-                Matrix.rotateM(tmpRot, 0, ax, 1f, 0f, 0f);
-                Matrix.rotateM(tmpRot, 0, az, 0f, 0f, 1f);
+                Matrix.rotateM(tmpRot, 0, springAngleX[slot], 1f, 0f, 0f);
+                Matrix.rotateM(tmpRot, 0, springAngleY[slot], 0f, 1f, 0f);
+                Matrix.rotateM(tmpRot, 0, springAngleZ[slot], 0f, 0f, 1f);
                 Matrix.multiplyMM(tmpA, 0, node.local, 0, tmpRot, 0);
                 System.arraycopy(tmpA, 0, tmpLocal, 0, 16);
             }
@@ -244,4 +295,9 @@ final class StageAnimator {
             }
         }
     }
+
+    private static float clamp(float value, float min, float max) {
+        return Math.max(min, Math.min(max, value));
+    }
+
 }

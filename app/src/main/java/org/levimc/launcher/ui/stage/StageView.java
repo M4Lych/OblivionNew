@@ -23,41 +23,137 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
     private int fps = 30;
     private float downX;
     private float downY;
+    private float lastX;
+    private boolean dragging;
+    private boolean activityResumed;
 
     public StageView(Context context) {
         super(context);
         setOpaque(false);
+        setClickable(true);
         setSurfaceTextureListener(this);
     }
 
-    public synchronized void configure(String id, int frameRate) {
-        boolean restart = !id.equals(packId);
-        packId = id;
-        fps = frameRate;
-        if (thread != null) thread.setFps(frameRate);
-        if (restart && surface != null) {
-            stopThread();
-            startThread();
+    public void configure(String id, int frameRate) {
+        boolean restart;
+        synchronized (this) {
+            restart = !id.equals(packId);
+            packId = id;
+            // The stage is intentionally capped at 30 FPS. A 24 FPS mode is
+            // available for lower-power devices; avoid an unrestricted 60 FPS
+            // GLES loop on phones with limited thermal headroom.
+            fps = frameRate >= 30 ? 30 : 24;
+            if (!restart && thread != null) thread.setFps(fps);
         }
+        if (restart) stopThread();
+        updateRenderState();
+    }
+
+    public void setHostActive(boolean active) {
+        synchronized (this) {
+            activityResumed = active;
+        }
+        updateRenderState();
+    }
+
+    public void shutdown() {
+        synchronized (this) {
+            activityResumed = false;
+        }
+        stopThread();
+    }
+
+    private void updateRenderState() {
+        boolean eligible;
+        synchronized (this) {
+            eligible = activityResumed
+                    && surface != null
+                    && surfaceWidth > 0
+                    && surfaceHeight > 0
+                    && getVisibility() == VISIBLE
+                    && getWindowVisibility() == VISIBLE
+                    && isAttachedToWindow()
+                    && isShown();
+        }
+        if (eligible) startThread();
+        else stopThread();
     }
 
     private synchronized void startThread() {
-        if (surface == null || thread != null) return;
-        thread = new RenderThread(getContext().getApplicationContext(), surface, packId, fps);
+        if (!activityResumed || surface == null || surfaceWidth <= 0 || surfaceHeight <= 0
+                || getVisibility() != VISIBLE || getWindowVisibility() != VISIBLE
+                || !isAttachedToWindow() || !isShown()) return;
+        if (thread != null) {
+            if (thread.isAlive()) return;
+            thread = null;
+        }
+        thread = new RenderThread(this, getContext().getApplicationContext(), surface, packId, fps);
         thread.setSize(surfaceWidth, surfaceHeight);
         thread.start();
+        Log.i(TAG, "stage renderer started at " + fps + " FPS");
     }
 
-    private synchronized void stopThread() {
-        RenderThread t = thread;
-        thread = null;
+    private RenderThread requestThreadStop() {
+        RenderThread t;
+        synchronized (this) {
+            t = thread;
+            if (t != null) {
+                t.finish();
+                t.interrupt();
+            }
+        }
+        if (t != null) Log.i(TAG, "stage renderer shutdown requested");
+        return t;
+    }
+
+    private void stopThread() {
+        // Do not block Activity.onPause/onStop waiting for EGL teardown. The
+        // render thread releases its GL objects and notifies this view in finally.
+        requestThreadStop();
+    }
+
+    private void stopThreadAndWait() {
+        // SurfaceTexture destruction must not race EGL surface teardown. This
+        // callback is the one lifecycle boundary where a short join is required.
+        RenderThread t = requestThreadStop();
         if (t == null) return;
-        t.finish();
         try {
-            t.join(1500);
+            t.join(1800);
         } catch (InterruptedException ignored) {
             Thread.currentThread().interrupt();
         }
+        if (t.isAlive()) {
+            Log.w(TAG, "EGL thread did not finish before SurfaceTexture destruction");
+        }
+    }
+
+    private void onRenderThreadStopped(RenderThread stopped) {
+        synchronized (this) {
+            if (thread == stopped) thread = null;
+        }
+        // Only restart after an explicit lifecycle/configuration stop. A renderer
+        // that failed on its own must not enter an automatic crash/restart loop.
+        if (stopped.wasRequestedToStop() && isAttachedToWindow()) {
+            post(this::updateRenderState);
+        }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        updateRenderState();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        stopThreadAndWait();
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    protected void onVisibilityChanged(android.view.View changedView, int visibility) {
+        super.onVisibilityChanged(changedView, visibility);
+        updateRenderState();
     }
 
     @Override
@@ -67,7 +163,7 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
             surfaceWidth = width;
             surfaceHeight = height;
         }
-        startThread();
+        updateRenderState();
     }
 
     @Override
@@ -77,11 +173,12 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
             surfaceHeight = height;
             if (thread != null) thread.setSize(width, height);
         }
+        updateRenderState();
     }
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture st) {
-        stopThread();
+        stopThreadAndWait();
         synchronized (this) {
             surface = null;
         }
@@ -95,8 +192,7 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
     @Override
     protected void onWindowVisibilityChanged(int visibility) {
         super.onWindowVisibilityChanged(visibility);
-        RenderThread t = thread;
-        if (t != null) t.setPaused(visibility != VISIBLE);
+        updateRenderState();
     }
 
     @Override
@@ -105,27 +201,55 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
         int h = getHeight();
         RenderThread t = thread;
         if (w == 0 || h == 0 || t == null) return false;
-        float nx = e.getX() / w * 2f - 1f;
-        float ny = -(e.getY() / h * 2f - 1f);
+
+        float x = e.getX();
+        float y = e.getY();
+        float nx = x / w * 2f - 1f;
+        float ny = -(y / h * 2f - 1f);
         switch (e.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                downX = e.getX();
-                downY = e.getY();
+                downX = lastX = x;
+                downY = y;
+                dragging = false;
                 t.look(nx, ny);
                 return true;
             case MotionEvent.ACTION_MOVE:
-                t.look(nx, ny);
+                float totalX = x - downX;
+                float totalY = y - downY;
+                if (!dragging && (Math.abs(totalX) > 8f || Math.abs(totalY) > 8f)) {
+                    dragging = true;
+                }
+                if (dragging) {
+                    // Horizontal swipes rotate the character. Rotation is retained
+                    // after release and softened by the animator's spring response.
+                    t.rotateBy((x - lastX) * 0.16f);
+                    t.look(0f, 0f);
+                } else {
+                    t.look(nx, ny);
+                }
+                lastX = x;
                 return true;
             case MotionEvent.ACTION_UP:
-                if (Math.abs(e.getX() - downX) < 24f && Math.abs(e.getY() - downY) < 24f) t.react();
+                if (!dragging && Math.abs(x - downX) < 24f && Math.abs(y - downY) < 24f) {
+                    t.react();
+                }
                 t.look(0f, 0f);
+                dragging = false;
+                performClick();
                 return true;
             case MotionEvent.ACTION_CANCEL:
                 t.look(0f, 0f);
+                dragging = false;
                 return true;
             default:
                 return false;
         }
+    }
+
+    @Override
+    public boolean performClick() {
+        super.performClick();
+        return true;
     }
 
     @Override
@@ -145,7 +269,6 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
         private final SurfaceTexture texture;
         private final String packId;
         private volatile boolean running = true;
-        private volatile boolean paused;
         private volatile int width;
         private volatile int height;
         private volatile int frameRate;
@@ -154,8 +277,11 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
         private volatile float pendingY;
         private volatile boolean pendingReact;
 
-        RenderThread(Context context, SurfaceTexture texture, String packId, int frameRate) {
+        private final StageView owner;
+
+        RenderThread(StageView owner, Context context, SurfaceTexture texture, String packId, int frameRate) {
             super("OblivionStage");
+            this.owner = owner;
             this.context = context;
             this.texture = texture;
             this.packId = packId;
@@ -171,8 +297,9 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
             frameRate = fps;
         }
 
-        void setPaused(boolean value) {
-            paused = value;
+        void rotateBy(float degrees) {
+            StageAnimator a = animator;
+            if (a != null) a.rotateBy(degrees);
         }
 
         void look(float x, float y) {
@@ -190,6 +317,10 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
 
         void finish() {
             running = false;
+        }
+
+        boolean wasRequestedToStop() {
+            return !running;
         }
 
         private static EGLConfig choose(EGLDisplay display, int samples) {
@@ -237,10 +368,15 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
                 if (eglSurface == EGL14.EGL_NO_SURFACE) return;
                 if (!EGL14.eglMakeCurrent(display, eglSurface, eglSurface, eglContext)) return;
 
+                if (!running) return;
                 ModelPack pack = ModelPack.open(context, packId);
+                if (!running) return;
                 ObmModel model = ObmModel.parse(ObmModel.readAll(pack.source.open(pack.meshFile)));
+                if (!running) return;
                 renderer = new StageRenderer(model, pack);
+                if (!running) return;
                 renderer.init();
+                if (!running) return;
                 StageAnimator anim = new StageAnimator(model, pack);
                 anim.setLook(pendingX, pendingY);
                 if (pendingReact) anim.react();
@@ -248,20 +384,32 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
 
                 long last = System.nanoTime();
                 while (running) {
-                    if (paused || width <= 0 || height <= 0) {
-                        Thread.sleep(120);
+                    int frameWidth = width;
+                    int frameHeight = height;
+                    if (frameWidth <= 0 || frameHeight <= 0) {
+                        Thread.sleep(100);
                         last = System.nanoTime();
                         continue;
                     }
                     long frameStart = System.nanoTime();
-                    float dt = Math.min(0.1f, (frameStart - last) / 1.0e9f);
+                    float dt = Math.min(0.05f, Math.max(0.001f, (frameStart - last) / 1.0e9f));
                     last = frameStart;
                     anim.update(dt);
-                    renderer.draw(anim, width, height);
+                    renderer.draw(anim, frameWidth, frameHeight);
                     if (!EGL14.eglSwapBuffers(display, eglSurface)) break;
-                    long spent = (System.nanoTime() - frameStart) / 1000000L;
-                    long target = 1000L / Math.max(1, frameRate);
-                    if (spent < target) Thread.sleep(target - spent);
+
+                    // Always yield, including on slow frames. The old loop could
+                    // run continuously when rendering exceeded its target period,
+                    // increasing CPU/GPU load exactly when the device struggled.
+                    long framePeriodNs = 1_000_000_000L / Math.max(1, Math.min(30, frameRate));
+                    long remainingNs = framePeriodNs - (System.nanoTime() - frameStart);
+                    if (remainingNs > 0L) {
+                        long sleepMs = remainingNs / 1_000_000L;
+                        int sleepNs = (int) (remainingNs % 1_000_000L);
+                        Thread.sleep(sleepMs, sleepNs);
+                    } else {
+                        Thread.sleep(3L);
+                    }
                 }
             } catch (InterruptedException ignored) {
                 Thread.currentThread().interrupt();
@@ -274,10 +422,16 @@ public final class StageView extends TextureView implements TextureView.SurfaceT
                 } catch (Throwable ignored) {
                 }
                 if (display != EGL14.EGL_NO_DISPLAY) {
-                    EGL14.eglMakeCurrent(display, EGL14.EGL_NO_SURFACE, EGL14.EGL_NO_SURFACE, EGL14.EGL_NO_CONTEXT);
-                    if (eglSurface != EGL14.EGL_NO_SURFACE) EGL14.eglDestroySurface(display, eglSurface);
-                    if (eglContext != EGL14.EGL_NO_CONTEXT) EGL14.eglDestroyContext(display, eglContext);
+                    try {
+                        EGL14.eglMakeCurrent(display, EGL14.EGL_NO_SURFACE, EGL14.EGL_NO_SURFACE, EGL14.EGL_NO_CONTEXT);
+                        if (eglSurface != EGL14.EGL_NO_SURFACE) EGL14.eglDestroySurface(display, eglSurface);
+                        if (eglContext != EGL14.EGL_NO_CONTEXT) EGL14.eglDestroyContext(display, eglContext);
+                        EGL14.eglTerminate(display);
+                    } catch (Throwable ignored) {
+                    }
                 }
+                Log.i(TAG, "stage EGL thread released");
+                owner.onRenderThreadStopped(this);
             }
         }
     }

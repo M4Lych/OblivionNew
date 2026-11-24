@@ -6,7 +6,7 @@
     <string name="stage_fps">Frame rate</string>
     <string name="stage_glass">Kartu kaca di atas model</string>
     <string name="stage_toggle_cards">Tampilkan atau sembunyikan kartu</string>
-    <string name="stage_hint">Sentuh model agar menoleh atau bereaksi. Taruh folder model di %1$s</string>
+    <string name="stage_hint">Geser ke kiri atau kanan untuk memutar model; ketuk untuk bereaksi. Taruh folder model di %1$s</string>
     <string name="stage_fps_value">%1$d fps</string>
     <string name="stage_none">Model tidak ditemukan</string>
 </resources>

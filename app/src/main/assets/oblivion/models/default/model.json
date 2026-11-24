@@ -78,15 +78,15 @@
     }
   ],
   "camera": {
-    "fov": 19.5,
+    "fov": 17.8,
     "targetY": 1.58,
     "distance": 2.0,
-    "offsetX": 0.28
+    "offsetX": 0.12
   },
   "animation": {
     "breath": 0.7,
     "sway": 0.36,
-    "springs": 0.36,
+    "springs": 0.72,
     "blink": true,
     "lookAt": 0.62
   },
